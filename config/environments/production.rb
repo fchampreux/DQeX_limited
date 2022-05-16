@@ -1,6 +1,8 @@
 ### Redis connections for Sidekiq
 Sidekiq.configure_server do |config|
   config.redis = { url: Rails.application.credentials.sidekiq[:redis_url] }
+  config.on(:startup) do
+    schedule_file = "config/sidekiq-cron.yml"
 end
 
 Sidekiq.configure_client do |config|

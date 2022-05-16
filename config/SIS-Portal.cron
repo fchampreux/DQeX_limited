@@ -1,0 +1,6 @@
+# List of log purge tasks. Copy this file in /etc/cron.d folder
+0 0 * * 7 adr\a80838986 cp /dev/null /srv/www/sis-portal/log/validation.log
+0 0 * * 7 adr\a80838986 cp /dev/null /srv/www/sis-portal/log/interactions.log
+0 0 * * 7 adr\a80838986 cp /dev/null /srv/www/sis-portal/log/queues.log
+0 0 * * 7 adr\a80838986 cp /dev/null /srv/www/sis-portal/log/ssh.log
+0 0 * * 7 adr\a80838986 cp /dev/null /srv/www/sis-portal/log/http.log

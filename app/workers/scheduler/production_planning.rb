@@ -18,12 +18,12 @@ class Scheduler::ProductionPlanning
     # 0 - Inactivate schedules out of date
     puts "--- --- Inactivate out-of-date schedules"
     Rails.logger.queues.info "--- --- Inactivate out-of-date schedules"
-    count = ProductionSchedule.where.not('? between active_from and active_to', Time.now)
+    counter = ProductionSchedule.where.not('? between active_from and active_to', Time.now)
                               .where.not(status_id: inActiveStatusId)
                               .update_all(status_id: inActiveStatusId)
 
-    Rails.logger.queues.info "--- --- Inactivated #{count}"
-    puts "--- --- Inactivated #{count}"
+    Rails.logger.queues.info "--- --- Inactivated #{counter}"
+    puts "--- --- Inactivated #{counter}"
 
     # 1 - Register READY Schedules of type Message to their respective queue
     puts "--- --- Planning Message schedules"
@@ -73,8 +73,8 @@ class Scheduler::ProductionPlanning
                                 .where.not(mode_id: messageSchedulingModeId)
                                 .where.not(mode_id: testSchedulingModeId)
                                 .update_all(status_id: activeStatusId)
-    Rails.logger.queues.info "--- --- Released #{count}"
-    puts "--- --- Released #{count}"
+    Rails.logger.queues.info "--- --- Released #{counter}"
+    puts "--- --- Released #{counter}"
 
     # 3 - Start ACTIVE Schedules where next run date is older than current date
     Rails.logger.queues.info "    --- Launching active schedules"
