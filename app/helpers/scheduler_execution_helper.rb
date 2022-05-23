@@ -374,12 +374,6 @@ module SchedulerExecutionHelper
         Rails.logger.ssh.info "--- --- event status: #{event.status.code} - jump to #{next_event.node_type.code}/ #{next_event.task.code} --- ---"
         group.reported_at = Time.now
         group.save
-      else
-        # If an error occured before, modify the status of current END or RESCUE event
-        if predecessor_event.status.code == 'STALL'
-          event.update_attributes(status_id: statuses.find { |x| x["code"] == "STALL" }.id,
-                                  error_message: "An unrecoverable error has occurred")
-        end
       end
 
     # Exit when reaching the End or Rescue event
@@ -517,13 +511,18 @@ module SchedulerExecutionHelper
       # 0 - finished
       # 1 - warning
       # 2 or else - stall
+      # This status should override the contract_output message status in case it is available
       if is_contract_output
+        if output.scan(/\d+/)[0].to_i >= 2 or
+           !statuses.find { |x| x["property"] == event.contract_output["requestStatus"] }
+          calculated_status = statuses.find { |x| x["code"] == 'STALL'}
+        else
+          calculated_status = statuses.find { |x| x["property"] == event.contract_output["requestStatus"] }
+        end
         event.update_attributes(return_value: output.scan(/\d+/)[0],
                                 completion_message: output.gsub("\n", ". ").chomp,
-                                error_message: event.contract_output["firstErrorMessage"],
-                                status_id: (statuses.find { |x| x["property"] == event.contract_output["requestStatus"] } ||
-                                            statuses.find { |x| x["code"] == 'STALL'})
-                                            .id,
+                                error_message: output.scan(/\d+/)[0].to_i >= 2 ? output.gsub("\n", ". ").chomp : event.contract_output["firstErrorMessage"],
+                                status_id: calculated_status.id,
                                 source_records_count: event.contract_output["responseTargets"].map{|target| target["sourceRead"].to_i}.sum,
                                 processed_count: event.contract_output["responseTargets"].map{|target| target["targetRead"].to_i}.sum,
                                 created_count: event.contract_output["responseTargets"].map{|target| target["targetCreate"].to_i}.sum,

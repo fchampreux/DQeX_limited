@@ -79,6 +79,7 @@ class Scheduler::ProductionEventsController < ApplicationController
     if @production_event.node_type_id == parameters_for('node_types').find { |x| x["code"] == "RESCUE" }.id
       group = @production_event.parent
       predecessor_group = group.predecessor || ProductionGroup.new
+      ### SHOULD RUN FROM EXECUTION LEVEL !!!
       execute_group_events(group, predecessor_group, @production_event.predecessor, group.execution_sequence)
     end
 
