@@ -1,0 +1,8 @@
+create table <%= @business_object.code %> (
+
+  <% @business_object.deployed_skills.visible.order(:sort_code).each do |skill| %>
+    <%= skill.code %>
+    <%= t(skill.skill_type.code).downcase %>(<%= skill.skill_size %>),
+  <% end %>
+
+);

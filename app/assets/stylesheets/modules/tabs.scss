@@ -1,0 +1,56 @@
+
+.nav-tabs {
+  color: rgba(0,0,0,0.87);
+
+  .application & {
+    margin-bottom: 1em;
+  }
+
+  li {
+    margin-bottom: -1px;
+    border-bottom: 3px solid transparent;
+    transition: border 200ms ease-in-out;
+  }
+
+  a {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 10em;
+    height: 3em;
+    padding: 0 1.5em;
+    opacity: .6;
+    color: inherit;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+
+    transition: opacity 200ms ease-in-out;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .active {
+    border-bottom-color: #069;
+
+    a {
+      opacity: 1;
+    }
+  }
+}
+
+.tab-content {
+  .tab-pane {
+    display: none;
+    opacity: 0;
+    transition: opacity 200ms linear;
+
+    &.active {
+      display: block;
+      opacity: 1;
+    }
+  }
+}

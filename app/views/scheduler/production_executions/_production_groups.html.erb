@@ -1,0 +1,94 @@
+<ul class="nav-tree nav-indent nav-toggle expanded nav-bordered nav-hover">
+  <% @production_groups.each do |group| %>
+    <li role="presentation" id="<%= "ui-nav-group-#{group.id}" %>">
+      <span class="nav-link-container">
+        <div class="row mat-form-row" title="Group results">
+          <div class="mat-form-field-label col-md-1 offset-md-1">
+            <%= t('TaskStatus') %>
+          </div>
+          <div class="mat-form-field-label col-md-1">
+            <%= t('Activity') %>
+          </div>
+          <div class="mat-form-field-label col-md-1">
+            <%= t('Task') %>
+          </div>
+          <div class="mat-form-field-label col-md-2">
+            <%= t('StartedAt') %>
+          </div>
+          <div class="mat-form-field-label col-md-1">
+            <%= t('EndedAt') %>
+          </div>
+          <div class="mat-form-field-label col-md-1">
+            <%= t('SourceRows') %>
+          </div>
+          <div class="mat-form-field-label col-md-1">
+            <%= t('ProcessedRows') %>
+          </div>
+          <div class="mat-form-field-label col-md-2">
+            <%= t('ErrorMessage') %>
+          </div>
+          <div class="mat-form-field-label col-md-1">
+            <%= t('Actions') %>
+          </div>
+        </div>
+        <div class="row mat-form-row row-minor">
+          <div class="mat-form-field col-md-1 offset-md-1">
+            <span class="status-icon fa <%= group.status.property %>"
+              title="<%= translation_for(group.status.name_translations) %>">&nbsp;</span>
+          </div>
+          <div class="mat-form-field col-md-1" title="Subprocess">
+            <%= group.activity.code %>
+          </div>
+          <div class="mat-form-field col-md-1" title="Task">
+            <%# group.task.code %>
+          </div>
+          <div class="mat-form-field col-md-2" title="Started at">
+            <%= group.started_at ? format_datetime(group.started_at) : t('Pending') %>
+          </div>
+          <div class="mat-form-field col-md-1" title="Ended at">
+            <%= group.ended_at ? format_time(group.ended_at) : t('Pending') %>
+          </div>
+          <div class="mat-form-field col-md-1"  title="Source records count">
+            <% group.source_records_count %>
+          </div>
+          <div class="mat-form-field col-md-1" title="Processed records count">
+            <% group.processed_count %>
+          </div>
+          <div class="mat-form-field col-md-2"  title="Error message">
+            <% group.error_message %>
+          </div>
+          <div class="mat-form-field col-md-1"  title="Subprocess caracteristics">
+            <%= link_to analyse_scheduler_production_group_path(group),
+                        title: t('.Show'),
+                        data: { toggle: "modal", target: "#childModal" },
+                        class: "mat-icon-button mat-button-base mat-secondary" do %>
+              <span class="fa fa-eye"></span>
+            <% end %>
+            <% if group.log_file.attached? %>
+              <%= link_to rails_blob_path(group.log_file, disposition: "attachment"),
+                          title: 'Log file',
+                          class: "mat-icon-button mat-button-base mat-secondary" do %>
+                <span class="fa fa-download"></span>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+        <% if !group.production_events.empty? %>
+          <%# children toggle control %>
+          <a class="nav-link nav-link-toggler has-child collapsed"
+              data-toggle="collapse"
+              aria-controls="<%= "ui-nav-group-#{group.id}-children" %>"
+              href="#<%= "ui-nav-group-#{group.id}-children" %>"></a>
+          <%# children load control %>
+          <%= link_to '',
+                get_children_scheduler_production_group_path(id: group.id),
+                class: 'nav-link-loader',
+                method: 'get',
+                remote: true,
+                format: "js" %>
+        <% end %>
+      </span>
+      <div id="<%= "ui-nav-group-#{group.id}-children" %>" class="show"></div>
+    </li>
+  <% end %>
+</ul>

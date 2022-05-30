@@ -1,0 +1,107 @@
+<h2><%= t('PersonalData') %></h2>
+<div class="row mat-form-row">
+  <div class="mat-form-field col-md-3">
+    <label for="user-first-name" class="mat-form-field-label">
+      <%= t('FirstName') %>
+    </label>
+    <input id="user-first-name" class="mat-input-element" readonly
+      value="<%= @user.first_name %>" />
+  </div>
+  <div class="mat-form-field col-md-3">
+    <label for="user-last-name" class="mat-form-field-label">
+      <%= t('LastName') %>
+    </label>
+    <input id="user-last-name" class="mat-input-element" readonly
+      value="<%= @user.last_name %>" />
+  </div>
+  <div class="mat-form-field col-md-3">
+    <label for="user-email" class="mat-form-field-label">
+      <%= t('Email') %>
+    </label>
+    <input id="user-email" class="mat-input-element" readonly
+      value="<%= @user.email %>" />
+  </div>
+  <% if @user == current_user %>
+    <div class="mat-form-field col-md-3">
+      <div class="mat-button-group">
+        <%= link_to edit_user_registration_path, method: :get, class: "mat-flat-button mat-button-base mat-primary" do%>
+          <span class="fa fa-edit"></span>
+          <%= t("ChangeMyPassword") %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+<div class="row mat-form-row">
+  <div class="mat-form-field col-md-3">
+    <label for="user-language" class="mat-form-field-label">
+      <%= t('Language') %>
+    </label>
+    <input id="user-language" class="mat-input-element" readonly
+      value="<%= @user.language[0,2] %>" />
+    </div>
+  <div class="mat-form-field col-md-3">
+    <label for="user-organisation" class="mat-form-field-label">
+      <%= t('Organisation') %>
+    </label>
+    <input id="user-organisation" class="mat-input-element" readonly
+      value="<%= translation_for(@user.organisation.name_translations) %>" />
+  </div>
+</div>
+<%= render partial: "shared/translated_field", locals: {
+  id: 'definition-description',
+  field: 'description',
+  isTextarea: true,
+  smallTextarea: true,
+  translations: @user.description_translations,
+  label: t('Description') } %>
+<hr>
+
+<h2><%= t('AdministrativeData') %></h2>
+
+<div class="row mat-form-row">
+  <div class="mat-form-field col-md-3">
+    <label for="user-active-from" class="mat-form-field-label">
+      <%= t('ActiveFrom') %>
+    </label>
+    <input id="user-active-from" class="mat-input-element" readonly
+      value="<%= format_date(@user.active_from) %>" />
+  </div>
+  <div class="mat-form-field col-md-3">
+    <label for="user-active-to" class="mat-form-field-label">
+      <%= t('ActiveTo') %>
+    </label>
+    <input id="user-active-to" class="mat-input-element" readonly
+      value="<%= format_date(@user.active_to) %>" />
+  </div>
+  <div class="mat-form-field col-md-3">
+    <label for="user-activity-status" class="mat-form-field-label">
+      <%= t('ActivityStatus') %>
+    </label>
+    <input id="user-activity-status" class="mat-input-element" readonly
+      value="<%= @user.activity_status %>" />
+  </div>
+</div>
+<div class="row mat-form-row">
+  <div class="mat-form-field col-md-3">
+    <label for="user-is-admin" class="mat-form-field-label">
+      <%= t('IsAdmin') %>
+    </label>
+    <input id="user-is-admin" class="mat-input-element" readonly
+      value="<%= @user.is_admin %>" />
+  </div>
+  <div class="mat-form-field col-md-3">
+    <label for="user-directory-id" class="mat-form-field-label">
+      <%= t('ExternalDirectory') %>
+    </label>
+    <input id="user-directory-id" class="mat-input-element" readonly
+      value="<%= @user.external_directory_id %>" />
+  </div>
+  <div class="mat-form-field col-md-3">
+    <label for="user-groups" class="mat-form-field-label">
+      <%= t('Groups') %>
+    </label>
+    <%= select_tag 'user-group', options_for_select_from_list(list_of_groups, @user.group_ids), { multiple: true, disabled: true, class: 'mat-input-element select2-candidate' } %>
+  </div>
+</div>
+<hr>

@@ -1,0 +1,86 @@
+# Code for language as declared in i18n configuration
+en:
+  DefinedObjects:                            "Defined objects"
+  DefinedObject:                             "Defined object"
+  ManagingDefinedObjects:                    "Manage defined objects"
+  NewDefinedObject:                          "New defined object"
+  DefinedObjectRejected:                     "Defined object wurde abgelehnt"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  defined_objects:
+    index:
+      # Columns titles
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      Parent:                                 "Business area"
+      Owner:                                  "Owner"
+      UpdatedBy:                              "Updated by"
+      UpdatedAt:                              "Updated at"
+    index_short:
+      # Columns titles
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      Parent:                                 "Business area"
+      Owner:                                  "Owner"
+      UpdatedBy:                              "Updated by"
+      UpdatedAt:                              "Updated at"
+    show:
+      Manage:                                 "Manage defined object"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      read_SDMX:
+        Button:                                 "Refresh"
+        Title:                                  "Refresh the Concepts by quering remote resource"
+      Resource:                                 "URL of the resource"
+      Variables:                                "Variable identifiers"
+      SDMXResource:                           "SDMX resource URL"
+      SDMXResourceDefinition:                 "This resource defines a URL to a SDMX web service from which defined variables (concepts) are imported or updated based on the identifiers list. If the list is empty, all resource variables are considered."
+    new:
+      New:                                    "New defined object"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+    edit:
+      Edit:                                   "Edit defined object"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+    new_version:
+      Success:                                "New version created"
+      Failure:                                "A new version cannot be created"
+    make_current:
+      Success:                                "Current version is selected"
+      Failure:                                "This version cannot be selected"
+    finalise:
+      Success:                                "Defined object has been finalised"
+      Failure:                                "Defined object cannot be finalised"
+    create:
+      Success:                             	  "Defined object was created"
+      Failure:                                "Defined object cannot be created"
+    update:
+      Success:                             	  "Defined object was updated"
+      Failure:                                "Defined object cannot be updated"
+    activate:
+      Success:                             	  "Defined object was recovered"
+      Failure:                                "Defined object cannot be recovered"
+    destroy:
+      Success:                             	  "Defined object was deleted"
+      Failure:                                "Defined object cannot be deleted"
+    propose:
+      Success:                                "Defined object is waiting for approval"
+      Failure:                                "Defined object cannot be submitted"
+    accept:
+      Success:                                "Defined object has been accepted"
+      Failure:                                "Defined object cannot change status"
+    read_SDMX:
+      ImportedConcepts:                       "Concepts added"
+      UpdatedtedConcepts:                     "Concepts updated"
+      TotalConcepts:                          "Concepts read"
+      InsertedAnnotations:                    "Annotations added"
+      UpdatedtedAnnotations:                  "Annotations updated"

@@ -1,0 +1,48 @@
+
+  <script> // Draws a bar graph in the target element
+
+    // Input data : Returns an array of hashes
+    var data = <%= this_series %>;
+
+    // Define size and create the svg graph in the target place
+    var width = 1000,
+        height = 200;
+    var graph = d3.select("#<%= target %>")
+              .append("svg")
+              .attr("width", width)
+              .attr("height", height);
+
+    // Set up drawing properties
+    var bar_width = width / data.length;
+    var scale = 1; // Scale could be based on higher count value
+    var color = "steelblue";
+
+    // Generate groups to hold graphical elements
+    var slices = graph.selectAll("g")
+                       .data(data)
+                       .enter()
+                       .append("g")
+                       .attr("transform", function(d, i) { return "translate(" + i * bar_width + ", 0)"; });
+
+    // Draw graphical elements
+		slices.append("rect")
+          .attr("y", function(d) { return height - 20 - d.count * scale })
+    			.attr("height", function(d) {	return d.count * scale ;})
+          .attr("width", bar_width - 1)
+          .style("fill", color);
+
+    // Add value labels
+    slices.append("text")
+       .attr("y", function(d) { return height - 30 - d.count * scale; })
+       .attr("x", bar_width / 2 - 10)
+       .attr("dy", ".35em")
+       .text(function(d) { return d.count; });
+
+    // Add index labels
+    slices.append("text")
+       .attr("y", 190)
+       .attr("x", bar_width / 2 - 10)
+       .attr("dy", ".35em")
+       .text(function(d) { return d.index; });
+
+  </script>

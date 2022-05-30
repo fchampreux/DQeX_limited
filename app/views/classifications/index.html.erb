@@ -1,0 +1,11 @@
+<% provide(:title, t('ManagingClassifications')) %>
+
+<% provide :page_heading do %>
+    <%=t('Classifications')%>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/index_view_navigation", locals: {this_object: Classification} %>
+<% end %>
+
+<%= render partial: "shared/object_index", locals: {this_index: @classifications} %>

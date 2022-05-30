@@ -1,0 +1,135 @@
+<% provide(:title, (t('ManagingParametersLists'))) %>
+<% provide(:page_class, 'page-view-details') %>
+
+<% provide :page_heading do %>
+  <%= render partial: "shared/heading", locals: {this_object: @parameters_list} %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  <ol id="breadcrumbs" class="breadcrumbs">
+    <li>
+      <a href="/" title="<%= t("Display") %>" class="fa fa-home"></a>
+    </li>
+    <li>
+      <%= link_to translation_for(@parameters_list.name_translations) %>
+    </li>
+  </ol>
+<% end %>
+
+<% provide :navigation do %>
+  <%# render partial: "shared/show_view_navigation", locals: {this_object_parent: @parameters_list.parent, this_object_index: administration_parameters_lists_path} %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_actions", locals: {this_object: @parameters_list } %>
+<% end %>
+
+<% provide :technical_details do %>
+  <%= render partial: "shared/object_ownership",
+      locals: {this_object: @parameters_list} %>
+<% end %>
+
+<% provide :information do %>
+  <div class="row">
+    <div class="col-md-6">
+      <%= render partial: "shared/object_definition", locals: {
+          this_object: @parameters_list,
+          smallTextarea: true,
+          isTechnical: true} %>
+    </div>
+  </div>
+<% end %>
+
+<%= render layout: "layouts/collapsible_details",
+    locals: {tabs_content: [ :information ],
+    title: t('Parameters')}  do %>
+
+<% end %>
+
+<hr />
+
+<section class="tabbable">
+
+  <div class="tabbable">
+
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="active"><a href="#parameters" data-toggle="tab"><%= t('.Parameters') %></a></li>
+    </ul>
+
+    <div class="tab-content">
+
+      <div class="tab-pane active" id="parameters">
+
+        <div class="mat-button-group">
+          <%= link_to administration_parameters_list_path(@parameters_list, format: "xlsx"), class: "mat-flat-button mat-button-base mat-primary" do %>
+            <span class="fa fa-file-excel"></span>
+            Export to Excel
+          <% end %>
+          <%= link_to new_administration_parameters_list_parameters_import_path(@parameters_list), class: "mat-flat-button mat-button-base mat-primary" do %>
+            <span class="fa fa-file-alt" %></span>
+            <%= t('.ImportParameters') %>
+          <% end %>
+        </div>
+
+        <%= will_paginate @parameters %>
+
+        <table class="table table-align-top table-hover">
+          <tr>
+            <th> <%= t('.Code') %> </th>
+            <th> <%= t('.Property') %> </th>
+            <th> <%= t('.Name') %> </th>
+            <th> <%= t('.Description') %> </th>
+            <th> <%= t('.TaskScope') %> </th>
+            <th> <%= t('.ValidFrom') %> </th>
+            <th> <%= t('.ValidTo') %> </th>
+            <th class="col-min-nw">
+              <%= link_to new_administration_parameters_list_parameter_path(@parameters_list), title: t('.New'), data: { toggle: "modal", target: "#childModal" }, class: "mat-flat-button mat-button-base mat-primary" do%>
+                <span class="fa fa-plus-square" %></span>
+                <%= t("New") %>
+            <% end %>
+            </th>
+          </tr>
+
+          <tbody>
+            <% if @parameters.count > 0 %>
+              <% @parameters.each do |parameter| %>
+                <tr>
+                  <td class="no-wrap"> <%= parameter.code %> </td>
+                  <td class="no-wrap"> <%= parameter.property %> </td>
+                  <td class="no-wrap"> <%= translation_for(parameter.name_translations) %> </td>
+                  <td class="no-wrap"> <%= translation_for(parameter.description_translations) %> </td>
+                  <td> <%= parameter.scope %> </td>
+                  <td> <%= format_date(parameter.active_from) %></td>
+                  <td> <%= format_date(parameter.active_to) %></td>
+                  <td class="cell-with-button cell-nw">
+                    <%= link_to administration_parameters_list_parameter_path(@parameters_list, parameter), title: t('.Show'), data: { toggle: "modal", target: "#childModal" }, class: "mat-icon-button mat-button-base mat-secondary" do%>
+                      <span class="fa fa-eye"></span>
+                    <% end %>
+                    <%= link_to edit_administration_parameters_list_parameter_path(@parameters_list, parameter), title: t('.Edit'), data: { toggle: "modal", target: "#childModal" }, class: "mat-icon-button mat-button-base mat-secondary" do%>
+                      <span class="fa fa-edit"></span>
+                    <% end %>
+                    <%= link_to administration_parameter_path(parameter), title: t('Delete'), data: { confirm: t(".Sure")  }, method: :delete, class: "mat-icon-button mat-button-base mat-warn" do%>
+                      <span class="fa fa-trash"></span>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr>
+                <td class="cell-empty" colspan=8">
+                  <p class="alert alert-info">
+                    <%= t('.NoChildren') %>
+                  </p>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <%= will_paginate @parameters %>
+
+      </div> <!-- closes parameters pane -->
+
+    </div>
+
+</section>

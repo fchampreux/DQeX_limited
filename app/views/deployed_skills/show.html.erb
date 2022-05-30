@@ -1,0 +1,78 @@
+<% provide(:title, (t('ManagingSkills'))) %>
+<% provide(:page_class, 'page-view-details') %>
+
+<% provide :page_heading do %>
+  <%= render partial: "shared/heading", locals: {this_object: @skill} %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  <%= render partial: "shared/breadcrumbs" %>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/show_view_navigation", locals: {this_object_parent: @skill.parent, this_object_index: deployed_objects_path} %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_actions", locals: {this_object: @skill } %>
+<% end %>
+
+<% if can? :see_details, current_user %>
+  <div class="row mat-form-row">
+    <div class="mat-form-field col-md-9 offset-md-3">
+      <fieldset>
+        <legend> <%= t('MetadataCompletion') %> </legend>
+        <%= render partial: "shared/completion_status" %>
+      </fieldset>
+    </div>
+  </div>
+<% end %>
+
+<% provide :technical_details do %>
+  <%= render partial: "shared/object_ownership", locals: {this_object: @skill} %>
+<% end %>
+
+<% provide :information do %>
+  <% provide :extra_attribute do %>
+    <label for="definition-template-id" class="mat-form-field-label">
+      <%= t('TemplateSkill') %>
+    </label>
+    <%= link_to @skill.template_skill&.code, defined_skill_path(@skill.template_skill) %>
+  <% end %>
+  <div class="row">
+    <div class="col-md-6">
+      <%= render partial: "shared/object_definition",
+          locals: {this_object: @skill,
+                  smallTextarea: true,
+                  isTechnical: true} %>
+    </div>
+    <div class="col-md-6">
+      <%= render partial: "shared/object_responsibilities",
+          locals: {this_object: @skill,
+                  showStatus: false} %>
+      <%= render partial: "shared/translated_field", locals: {
+        id: 'external_description',
+        field: "external_description",
+        translations: @skill.external_description_translations,
+        isTextarea: true,
+        smallTextarea: true,
+        label: t('External_Description') } %>
+    </div>
+  </div>
+<% end %>
+
+<% provide :specifications do %>
+  <%= render partial: "deployed_skill_specifications" %>
+<% end %>
+
+<%= render layout: "layouts/collapsible_details",
+    locals: {tabs_content: [ :specifications, :information ],
+    title: t('DeployedSkill')}  do %>
+
+<% end %>
+
+<%= render layout: "layouts/collapsible_annotations" do %>
+  <%= render partial: "shared/annotations_show", locals: { annotated_object: @skill } %>
+<% end %>
+
+<hr />

@@ -1,0 +1,43 @@
+<%= form_with model: @data_policy, local: true, html: {id: "edit_form"} do |f| %>
+
+  <%= render partial: "shared/error_list", locals: { errors: @data_policy.errors } %>
+
+  <div class="tabbable">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#definition" data-toggle="tab"> <%= t('Definition') %></a></li>
+    </ul>
+    <div class="tab-content">
+
+      <div class="tab-pane active" id="definition">
+        <!-- Tab content for Definition -->
+        <%= render partial: "shared/object_definition_form", locals: {this_object: @data_policy, f: f} %>
+
+        <div class=row>
+          <div class="col-md-2 text-right"> <%= t('BA') %>:
+          </div>
+          <div class="col-md-2 field"> <%= f.collection_select :business_area_id, list_of_business_areas, :id, :name  %>
+          </div>
+          <div class="col-md-1 text-right"> <%= t('Territory') %>:
+          </div>
+          <div class="col-md-2 field"> <%= f.collection_select :territory_id, list_of_territories, :id, :name  %>
+          </div>
+          <div class="col-md-1 text-right"> <%= t('Organisation') %>:
+          </div>
+          <div class="col-md-2 field"> <%= f.collection_select :organisation_id,  list_of_organisations, :id, :name  %>
+          </div>
+        </div>
+        <div class=row>
+          <div class="col-md-2 text-right"> <%= t('ValidFrom') %>:
+          </div>
+          <div class="col-md-2 field"> <%= f.date_field :valid_from %>
+          </div>
+          <div class="col-md-1 text-right"> <%= t('ValidTo') %>:
+          </div>
+          <div class="col-md-2 field"> <%= f.date_field :valid_to  %>
+          </div>
+        </div>
+      <hr>
+    </div>
+  </div>
+</div>
+<% end %>

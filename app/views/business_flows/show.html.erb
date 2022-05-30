@@ -1,0 +1,176 @@
+<% provide(:title, (t('ManagingBFs'))) %>
+<% provide(:page_class, 'page-view-details') %>
+
+<% provide :page_heading do %>
+  <%= render partial: "shared/heading", locals: {this_object: @business_flow} %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  <%= render partial: "shared/breadcrumbs" %>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/show_view_navigation", locals: {this_object_parent: @business_flow.parent, this_object_index: business_flows_path} %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_actions", locals: {this_object: @business_flow} %>
+<% end %>
+
+<% provide :technical_details do %>
+  <%= render partial: "shared/object_ownership", locals: {this_object: @business_flow} %>
+<% end %>
+
+<% provide :information do %>
+
+  <div class="row">
+    <div class="col-md-6">
+      <%= render partial: "shared/object_definition",
+          locals: {this_object: @business_flow,
+                  smallTextarea: true,
+                  isTechnical: true} %>
+    </div>
+    <div class="col-md-6">
+      <%= render partial: "shared/object_responsibilities",
+          locals: {this_object: @business_flow,
+                  showStatus: false} %>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-6">
+          <label for="business-flow-active-from" class="mat-form-field-label">
+            <%= t('ActiveFrom') %>
+          </label>
+          <input id="business-flow-active-from" class="mat-input-element" readonly
+            value="<%= format_date(@business_flow.active_from) %>" />
+        </div>
+        <div class="mat-form-field col-md-6">
+          <label for="business-flow-active-to" class="mat-form-field-label">
+            <%= t('ActiveTo') %>
+          </label>
+          <input id="business-flow-active-to" class="mat-input-element" readonly
+            value="<%= format_date(@business_flow.active_to) %>" />
+        </div>
+      </div>
+
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-12">
+          <label for="bf-legal_basis" class="mat-form-field-label">
+            <%= t('LegalBasis') %>
+          </label>
+          <p id="bf-legal_basis" class="mat-input-element mat-textarea-md" readonly>
+            <%= sanitize @business_flow.legal_basis %>
+          </p>
+        </div>
+      </div>
+
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-6">
+          <label for="bf-participants" class="mat-form-field-label">
+            <%= t('Participants') %>
+          </label>
+          <%= select_tag 'bf-participants', options_for_select_from_list(list_of_organisations, @business_flow.participant_ids), { multiple: true, disabled: true, class: 'mat-input-element select2-candidate' } %>
+        </div>
+        <% ignore do "Not wanted by PO" %>
+        <div class="mat-form-field col-md-6">
+          <label for="bf-collect-type" class="mat-form-field-label">
+            <%= t('CollectType') %>
+          </label>
+          <input id="bf-collect.type" class="mat-input-element" readonly
+            value="<%= translation_for(@business_flow.collect_type.name_translations) %>" />
+        </div>
+        <% ignore end %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<%= render layout: "layouts/collapsible_details",
+    locals: {tabs_content: [ :information ],
+    title: t('BusinessFlow')}  do %>
+
+<% end %>
+
+<% if display_assessment? %>
+<section>
+  <a class="collapse-toggle" data-toggle="collapse" href="#measures">
+    <%= t('Measures') %>
+  </a>
+
+  <div class="row collapse in" id="measures">
+    <div class="col-md-12">
+      <%= render partial: "shared/render_charts_d3", locals: {this_object: @business_flow} %>
+    </div>
+  </div>
+</section>
+<% end %>
+
+<hr />
+
+<section class="tabbable">
+
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="active"><a href="#business_processes" data-toggle="tab"><%= t('BusinessProcesses') %></a></li>
+    <li><a href="#deployed_objects" data-toggle="tab"><%= t('DeployedObjects') %></a></li>
+  </ul>
+
+  <div class="tab-content">
+
+    <div class="tab-pane active" id="business_processes">
+      <%= link_to new_business_flow_business_process_path(@business_flow), class: 'mat-flat-button mat-button-base mat-primary' do %>
+        <span class="fa fa-file-alt" %></span>
+        <%= t('NewBusinessProcess') %>
+      <% end %>
+
+      <table class="child-object-table table table-hover table-clickable">
+
+        <thead>
+          <tr>
+            <th scope="col" class="col-min-nw"><%= t('Code') %></th>
+            <th scope="col"><%= t('Name') %></th>
+            <th scope="col"><%= t('From') %></th>
+            <th scope="col"><%= t('To') %></th>
+            <th scope="col"><%= t('Description') %></th>
+            <th scope="col" class="col-min-nw"><%= t('UpdatedBy') %></th>
+            <th scope="col" class="col-min-nw text-right"><%= t('UpdatedAt') %></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @business_flow.business_processes.visible.order(:sort_code).each do |child_object| %>
+            <tr data-href="<%= url_for child_object %>">
+              <td class="no-wrap">
+                <%= link_to child_object do %>
+                  <%=h truncate(child_object.code, :length => 15) %>
+                <% end %>
+              </td>
+              <td><%= translation_for(child_object.name_translations) %></td>
+              <td><%= child_object.zone_from&.property %></td>
+              <td><%= child_object.zone_to&.property %></td>
+              <td><%=h truncate(translation_for(child_object.description_translations), :length => 200) %></td>
+              <td><%= child_object.updated_by %></td>
+              <td class="text-right"><%= format_date(child_object.updated_at) %></td>
+            </tr>
+          <% end%>
+
+          <% if @business_flow.business_processes.empty? %>
+            <tr>
+              <td class="cell-empty" colspan="7">
+                <p class="alert alert-info">
+                  <%= t('NoChildren') %>
+                </p>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <div class="tab-pane" id="deployed_objects">
+      <%#= render partial: "shared/child_object_index", locals: {this_child_index: @business_flow.deployed_objects.visible} %>
+    </div>
+
+
+  </div>
+
+</section>

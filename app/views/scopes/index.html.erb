@@ -1,0 +1,13 @@
+<% provide(:title, (t('ManagingScs'))) %>
+
+<% provide(:search_text, t('SearchIn') % t('Scopes')) %>
+
+<% provide :page_heading do %>
+    <%= t('Scopes') %>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/index_view_navigation", locals: {this_object: Scope} %>
+<% end %>
+
+<%= render partial: "shared/object_index", locals: {this_index: @scopes} %>

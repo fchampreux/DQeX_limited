@@ -1,0 +1,138 @@
+@import "~@oblique/oblique/styles/scss/fontawesome/variables";
+@import "../variables";
+@import "../mixins/layout";
+@import "../mixins/stepper";
+
+$stepper-step-size: 30px;
+$stepper-border-width: 3px;
+
+.nav-stepper {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	list-style-type: none;
+	margin-bottom: 0;
+	padding-left: 0;
+
+	// Steps:
+	.nav-item {
+		flex-basis: auto;
+		flex-grow: 1;
+		position: relative;
+		z-index: 0;
+
+		&:before {
+			z-index: 1;
+			font-weight: 900;
+			text-align: center;
+			color: $brand-primary;
+			border: $stepper-border-width solid $brand-primary;
+			border-radius: 50%;
+			background-color: $white;
+			box-shadow: 0 0 2px 2px $white;
+		}
+
+		&:after {
+			content: '';
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			z-index: -1;
+			border-width: 0;
+			border-left-style: solid;
+			border-top-style: solid;
+			border-color: $brand-primary;
+		}
+
+		// States:
+		&.active {
+			@include stepper-state($white, $brand-primary, $brand-primary);
+		}
+
+		&.disabled {
+			@include stepper-state($gray-light, $white, $gray-light);
+
+			&.active {
+				.nav-link {
+					color: inherit;
+				}
+			}
+		}
+
+		// Variants:
+		&.success {
+			@include stepper-state($brand-success, $white, $brand-success);
+		}
+
+		&.warning {
+			@include stepper-state($brand-warning, $white, $brand-warning);
+		}
+
+		&.danger {
+			@include stepper-state($brand-error, $white, $brand-error);
+		}
+
+		// Feedback:
+		&.valid {
+			@include stepper-feedback($fa-var-check);
+		}
+
+		&.invalid {
+			@include stepper-feedback($fa-var-exclamation);
+		}
+
+		&.error {
+			@include stepper-feedback($fa-var-times);
+		}
+	}
+
+	.nav-link {
+		display: block;
+	}
+
+	@include stepper-variant($font-size-base, $stepper-step-size, $stepper-border-width);
+
+	&.nav-stepper-sm {
+		@include stepper-variant($font-size-sm, 24px, $stepper-border-width - 1);
+	}
+
+	&.nav-stepper-lg {
+		@include stepper-variant($font-size-xl, 80px, $stepper-border-width + 1);
+	}
+
+	// Ordered steps:
+	@at-root #{selector-append("ol", &)} {
+		counter-reset: li-counter;
+
+		.nav-item {
+			&:before {
+				content: counter(li-counter);
+				counter-increment: li-counter;
+			}
+		}
+	}
+
+	// Labelled steps:
+	.nav-item[data-step-label] {
+		&:before {
+			content: attr(data-step-label);
+		}
+	}
+}
+
+// Contextual steppers:
+.modal-header {
+	.nav-stepper {
+		.nav-item {
+			margin-bottom: -1em;
+		}
+
+		// If a modal close button follows a `.nav-stepper`, ensure its margin does not break the
+		// `justify-content: space-between;` property of the enclosing `.modal-header`:
+		+ .close {
+			margin-left: (-1rem);
+		}
+	}
+}

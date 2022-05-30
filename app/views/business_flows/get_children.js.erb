@@ -1,0 +1,22 @@
+$(function () {
+  var itemId = '<%= @business_flow.id %>',
+      ctId = 'ui-nav-business_flow-' + itemId + '-children',
+      // create children array (code generated server side)
+      children = [
+        <% @business_processes.each do |child| %>
+          {
+            id: '<%= child.id %>',
+            code: '<%= child.code %>',
+            name: '<%= j(translation_for(child.name_translations)) %>',
+            url: '<%= url_for(child) %>',
+            loadUrl: '',
+            hasChildren: false
+          },
+        <% end %>
+      ];
+
+  $('#' + ctId).sisNavigation({
+    children: children,
+    childLevelId: ''
+  });
+});

@@ -1,0 +1,73 @@
+
+<%= form_with model: @notification, html: {id: "edit_description_form"} do |f| %>
+
+  <div class="modal-header">
+    <h5 class="modal-title" id="editNotificationModalLabel">
+      <% if content_for?(:notificationModalTitle) %>
+        <%= yield(:notificationModalTitle) %>
+      <% else %>
+        <%= t('EditNotification') %>
+      <% end %>
+    </h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <%= render partial: "shared/error_list", locals: { errors: @notification.errors } %>
+
+    <fieldset>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-4">
+          <%= f.label :notification_severity_id, t('NotificationSeverity'), class: "mat-form-field-label" %>
+          <%= f.collection_select :severity_id, options_for('rules_severity') , :id, :name, {}, { class: "mat-input-element select2-candidate" } %>
+        </div>
+        <div class="mat-form-field col-md-4">
+          <label for="notification-issuer" class="mat-form-field-label">
+            <%= t('Issuer') %>
+          </label>
+          <input id="notification-issuer" class="mat-input-element" readonly
+            value="<%= @notification.owner.name %>" />
+        </div>
+        <div class="mat-form-field col-md-4">
+          <%= f.label :notification_expected_at, t('NotificationDueDate'), class: "mat-form-field-label" %>
+          <%= f.date_field :expected_at, { class: "mat-input-element" } %>
+        </div>
+      </div>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-12">
+          <%= render partial: "shared/translated_field_form", locals: {
+            f: f,
+            field: "description",
+            fields: :description_translations,
+            translations: @notification.description_translations,
+            isTextarea: true,
+            smallTextarea: false,
+            label: t('Description') } %>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="mat-stroked-button mat-button-base" data-dismiss="modal">
+      <%= t('Cancel') %>
+    </button>
+    <button class="mat-flat-button mat-button-base mat-primary">
+      <%= t('Submit') %>
+    </button>
+  </div>
+
+  <%= f.hidden_field :code %>
+  <%= f.hidden_field :name %>
+  <%= f.hidden_field :description %>
+  <%= f.hidden_field :status_id %>
+  <%= f.hidden_field :owner_id %>
+  <%= f.hidden_field :topic_type %>
+  <%= f.hidden_field :topic_id %>
+  <%= f.hidden_field :responsible_id %>
+  <%= f.hidden_field :deputy_id %>
+  <%= f.hidden_field :organisation_id %>
+
+<% end %>

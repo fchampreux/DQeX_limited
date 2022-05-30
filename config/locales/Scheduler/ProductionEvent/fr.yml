@@ -1,0 +1,56 @@
+# Code for language as declared in i18n configuration
+fr:
+  # Considered object from a global view
+  ProductionEvents:                          "Flux de production"
+  ProductionEvent:                           "Flux de production"
+  ManagingProductionEvents:                  "Gérer les flux de production"
+  NewProductionEvent:                        "Nouveau flux de production"
+  ProductionEventRejected:                   "Echec de création du flux de production"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageActivity )
+  scheduler:
+    production_events:
+      index:
+        # Columns titles
+        Code:                                   "Identifiant"
+        Name:                                   "Nom"
+        Description:                            "Description"
+        Owner:                                  "Responsable"
+        Version:                                "Mis à jour le"
+        Status:                                 "Statut"
+      show:
+        Manage:                                 "Gérer les sous-processus"
+        Status:                                 "Statut"
+        # Field names
+        Code:                                   "Identifiant"
+        Name:                                   "Nom"
+        Description:                            "Description"
+        Statement:                              "Instruction"
+      event_attachments:
+        FileName:                               "Nom du fichier"
+        FileSize:                               "Taille"
+        FileType:                               "Type"
+      new:
+        New:                                    "Nouveau sous-processus"
+        # Field names
+        Code:                                   "Identifiant"
+        Name:                                   "Nom"
+        Description:                            "Description"
+      edit:
+        Edit:                                   "Modifier le sous-processus"
+        # Field names
+        Code:                                   "Identifiant"
+        Name:                                   "Nom"
+        Description:                            "Description"
+      create:
+        Success:                             	  "Sous-processus créé avec succès"
+        Failure:                             	  "Le sous-processus ne peut pas être créé"
+      update:
+        Success:                             	  "Sous-processus mis à jour avec succès"
+        Failure:                             	  "Le sous-processus ne peut pas être modifié"
+      activate:
+        Success:                             	  "Sous-processus récupéré"
+        Failure:                             	  "Le sous-processus ne peut pas être récupéré"
+      destroy:
+        Success:                             	  "Sous-processus supprimé"
+        Failure:                             	  "Le sous-processus ne peut pas être supprimé"

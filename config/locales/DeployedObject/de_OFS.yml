@@ -1,0 +1,74 @@
+# Code for language as declared in i18n configuration
+de_OFS:
+  DeployedObjects:                            "Datensätze"
+  DeployedObject:                             "Datensatz"
+  ManagingDeployedObjects:                    "Datensätze verwalten"
+  NewDeployedObject:                          "Neuer Datensatz"
+  DeployedObjectRejected:                     "Datensatz wurde abgelehnt"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  deployed_objects:
+    index:
+      # Columns titles
+      Code:                                    "Kennung"
+      Name:                                    "Name"
+      Description:                             "Beschreibung"
+      Parent:                                  "Informationfeld"
+      Owner:                                   "Eigentümer"
+      UpdatedBy:                               "Aktualisiert von"
+      UpdatedAt:                               "Aktualisiert am"
+    index_short:
+      # Columns titles
+      Code:                                    "Kennung"
+      Name:                                    "Name"
+      Description:                             "Beschreibung"
+      Parent:                                  "Informationfeld"
+      Owner:                                   "Eigentümer"
+      UpdatedBy:                               "Aktualisiert von"
+      UpdatedAt:                               "Aktualisiert am"
+    show:
+      Manage:                                 "Datensatz verwalten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    new:
+      New:                                    "Neuer Datensatz"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    edit:
+      Failure:                                "Abgeschlossene Strucktur kann nicht geändert werden"
+      Edit:                                   "Datensatz bearbeiten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    new_version:
+      Success:                                "Erfolgreich erstellte Datensatz"
+      Failure:                                "Die Datensatz konnte nicht erstellt werden"
+    make_current:
+      Success:                                "Datensatz erfolgreich ausgewählt"
+      Failure:                                "Datensatz konnte nicht ausgewählt werden"
+    finalise:
+      Success:                                "Datensatz-Version erfolgreich abgeschlossen"
+      Failure:                                 "Die Version der hierarchischen Codeliste konnte nicht fertiggestellt werden"
+    create:
+      Success:                             	  "erfolgreich erstellt Datensatz"
+      Failure:                                "Datensatz konnte nicht erstellt werden"
+    update:
+      Success:                             	  "erfolgreich aktualisierter InformDatensatzationfeld"
+      Failure:                                "Datensatz konnte nicht aktualisierter werden"
+    activate:
+      Success:                             	  "Datensatz erfolgreich wiederhergestellt"
+      Failure:                                "Datensatz konnte nicht abgerufen werden"
+    destroy:
+      Success:                             	  "Datensatz erfolgreich gelöscht"
+      Failure:                                "Datensatz konnte nicht gelöscht werden"
+    propose:
+      Success:                                "Die Datensatz wurde vorgeschlagen."
+      Failure:                                "Datensatz"
+    accept:
+      Success:                                "Die Datensatz wurde angenommen."
+      Failure:                                "Datensatz"

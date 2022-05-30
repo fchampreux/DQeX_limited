@@ -1,0 +1,19 @@
+.status-icon {
+  position: relative;
+
+  &:after {
+    content: "\00A0";
+    position: absolute;
+    top: -0.1em;
+    right: -0.2em;
+    width: 0.4em;
+    height: 0.4em;
+    border-radius: 0.2em;
+    box-shadow: 0 0 2px 1px white;
+  }
+
+  &.status-active   { &:after { background-color: #00813a; } }
+  &.status-inactive { &:after { background-color: #dc0018; } }
+  &.status-pending  { &:after { background-color: #069; } }
+  &.status-unknown  { &:after { background-color: rgba(0,0,0,0.26); } }
+}

@@ -1,0 +1,13 @@
+/* Table loading SQL script */
+<br/>/* parameter for bytes lengths => 1 SAS BYTES = 1 Oracle BYTES */
+<b>
+<br/>OR_BINARY_DOUBLE=NO ADJUST_NCHAR_COLUMN_LENGTHS=YES DBSERVER_MAX_BYTES=1;
+<br/>
+<br/>proc sql;<br/>
+<br/>
+CREATE TABLE</b> ora1.<%= @target.code %>_V1
+<b>(BULKLOAD=YES BL_DELETE_DATAFILE=YES) AS
+<br/>SELECT</b>
+<br/> <%= @target.getColList('SAS', 'converted') %> <br/>
+<b>FROM</b> sasuser.adoptions ;<br/>
+<br/><b>quit;</b>

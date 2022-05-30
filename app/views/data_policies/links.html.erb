@@ -1,0 +1,13 @@
+<% provide(:title, (t('ManagingDPs'))) %>
+
+<% provide :page_heading do %>
+  <%= render partial: "shared/heading", locals: {this_object: @data_policy} %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  > <%= @data_policy.tr_name %>
+<% end %>
+
+<%= render partial "shared/advanced_search" %>
+
+<%= link_to 'Back', @data_policy %>

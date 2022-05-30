@@ -1,0 +1,22 @@
+$(function () {
+  var itemId = '<%= @business_area.id %>',
+      ctId = 'ui-nav-business_area-' + itemId + '-children',
+      // create children array (code generated server side)
+      children = [
+        <% @business_flows.each do |child| %>
+          {
+            id: '<%= child.id %>',
+            code: '<%= child.code %>',
+            name: '<%= j(translation_for(child.name_translations)) %>',
+            url: '<%= url_for(child) %>',
+            loadUrl: '<%= url_for(get_children_business_flow_path(child)) %>',
+            hasChildren: <%= (!child.business_processes.empty?).to_json %>
+          },
+        <% end %>
+      ];
+
+  $('#' + ctId).sisNavigation({
+    children: children,
+    childLevelId: 'business_flow'
+  });
+});

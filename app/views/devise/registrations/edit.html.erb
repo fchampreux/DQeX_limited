@@ -1,0 +1,46 @@
+<% provide(:title, t('Registration')) %>
+
+<% provide :page_heading do %>
+  <%= @user.user_name %>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/edit_view_navigation" %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_edit_actions", locals: {this_object: @user } %>
+<% end %>
+<h2>Change password</h2>
+
+<div class="container">
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {id: "edit_form", method: :put }) do |f| %>
+
+    <%= render partial: "shared/error_list", locals: { errors: @user.errors } %>
+
+    <div class="row mat-form-row">
+      <div class="mat-form-field col-md-3">
+        <%= f.label :user_name, t('UserName'), class: "mat-form-field-label"  %>
+        <%= f.text_field :user_name, class: "mat-input-element", :disabled => true   %>
+      </div>
+      <div class="mat-form-field col-md-3">
+        <%= f.label :password, class: "mat-form-field-label" %>
+        <%= f.password_field :password, autofocus: true, autocomplete: "off", class: "mat-input-element" %>
+        <% if @minimum_password_length %>
+          <em>(<%= @minimum_password_length %> characters minimum)</em>
+        <% end %>
+      </div>
+      <div class="mat-form-field col-md-3">
+        <%= f.label :password_confirmation, class: "mat-form-field-label" %>
+        <%= f.password_field :password_confirmation, autocomplete: "off", class: "mat-input-element" %>
+      </div>
+    </div>
+    <div class="row mat-form-row">
+      <div class="mat-form-field col-md-3">
+          <%= f.label :current_password, class: "mat-form-field-label" %>
+          <%= f.password_field :current_password, autocomplete: "off", class: "mat-input-element" %>
+          <i>(we need your current password to confirm your changes)</i>
+      </div>
+    </div>
+  <% end %>
+</div>

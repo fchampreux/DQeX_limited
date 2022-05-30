@@ -1,0 +1,3 @@
+scan_schedules:
+   cron: "*/1 * * * *"
+   class: "Scheduler::ProductionPlanning"

@@ -1,0 +1,61 @@
+<% provide(:page_heading, $AppName) %>
+<% provide(:page_class, 'page-sign-in page-credentials') %>
+<% provide(:large_header, true) %>
+
+<section class="mat-card">
+  <h2 class="mat-card-title">Sign in</h2>
+  <p class="mat-card-subtitle">
+    Need an account ?
+    <a href="mailto:frederic.champreux@bfs.admin.ch&subject=Requesting access to SIS Protoype">Contact us</a>
+  </p>
+  <div class="mat-card-content">
+      <%= link_to "Sign in with SIS Portal", user_keycloakopenid_omniauth_authorize_path, method: :post, class: "mat-flat-button mat-button-base mat-primary", style: "width:200px;" %>
+
+  <a id="collapsible-login-toggler"
+     class="mat-stroked-button mat-button-base"
+     data-toggle="collapse"
+     href="#collapsible-login">
+    Sign in locally
+  </a>
+<section id="collapsible-login-ct">
+  <div class="collapse collapsed" id="collapsible-login">
+
+    <p></p>
+
+    <% flash.each do |key, value| %>
+      <p id="mat-error-<%= key %>" class="mat-error"><%= value %></p>
+    <% end %>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="mat-form-field">
+        <%= f.label :login, class: "mat-form-field-label" %>
+        <%= f.text_field :login, autofocus: true, class: "mat-input-element" %>
+      </div>
+
+      <div class="mat-form-field">
+        <%= f.label :password, class: "mat-form-field-label" %>
+        <%= f.password_field :password, autocomplete: "off", class: "mat-input-element" %>
+      </div>
+
+      <div class="credential-actions">
+        <% if devise_mapping.rememberable? %>
+          <div class="mat-form-field-checkbox">
+            <%= f.check_box :remember_me %>
+            <%= f.label :remember_me, class: "mat-form-field-label" %>
+          </div>
+        <% end %>
+
+        <%= f.submit "Continue", class: "mat-flat-button mat-button-base mat-primary" %>
+      </div>
+    <% end %>
+
+    <hr />
+
+    <%= render "devise/shared/links" %>
+
+
+      </div>
+
+    </section>
+  </div>
+</section>

@@ -1,0 +1,65 @@
+<%# Collapsible details layout receives a list of additional tabs to display %>
+<section id="collapsible-details-ct">
+  <span id="modal-toggler"
+        title="Technical details"
+        data-toggle="modal"
+        data-target="#technicalDetailsModal"
+        class="switch-details fa fa-cog mat-icon-button mat-button-base"
+        href="#technical-details">
+  </span>
+  <a id="collapsible-details-toggler"
+     class="collapse-toggle mat-stroked-button mat-button-base"
+     data-toggle="collapse"
+     href="#collapsible-details">
+    <%= t('Details') %>
+  </a>
+
+  <div class="collapse in" id="collapsible-details">
+
+    <section class="tabbable">
+
+      <ul class="nav nav-tabs" role="tablist">
+        <% tabs_content.each_with_index do |tab, index| %>
+          <li class="<%= index == 0 ? 'active' : nil %>">
+            <a href="#<%= tab.to_s %>" data-toggle="tab">
+              <%= t(tab.capitalize) %>
+            </a>
+          </li>
+        <% end %>
+      </ul>
+
+      <div class="tab-content">
+        <% tabs_content.each_with_index do |tab, index| %>
+          <div class="tab-pane <%= index == 0 ? 'active' : nil %>" id="<%= tab %>">
+
+            <%= yield tabs_content[index] %>
+
+          </div>
+        <% end %>
+      </div>
+
+    </section>
+  </div>
+
+		<!-- Child Modal window for technical details use -->
+		<aside class="modal fade modal-remote" id="technicalDetailsModal" tabindex="-1" role="dialog" aria-labelledby="technicalDetailsModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered modal-lg">
+		    <div class="modal-content">
+            <div class="modal-header">
+
+              <h5 class="modal-title" id="childModalLabel">
+
+                <%= t('TechnicalDetails') %>
+              </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <%= yield :technical_details %>
+            </div>
+        </div>
+		  </div>
+		</aside>
+
+</section>

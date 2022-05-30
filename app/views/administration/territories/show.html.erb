@@ -1,0 +1,62 @@
+<% provide(:title, t('ManagingTers')) %>
+<% provide(:page_class, 'page-view-details') %>
+
+<% provide :page_heading do %>
+  <%= render partial: "shared/heading", locals: {this_object: @territory} %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  <%= render partial: "shared/breadcrumbs" %>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/show_view_navigation", locals: {this_object_parent: @territory.ancestor, this_object_index: administration_territories_path} %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_actions", locals: {this_object: @territory } %>
+<% end %>
+
+<% provide :technical_details do %>
+  <%= render partial: "shared/object_ownership",
+      locals: {this_object: @territory} %>
+<% end %>
+
+<% provide :information do %>
+  <div class="row">
+    <div class="col-md-6">
+      <%= render partial: "shared/object_definition", locals: {
+          this_object: @territory,
+          smallTextarea: true,
+          isTechnical: true} %>
+    </div>
+  </div>
+<% end %>
+
+<%= render layout: "layouts/collapsible_details",
+    locals: {tabs_content: [ :information ],
+    title: t('Territory')}  do %>
+
+<% end %>
+
+<hr />
+
+<section class="tabbable">
+
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="active"><a href="#business_areas" data-toggle="tab"><%= t('Territories') %></a></li>
+  </ul>
+
+  <div class="tab-content">
+
+    <div class="tab-pane active" id="business_areas">
+      <%= link_to new_administration_territory_territory_path(@territory), class: 'mat-flat-button mat-button-base mat-primary' do %>
+        <span class="fa fa-file-alt" %></span>
+        <%= t('Add') + ' ' + t('Territory') %>
+      <% end %>
+
+      <%= render partial: "shared/child_object_index", locals: {this_child_index: @territory.child_territories} %>
+    </div>
+
+  </div>
+</section>

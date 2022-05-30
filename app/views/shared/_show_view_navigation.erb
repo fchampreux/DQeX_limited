@@ -1,0 +1,22 @@
+
+<div class="mat-button-group">
+
+  <% ignore do %>
+    <%= link_to "#", onclick: "history.back()", title: t("Back"), class: "mat-icon-button mat-button-base" do %>
+      <span class="fa fa-angle-left"></span>
+    <% end %>
+
+    <%= link_to [namespace, this_object_index], title: t("Index"), class: "mat-icon-button mat-button-base" do %>
+      <span class="fa fa-book"></span>
+    <% end %>
+  <% ignore end %>
+
+  <% if this_object_parent %>
+    <%= link_to [namespace, this_object_parent], title: t("Parent"), class: "mat-icon-button mat-button-base" do %>
+      <span class="fa fa-chevron-up"></span>
+    <% end %>
+    <% else %>
+      <span class="fa fa-chevron-up"></span>
+  <% end %>
+
+</div>

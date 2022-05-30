@@ -1,0 +1,85 @@
+<% provide(:page_class, 'page-view-details') %>
+
+<%= form_for [@business_area, @values_list], html: {id: "edit_form"} do |f| %>
+
+  <%= render partial: "shared/error_list", locals: { errors: @values_list.errors } %>
+
+  <% provide :information do %>
+    <div class="row">
+      <div class="col-md-6">
+
+        <%# Search of existing values_list is yet to develop %>
+        <div id="values-lists-autocomplete" data-search-url="<%= values_lists_path(:criteria => '') %>" data-item-url="<%= values_lists_path %>">
+          <%= render partial: "shared/object_definition_form",
+                      locals: { this_object: @values_list,
+                                f: f,
+                                smallTextarea: true } %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <%= render partial: "shared/object_responsibilities_form",
+                    locals: {this_object: @values_list, f: f} %>
+        <div class="row mat-form-row">
+          <div class="mat-form-field col-md-6">
+            <%= f.label :active_from, t('ActiveFrom'), class: "mat-form-field-label" %>
+            <%= f.date_field :active_from, class: "mat-input-element" %>
+          </div>
+          <div class="mat-form-field col-md-6">
+            <%= f.label :active_to, t('ActiveTo'), class: "mat-form-field-label" %>
+            <%= f.date_field :active_to, class: "mat-input-element" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <% provide :specifications do %>
+    <%= render partial: "values_list_specifications_form", locals: {f: f} %>
+  <% end %>
+
+  <% tabs_content = [ :information,
+                      :specifications ] %>
+
+  <section class="tabbable">
+
+    <ul class="nav nav-tabs" role="tablist">
+      <% tabs_content.each_with_index do |tab, index| %>
+        <li class="<%= index == 0 ? 'active' : nil %>">
+          <a href="#<%= tab.to_s %>" data-toggle="tab">
+            <%= t(tab.capitalize) %>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+
+    <div class="tab-content">
+      <% tabs_content.each_with_index do |tab, index| %>
+        <div class="tab-pane <%= index == 0 ? 'active' : nil %>" id="<%= tab %>">
+        <%= yield tabs_content[index] %>
+        </div>
+      <% end %>
+    </div>
+
+  </section>
+
+<section class="tabbable">
+
+  <div class="tabbable">
+
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="active"><a href="#annotations" data-toggle="tab"><%= t('.Annotations') %></a></li>
+    </ul>
+
+    <div class="tab-content">
+
+      <div class="tab-pane active" id="annotations">
+        <%= render partial: "shared/annotations_form", locals: { annotations: @values_list.annotations, f: f} %>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<% end %>

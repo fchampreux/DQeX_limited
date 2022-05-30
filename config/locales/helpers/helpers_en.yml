@@ -1,0 +1,65 @@
+en:
+  helpers:
+    submit:
+      business_area:
+        create: "Create Business Area"
+        update: "Update Business Area"
+      business_flow:
+        create: "Create Business Flow"
+        update: "Update Business Flow"
+      business_process:
+        create: "Create Business Process"
+        update: "Update Business Process"
+      business_rule:
+        create: "Create Business Rule"
+        update: "Update Business Rule"
+      business_object:
+        create: "Create Business Object"
+        update: "Update Business Object"
+        
+      playground:
+        create: "Create Playground"
+        update: "Update Playground"
+      landscape:
+        create: "Create Landscape"
+        update: "Update Landscape"
+      scope:
+        create: "Create Scope"
+        update: "Update Scope"
+      
+      organisation:
+        create: "Create Organisation"
+        update: "Update Organisation"
+      territory:
+        create: "Create Territory"
+        update: "Update Territory"
+        
+      breach:
+        create: "Create Breach"
+        update: "Update Breach"        
+      notification:
+        create: "Create Notification"
+        update: "Update Notification"
+        
+      mappings_list:
+        create: "Create list"
+        update: "Update list"
+      mapping:
+        create: "Create mapping"
+        update: "Update mapping"
+      values_list:
+        create: "Create list"
+        update: "Update list"
+      value:
+        create: "Create value"
+        update: "Update value"
+      parameter:
+        create: "Create parameter"
+        update: "Update parameter"
+      parameters_list:
+        create: "Create list"
+        update: "Update list"
+        
+      user:
+        create: "Create user"
+        update: "Update user"     

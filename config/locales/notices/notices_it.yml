@@ -1,0 +1,2 @@
+it:
+  ImportBH:    "Le fichier d'importation de la hiérarchie métier est organisé selon la description de APQC. La meilleure façon de concevoir un jeu de données correct pour l'import est de se baser sur un fichier d'export du même objet."

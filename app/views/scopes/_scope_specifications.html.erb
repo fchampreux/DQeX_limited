@@ -1,0 +1,49 @@
+    <fieldset disabled>
+      <!-- These features need to be specified, removed to avoid confusion
+      <% ignore do %>
+      <div class="row">
+        <div class="col-md-2 text-right"><%= t('Interface') %>:
+        </div>
+        <div class="col-md-2"><%= @scope.load_interface%>
+        </div>
+      </div>
+        <div class="row">
+        <div class="col-md-2 text-right"> <%= t('Technology') %>:
+        </div>
+        <div class="col-md-2"><%= @scope.db_technology%>
+        </div>
+        <div class="col-md-2 text-right"> <%= t('Connection') %>:
+        </div>
+        <div class="col-md-2"><%= @scope.db_connection%>
+        </div>
+        <div class="col-md-2 text-right"> <%= t('OwnerSchema') %>:
+        </div>
+        <div class="col-md-2"><%= @scope.db_owner_schema%>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 text-right"> <%= t('Query') %>:
+        </div>
+        <div class="col-md-6"><pre><%= @scope.sql_query%></pre>
+        </div>
+      </div>
+      <% ignore end %>
+      -->
+
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-3">
+          <label for="scope-structure-name" class="mat-form-field-label">
+            <%= t('Structure') %>
+          </label>
+          <input id="scope-structure-name" class="mat-input-element"
+            value="<%= @scope.structure_name %>" />
+        </div>
+        <div class="mat-form-field col-md-3">
+          <label for="scope-resource-file" class="mat-form-field-label">
+            <%= t('Resource') %>
+          </label>
+          <input id="scope-resource-file" class="mat-input-element"
+            value="<%= @scope.resource_file %>" />
+        </div>
+     </div>
+   </fieldset>

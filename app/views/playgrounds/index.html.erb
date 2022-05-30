@@ -1,0 +1,28 @@
+<% provide(:title, (t('ManagingPgs'))) %>
+<% provide(:page_heading, (t('Playgrounds'))) %>
+<% provide(:page_class, 'page-playgrounds') %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/index_view_navigation", locals: {this_object: Playground} %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_index_actions", locals: {this_object: Playground } %>
+<% end %>
+
+<% @playgrounds.each do |playground| %>
+  <section class="mat-card">
+    <div class="mat-card-title">
+      <%= link_to playground, title: "#{playground.code} #{translation_for(playground.name_translations)}" do %>
+        <%= image_tag playground.logo if playground.logo.attached? %>
+        <span><%= playground.translated_name || playground.name %></span>
+      <% end %>
+      <%= button_to('Select', [ :set_as_current, playground], method: :patch) unless $Unicity %>
+    </div>
+    <!--
+    <div class="mat-card-content">
+      <%= playground.translated_description %>
+    </div>
+    -->
+  </section>
+<% end %>

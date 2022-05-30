@@ -1,0 +1,128 @@
+<fieldset >
+  <div class="row mat-form-row">
+    <div class="mat-form-field col-md-4">
+      <label for="task-source-object" class="mat-form-field-label">
+        <%= t('tasks.show.SourceObject') %>
+      </label>
+      <input id="task-source-object" class="mat-input-element" readonly
+        value="<%= @task.parent.source_object&.code unless @task.parent.class.name == 'BusinessRule'  %>" />
+    </div>
+    <div class="col-md-4">
+      <svg  height="50" width="100%">
+        <g fill="none" stroke="black">
+          <path stroke-width="2" d="M5 40 l215 0" />
+        </g>
+      </svg>
+    </div>
+    <div class="mat-form-field col-md-4">
+      <label for="task-target-object" class="mat-form-field-label">
+        <%= t('tasks.show.TargetObject') %>
+      </label>
+      <input id="task-target-object" class="mat-input-element" readonly
+        value="<%= @task.parent.target_object&.code unless @task.parent.class.name == 'BusinessRule'  %>" />
+    </div>
+  </div>
+
+  <div class="row mat-form-row">
+    <div class="mat-form-field mat-form-field col-md-4">
+      <label for="task-node-type" class="mat-form-field-label">
+        <%= t('tasks.show.NodeType') %>
+      </label>
+      <input id="task-node-type" class="mat-input-element" readonly
+        value="<%= @task.node_type.code %>" />
+    </div>
+    <div class="mat-form-field col-md-4">
+      <%# Next activity in case of failure or success %>
+      <label for="task-next-success" class="mat-form-field-label">
+        <%= t('tasks.show.NextSuccess') %>
+      </label>
+      <input id="task-next-success" class="mat-input-element" readonly
+        value="<%= @task.success_next&.code %>" />
+    </div>
+    <div class="mat-form-field col-md-4">
+      <label for="task-next-failure" class="mat-form-field-label">
+        <%= t('tasks.show.NextFailure') %>
+      </label>
+      <input id="task-next-failure" class="mat-input-element" readonly
+        value="<%= @task.failure_next&.code %>" />
+    </div>
+  </div>
+  <hr/>
+  <div class="row mat-form-row">
+    <div class="mat-form-field col-md-4">
+      <label for="task-technology" class="mat-form-field-label">
+        <%= t('tasks.show.Technology') %>
+      </label>
+      <input id="task-technology" class="mat-input-element" readonly
+        value="<%= @task.technology&.code %>" />
+    </div>
+    <div class="mat-form-field col-md-4">
+      <label for="task-script-language" class="mat-form-field-label">
+        <%= t('tasks.show.ScriptLanguage') %>
+      </label>
+      <input id="task-script-language" class="mat-input-element" readonly
+        value="<%= @task.script_language&.code %>" />
+    </div>
+  </div>
+  <div class="row mat-form-row">
+    <div class="mat-form-field col-md-8">
+      <label for="task-statement" class="mat-form-field-label">
+        <%= t('tasks.show.Statement') %>
+      </label>
+      <textarea id="task-statement" class="mat-input-element mat-textarea-md" readonly >
+        <%= @task.statement %>
+      </textarea>
+    </div>
+    <div class="mat-form-field col-md-4">
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-12">
+          <label for="task-statement-language" class="mat-form-field-label">
+            <%= t('tasks.show.OperatingLanguage') %>
+          </label>
+          <input id="task-statement-language" class="mat-input-element" readonly
+            value="<%= @task.statement_language&.code %>" />
+        </div>
+      </div>
+<!--      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-12">
+          <label for="task-return_value_pattern" class="mat-form-field-label">
+            <%= t('tasks.show.ReturnValuePattern') %>
+          </label>
+          <input id="task-return_value_pattern" class="mat-input-element" readonly
+            value="<%= @task.return_value_pattern %>" />
+        </div>
+      </div> -->
+    </div>
+  </div>
+</<fieldset>
+<hr/>
+
+<%= form_with model: @task, url: :verify_task, method: :post, html: {id: "verify_form"}, remote: true do |f| %>
+  <div class="row mat-form-row">
+    <div class="mat-form-field col-md-4">
+      <label for="task-git-hash" class="mat-form-field-label">
+        <%= t('tasks.show.GitHash') %>
+      </label>
+      <input id="task-git-hash" class="mat-input-element" readonly
+        value="<%= @task.git_hash %>" />
+    </div>
+    <%# ignore do "not used until environment managements is ready" %>
+      <div class="mat-form-field col-md-6">
+        <%= f.label :verify_on_technology_id, t('tasks.show.Technology'), class: "mat-form-field-label" %>
+        <%= f.grouped_collection_select :technology_id, # :verify_on_technology_id
+            values_options_for('Technologies', 1), # @task.technology_id), # group
+            :subs,                                 # descendants
+            :code,                                 # group label
+            :id, :code,                            # option key & label
+            {:include_blank => false},
+            { class: "mat-input-element select2-candidate"} %>
+      </div>
+      <%# ignore end %>
+      <div class="mat-form-field col-md-2">
+        <%= f.label :git_hash, t('tasks.show.GetHash'), class: "mat-form-field-label" %>
+        <button type="submit" class="mat-flat-button mat-button-base mat-primary">
+          <%= t('Verify') %>
+        </button>
+      </div>
+  </div>
+<% end %>

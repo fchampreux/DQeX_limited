@@ -1,0 +1,75 @@
+# Code for language as declared in i18n configuration
+de:
+  Classifications:                            "Klassifikationen"
+  Classification:                             "Klassifikation"
+  ManagingClassifications:                    "Klassifikationen verwalten"
+  NewClassification:                          "Neuer Klassifikation"
+  ClassificationRejected:                     "Klassifikation wurde abgelehnt"
+  ImportedLinks:                              "Importierte Links"
+  LinksInserted:                              "Einfügungen"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  classifications:
+    index:
+      # Columns titles
+      Code:                                    "Kennung"
+      Name:                                    "Name"
+      Description:                             "Beschreibung"
+      Parent:                                  "Informationfeld"
+      Owner:                                   "Eigentümer"
+      UpdatedBy:                               "Aktualisiert von"
+      UpdatedAt:                               "Aktualisiert am"
+    index_short:
+      # Columns titles
+      Code:                                    "Kennung"
+      Name:                                    "Name"
+      Description:                             "Beschreibung"
+      Parent:                                  "Informationfeld"
+      Owner:                                   "Eigentümer"
+      UpdatedBy:                               "Aktualisiert von"
+      UpdatedAt:                               "Aktualisiert am"
+    show:
+      Manage:                                 "Klassifikation verwalten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    new:
+      New:                                    "Neuer Klassifikation"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    edit:
+      Edit:                                   "Klassifikation bearbeiten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    new_version:
+      Success:                                "Erfolgreich erstellte Klassifikation"
+      Failure:                                "Die hierarchische Liste konnte nicht erstellt werden"
+    make_current:
+      Success:                                "Klassifikation erfolgreich ausgewählt"
+      Failure:                                "Klassifikation konnte nicht ausgewählt werden"
+    finalise:
+      Success:                                "Klassifikation-Version erfolgreich abgeschlossen"
+      Failure:                                 "Die Version der hierarchischen Codeliste konnte nicht fertiggestellt werden"
+    create:
+      Success:                             	  "erfolgreich erstellt Klassifikation"
+      Failure:                                "Klassifikation konnte nicht erstellt werden"
+    update:
+      Success:                             	  "erfolgreich aktualisierter InformKlassifikationationfeld"
+      Failure:                                "Klassifikation konnte nicht aktualisierter werden"
+    activate:
+      Success:                             	  "Klassifikation erfolgreich wiederhergestellt"
+      Failure:                                "Klassifikation konnte nicht abgerufen werden"
+    destroy:
+      Success:                             	  "Klassifikation erfolgreich gelöscht"
+      Failure:                                "Klassifikation konnte nicht gelöscht werden"
+    propose:
+      Success:                                "Die Klassifikation wurde vorgeschlagen."
+      Failure:                                "Klassifikation"
+    accept:
+      Success:                                "Die Klassifikation wurde angenommen."
+      Failure:                                "Klassifikation"

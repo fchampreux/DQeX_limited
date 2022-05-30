@@ -1,0 +1,27 @@
+<% provide(:title, (t('ManagingBPs'))) %>
+
+<% provide :page_heading do %>
+  <%= "#{t('BusinessProcess')}: #{@business_process.code}" %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  <%= render partial: "shared/breadcrumbs" %>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/edit_view_navigation" %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_edit_actions",
+              locals: {this_object: @business_process } %>
+<% end %>
+
+<% provide :technical_details do %>
+  <%= render partial: "shared/object_ownership",
+              locals: {this_object: @business_process} %>
+<% end %>
+
+<%= render layout: "layouts/collapsible_details_form",
+            locals: {this_form: 'form'} do %>
+<% end %>

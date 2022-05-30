@@ -1,0 +1,76 @@
+# Code for language as declared in i18n configuration
+fr:
+  DeployedObjects:                            "Deployed objects"
+  DeployedObject:                             "Deployed object"
+  ManagingDeployedObjects:                    "Gérer les deployed objects"
+  NewDeployedObject:                          "Nouvelle deployed object"
+  DeployedObjectRejected:                     "La deployed object a été rejetée"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  deployed_objects:
+    index:
+      # Columns titles
+      Code:                                    "Identifiant"
+      Name:                                    "Nom"
+      Description:                             "Description"
+      Parent:                                  "Business area"
+      Owner:                                   "Responsable"
+      UpdatedBy:                               "Mis à jour par"
+      UpdatedAt:                               "Mis à jour le"
+    index_short:
+      # Columns titles
+      Code:                                    "Identifiant"
+      Name:                                    "Nom"
+      Description:                             "Description"
+      Parent:                                  "Business area"
+      Owner:                                   "Responsable"
+      UpdatedBy:                               "Mis à jour par"
+      UpdatedAt:                               "Mis à jour le"
+    show:
+      Manage:                                  "Gérer les deployed objects"
+      # Field names
+      Code:                                    "Identifiant"
+      Name:                                    "Nom"
+      Description:                             "Description"
+      Export:                                 "Exporter"
+      TranslateInExcel:                       "Traduire dans Excel"
+      ImportTranslations:                     "Importer la traduction"
+    new:
+      New:                                     "Nouvelle deployed object"
+      # Field names
+      Code:                                    "Identifiant"
+      Name:                                    "Nom"
+      Description:                             "Description"
+    edit:
+      Edit:                                    "Modifier la deployed object"
+      # Field names
+      Code:                                    "Identifiant"
+      Name:                                    "Nom"
+      Description:                             "Description"
+    new_version:
+      Success:                                "Nouvelle version créée"
+      Failure:                                "La nouvelle version ne peut pas être crée"
+    make_current:
+      Success:                                "La version est sélectionnée"
+      Failure:                                "Cette version ne peut pas être sélectionnée"
+    finalise:
+      Success:                                "Deployed object finalisée"
+      Failure:                                "La deployed object ne peut pas être finalisée"
+    create:
+      Success:                             	  "Nouvelle deployed object créée"
+      Failure:                                "La nouvelle deployed object ne peut pas être créée"
+    update:
+      Success:                             	  "Deployed object modifiée"
+      Failure:                                "La deployed object ne peut pas être modifiée"
+    activate:
+      Success:                             	  "Deployed object récupérée"
+      Failure:                                "La deployed object ne peut pas être récupérée"
+    destroy:
+      Success:                             	  "Deployed object supprimée"
+      Failure:                                "La deployed object ne peut pas être supprimée"
+    propose:
+      Success:                                "Deployed object a été soumise à validation"
+      Failure:                                "La deployed object ne peut pas être soumise à validation"
+    accept:
+      Success:                                "Deployed object a été validée"
+      Failure:                                "La deployed object ne peut pas être validée"

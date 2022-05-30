@@ -1,0 +1,40 @@
+  <!-- Tab content for Implementation -->
+
+        <div class="row">
+          <div class="mat-form-field col-md-3">
+            <label for="parent-bo" class="mat-form-field-label">
+              <%= t('Parent') %>
+            </label>
+            <input id="parent-bo" class="mat-input-element" readonly
+              value="<%= @business_object.code %>" />
+          </div>
+          <div class="mat-form-field col-md-3">
+            <%= f.label :skill_id, t('Field'), class: "mat-form-field-label" %>
+            <%= f.collection_select :skill_id, list_of_variables(@business_object.id), :id, :code, {}, { class: "mat-input-element" } %>
+          </div>
+        </div>
+
+          <div class="row">
+            <div class="mat-form-field col-md-6">
+              <!-- Translations management -->
+              <%= render partial: "shared/translated_field_form", locals: {
+                f: f,
+                field: "check_description",
+                fields: :check_description_translations,
+                translations: @business_rule.check_description_translations,
+                isTextarea: true,
+                label: t('check_description') } %>
+              <!-- End of translations -->
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="mat-form-field col-md-6">
+              <%= f.label :check_script, t('CheckScript'), class: "mat-form-field-label" %>
+              <%= f.text_area :check_script, :rows => 5, class: "mat-input-element" %>
+            </div>
+            <div class="mat-form-field col-md-3">
+              <%= f.label :check_language_id, t('Language'), class: "mat-form-field-label" %>
+              <%= f.collection_select :check_language_id, options_for('it_languages'), :id, :name, {}, { class: "mat-input-element" } %>
+            </div>
+          </div>

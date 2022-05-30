@@ -1,0 +1,71 @@
+  <div class="row">
+    <div class="col-md-6">
+      <section class="tabbable">
+
+        <div class="tabbable">
+
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="active"><a href="#child-values-lists" data-toggle="tab"><%= t('ValuesLists') %></a></li>
+          </ul>
+
+          <div class="tab-content">
+
+            <div class="tab-pane active" id="child-values-lists">
+
+              <div class="row mat-form-row">
+                <div class="mat-form-field col-md-12">
+                  <label for="value-lists-links" class="mat-form-field-label">
+                    <%= t('ValuesLists') %>
+                  </label>
+                  <table class="table table-hover table-clickable">
+                    <tr>
+                      <th class="col-min"> <%= t('Level') %> </th>
+                      <th class="col-1-4"> <%= t('Code') %> </th>
+                      <th> <%= t('Description') %> </th>
+                    </tr>
+                    <% @values_lists_classifications.each do |list| %>
+                      <tr  data-href="<%= url_for list.values_list %>">
+                        <td> <%= list.level %> </td>
+                        <td> <span class="status-icon <%= status_class_for(list.values_list) %>"
+                          title="<%= t('Status') + ' : ' + translation_for(list.values_list.status.name_translations) %>"></span>
+                          <%= list.values_list.code %> </td>
+                        <td> <%= translation_for(list.values_list.name_translations) %> </td>
+                      </tr>
+                    <% end %>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="col-md-6">
+      <section class="tabbable">
+
+        <div class="tabbable">
+
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="active"><a href="#child-values" data-toggle="tab"><%= t('Values') %></a></li>
+          </ul>
+
+          <div class="tab-content">
+
+            <div class="tab-pane active" id="child-values">
+              <div class="mat-button-group">
+                <%= link_to classification_path(@classification, format: "csv"), class: "mat-flat-button mat-button-base mat-primary" do %>
+                  <span class="fa fa-file-excel"></span>
+                  Export to CSV
+                <% end %>
+                <%= link_to new_classification_classification_links_import_path(@classification), class: "mat-flat-button mat-button-base mat-primary" do %>
+                  <span class="fa fa-file-alt" %></span>
+                  <%= t('.ImportClassification') %>
+                <% end %>
+              </div>
+              <%= render partial: "classification_values", locals: {this_object: @classification} %>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>

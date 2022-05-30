@@ -1,0 +1,76 @@
+{
+  "requestStatus": "0",
+  "firstErrorMessage": "",
+  "responseTargets": [
+    {
+      "targetStorage": "IDP2",
+      "targetDSD": "",
+      "targetSchema": "WORK",
+      "targetName": "TQ1",
+      "sourceRead": "5",
+      "targetCreate": "0",
+      "targetRead": "0",
+      "targetUpdate": "0",
+      "targetDelete": "0",
+      "processDuration": "0"
+    },
+    {
+      "targetStorage": "IDP2",
+      "targetDSD": "",
+      "targetSchema": "WORK",
+      "targetName": "TQ2",
+      "sourceRead": "3",
+      "targetCreate": "0",
+      "targetRead": "0",
+      "targetUpdate": "0",
+      "targetDelete": "0",
+      "processDuration": "0.01"
+    },
+    {
+      "targetStorage": "IDP2",
+      "targetDSD": "",
+      "targetSchema": "WORK",
+      "targetName": "TQ3",
+      "sourceRead": "0",
+      "targetCreate": "1",
+      "targetRead": "0",
+      "targetUpdate": "0",
+      "targetDelete": "0",
+      "processDuration": "0"
+    }
+  ],
+  "responseParameters": [
+	{"key":"script_path",
+	 "value":"test_scripts"
+	},
+	{"key":"script_name",
+	 "value":"test.sh"
+	 },
+	{"key":"log_file_path",
+	 "value":"test_scripts"
+	 },
+	{"key":"log_file_name",
+	 "value":"log.txt"
+	},
+	{"key":"object_id",
+	 "value":"01234-5678"
+	 },
+	{"key":"month",
+	 "value":"11"
+	},
+	{"key":"provider",
+	 "value":"OFROU"
+	}
+],
+  "responseAttachements": [
+    {
+      "filePath": "test_scripts/",
+      "fileName": "log.txt"
+    },
+    {
+      "filePath": "test_scripts/",
+      "fileName": "contract_output.json"
+    }
+  ]
+}
+

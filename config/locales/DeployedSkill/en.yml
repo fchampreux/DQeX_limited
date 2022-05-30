@@ -1,0 +1,17 @@
+# Translations related to Skill object
+en:
+  deployed_skills:
+    create:
+      Success:                        "The variable has been created"
+      Failure:                        "The variable can't be created"
+    update:
+      Success:                        "The variable has been updated"
+      Failure:                        "The variable can't be updated"
+    destroy:
+      Success:                        "The variable has been deleted"
+      Failure:                        "The variable can't be deleted"
+    show:
+      Hierarchy:                      "Hierarchy"
+      Values:                         "Values"
+      Filter:                         "Filter for reference values"
+      IsPairingKey:                   "Pairing key"

@@ -1,0 +1,18 @@
+.page-view-details {
+  .tab-pane {
+    position: relative;
+    > .mat-button-base,
+    > .mat-button-group,
+    > .mat-control-group {
+      position: absolute;
+      right: 0;
+      top: -4.4em;
+    }
+  }
+
+  .column-main {
+    .sticky-main {
+      font-size: 0.875rem;
+    }
+  }
+}

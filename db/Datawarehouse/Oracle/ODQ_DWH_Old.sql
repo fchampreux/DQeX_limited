@@ -1,0 +1,279 @@
+CREATE TABLE "dqm_DWH"."dqm_FACTS"
+(
+   PLAYGROUND_ID decimal(22) NOT NULL,
+   OBJECT_NAME varchar2(255) NOT NULL,
+   PK_FIELDS varchar2(1000) NOT NULL,
+   PK_VALUES varchar2(1000) NOT NULL,
+   PERIOD_ID decimal(22) NOT NULL,
+   PERIOD_DAY decimal(8),
+   SCOPE_NUMBER_MASK char(100),
+   SCOPE_NUMBER decimal(22),
+   RULE_NUMBER_MASK char(100),
+   RULE_NUMBER decimal(22),
+   ERROR_NUMBER_MASK char(100),
+   ERROR_NUMBER decimal(22),
+   ORGANISATION_ID decimal(22),
+   LOCATION_ID decimal(22),
+   FIRST_TIME_RIGHT timestamp,
+   FIRST_USER_RIGHT varchar2(255),
+   LAST_TIME_WRONG timestamp,
+   LAST_USER_WRONG varchar2(255),
+   RECORD_UPDATED_BY varchar2(255),
+   RECORD_UPDATED_AT timestamp,
+   RECORD_CREATED_BY varchar2(255),
+   RECORD_CREATED_AT timestamp,
+   DATE_CREATION timestamp,
+   DATE_UPDATE timestamp,
+   PROCESS_CREATION varchar2(255),
+   PROCESS_UPDATE varchar2(255),
+   LOAD_SESSION_ID decimal(22)
+)
+;
+CREATE INDEX dqm_FACTS_IDX0 ON "dqm_DWH"."dqm_FACTS"
+(
+  PLAYGROUND_ID,
+  PERIOD_ID,
+  ORGANISATION_ID
+)
+;
+CREATE INDEX dqm_FACTS_IDX4 ON "dqm_DWH"."dqm_FACTS"
+(
+  PLAYGROUND_ID,
+  PERIOD_ID,
+  OBJECT_NAME,
+  PK_VALUES
+)
+;
+CREATE INDEX dqm_FACTS_IDX3 ON "dqm_DWH"."dqm_FACTS"
+(
+  PLAYGROUND_ID,
+  LOCATION_ID,
+  PERIOD_ID
+)
+;
+CREATE INDEX dqm_FACTS_IDX2 ON "dqm_DWH"."dqm_FACTS"
+(
+  PLAYGROUND_ID,
+  PERIOD_ID,
+  LOCATION_ID
+)
+;
+CREATE INDEX dqm_FACTS_IDX1 ON "dqm_DWH"."dqm_FACTS"
+(
+  PLAYGROUND_ID,
+  ORGANISATION_ID,
+  PERIOD_ID
+)
+;
+
+
+CREATE TABLE "dqm_DWH"."dqm_LOCATIONS"
+(
+   PLAYGROUND_ID decimal(22) NOT NULL,
+   LOCATION_ID decimal(22) NOT NULL,
+   LOCATION_CODE varchar2(30),
+   LOCATION_NAME varchar2(255),
+   LOCATION_LEVEL char(1),
+   LEVEL_4 varchar2(30),
+   LEVEL_3 varchar2(30),
+   LEVEL_2 varchar2(30),
+   LEVEL_1 varchar2(30),
+   LEVEL_0 varchar2(30),
+   DATE_CREATION timestamp,
+   DATE_UPDATE timestamp,
+   PROCESS_CREATION varchar2(255),
+   PROCESS_UPDATE varchar2(255),
+   LOAD_SESSION_ID decimal(22)
+)
+;
+CREATE INDEX dqm_LOC_IBX0 ON "dqm_DWH"."dqm_LOCATIONS"(PLAYGROUND_ID)
+;
+CREATE INDEX dqm_LOC_IDX2 ON "dqm_DWH"."dqm_LOCATIONS"
+(
+  PLAYGROUND_ID,
+  LOCATION_CODE
+)
+;
+CREATE INDEX dqm_LOC_IDX1 ON "dqm_DWH"."dqm_LOCATIONS"
+(
+  PLAYGROUND_ID,
+  LOCATION_LEVEL,
+  LOCATION_CODE
+)
+;
+CREATE INDEX dqm_LOC_IDX0 ON "dqm_DWH"."dqm_LOCATIONS"
+(
+  PLAYGROUND_ID,
+  LOCATION_ID
+)
+;
+
+
+
+CREATE TABLE "dqm_DWH"."dqm_ORGANISATIONS"
+(
+   PLAYGROUND_ID decimal(22) NOT NULL,
+   ORGANISATION_ID decimal(22) NOT NULL,
+   ORGANISATION_CODE varchar2(30),
+   ORGANISATION_NAME varchar2(255),
+   ORGANISATION_LEVEL char(1),
+   LEVEL_4 varchar2(30),
+   LEVEL_3 varchar2(30),
+   LEVEL_2 varchar2(30),
+   LEVEL_1 varchar2(30),
+   LEVEL_0 varchar2(30),
+   DATE_CREATION timestamp,
+   DATE_UPDATE timestamp,
+   PROCESS_CREATION varchar2(255),
+   PROCESS_UPDATE varchar2(255),
+   LOAD_SESSION_ID decimal(22)
+)
+;
+CREATE INDEX dqm_ORG_IDX0 ON "dqm_DWH"."dqm_ORGANISATIONS"
+(
+  PLAYGROUND_ID,
+  ORGANISATION_ID
+)
+;
+CREATE INDEX dqm_ORG_IBX0 ON "dqm_DWH"."dqm_ORGANISATIONS"(PLAYGROUND_ID)
+;
+CREATE INDEX dqm_ORG_IDX2 ON "dqm_DWH"."dqm_ORGANISATIONS"
+(
+  PLAYGROUND_ID,
+  ORGANISATION_CODE
+)
+;
+CREATE INDEX dqm_ORG_IDX1 ON "dqm_DWH"."dqm_ORGANISATIONS"
+(
+  PLAYGROUND_ID,
+  ORGANISATION_LEVEL,
+  ORGANISATION_CODE
+)
+;
+
+
+
+CREATE TABLE "dqm_DWH"."dqm_PERIODS"
+(
+   PLAYGROUND_ID decimal(22) NOT NULL,
+   PERIOD_ID decimal(22) NOT NULL,
+   PERIOD decimal(6),
+   PERIOD_DAY decimal(8),
+   PERIOD_DATE timestamp,
+   PERIOD_TIMESTAMP timestamp,
+   DAY_OF_MONTH decimal(2),
+   DAY_OF_YEAR decimal(3),
+   WEEK_OF_MONTH decimal(1),
+   WEEK_OF_YEAR decimal(2),
+   WEEK_NUMBER decimal(4),
+   MONTH decimal(2),
+   MONTH_NAME varchar2(20),
+   MONTH_NUMBER decimal(4),
+   TRIMESTER decimal(1),
+   SEMESTER decimal(1),
+   YEAR decimal(4),
+   DATE_CREATION timestamp,
+   DATE_UPDATE timestamp,
+   PROCESS_CREATION varchar2(255),
+   PROCESS_UPDATE varchar2(255),
+   LOAD_SESSION_ID decimal(22)
+)
+;
+CREATE INDEX dqm_PER_IBX0 ON "dqm_DWH"."dqm_PERIODS"(PLAYGROUND_ID)
+;
+CREATE INDEX dqm_PER_IDX2 ON "dqm_DWH"."dqm_PERIODS"
+(
+  PLAYGROUND_ID,
+  PERIOD_DAY
+)
+;
+CREATE INDEX dqm_PER_IDX1 ON "dqm_DWH"."dqm_PERIODS"
+(
+  PLAYGROUND_ID,
+  PERIOD
+)
+;
+CREATE INDEX dqm_PER_IDX0 ON "dqm_DWH"."dqm_PERIODS"
+(
+  PLAYGROUND_ID,
+  PERIOD_ID
+)
+;
+
+
+
+CREATE TABLE "dqm_DWH"."dqm_RULES"
+(
+   PLAYGROUND_ID decimal(22) NOT NULL,
+   RULE_ID decimal(22) NOT NULL,
+   RULE_CODE varchar2(30),
+   RULE_NAME varchar2(255),
+   RULE_KEY decimal(22),
+   RULE_MASK char(100),
+   COMPLEXITY_LABEL varchar2(30),
+   COMPLEXITY decimal(4),
+   SEVERITY_LABEL varchar2(30),
+   SEVERITY decimal(4),
+   RULE_TYPE_LABEL varchar2(30),
+   MAINTENANCE_COST decimal(9),
+   MAINTENANCE_DURATION decimal(9),
+   ADDED_VALUE decimal(9),
+   BUSINESS_AREA_ID decimal(22) NOT NULL,
+   BUSINESS_AREA_CODE varchar2(30),
+   BUSINESS_AREA_NAME varchar2(255),
+   BUSINESS_FLOW_ID decimal(22) NOT NULL,
+   BUSINESS_FLOW_CODE varchar2(30),
+   BUSINESS_FLOW_NAME varchar2(255),
+   BUSINESS_PROCESS_ID decimal(22) NOT NULL,
+   BUSINESS_PROCESS_CODE varchar2(30),
+   BUSINESS_PROCESS_NAME varchar2(255),
+   DATE_CREATION timestamp,
+   DATE_UPDATE timestamp,
+   PROCESS_CREATION varchar2(255),
+   PROCESS_UPDATE varchar2(255),
+   LOAD_SESSION_ID decimal(22)
+)
+;
+CREATE INDEX dqm_RULES_IBX0 ON "dqm_DWH"."dqm_RULES"(PLAYGROUND_ID)
+;
+CREATE INDEX dqm_RULES_IDX0 ON "dqm_DWH"."dqm_RULES"
+(
+  PLAYGROUND_ID,
+  RULE_KEY
+)
+;
+
+
+CREATE TABLE "dqm_DWH"."dqm_SCOPES"
+(
+   PLAYGROUND_ID decimal(22) NOT NULL,
+   SCOPE_ID decimal(22) NOT NULL,
+   SCOPE_KEY decimal(22),
+   SCOPE_MASK char(100),
+   SCOPE_CODE varchar2(30),
+   SCOPE_NAME varchar2(255),
+   LANDSCAPE_ID decimal(22) NOT NULL,
+   LANDSCAPE_CODE char(5),
+   LANDSCAPE_NAME varchar2(100),
+   BUSINESS_AREA_ID decimal(22) NOT NULL,
+   BUSINESS_AREA_CODE varchar2(30),
+   BUSINESS_AREA_NAME varchar2(255),
+   BUSINESS_FLOW_ID decimal(22) NOT NULL,
+   BUSINESS_FLOW_CODE varchar2(30),
+   BUSINESS_FLOW_NAME varchar2(255),
+   DATE_CREATION timestamp,
+   DATE_UPDATE timestamp,
+   PROCESS_CREATION varchar2(255),
+   PROCESS_UPDATE varchar2(255),
+   LOAD_SESSION_ID decimal(22)
+)
+;
+CREATE INDEX dqm_SCOPES_IBX0 ON "dqm_DWH"."dqm_SCOPES"(PLAYGROUND_ID)
+;
+CREATE INDEX dqm_SCOPES_IDX0 ON "dqm_DWH"."dqm_SCOPES"
+(
+  PLAYGROUND_ID,
+  SCOPE_KEY
+)
+;
+

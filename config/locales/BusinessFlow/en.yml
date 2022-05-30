@@ -1,0 +1,57 @@
+# Code for language as declared in i18n configuration
+en:
+  # Considered object from a global view
+  BusinessFlows:                              "Business areas"
+  BusinessFlow:                               "Business area"
+  ManagingBusinessFlows:                      "Managing Business areas"
+  NewBusinessFlow:                            "New Business area"
+  BusinessFlowRejected:                       "Business area was rejected"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessFlow )
+  business_flows:
+    index:
+      # Columns titles
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      Owner:                                  "Owner"
+      UpdatedBy:                              "Updated by"
+      UpdatedAt:                              "Updated at"
+    index_short:
+      # Columns titles
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      Owner:                                  "Owner"
+      UpdatedBy:                              "Updated by"
+      UpdatedAt:                              "Updated at"
+    show:
+      Manage:                                 "Manage Business areas"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+    new:
+      New:                                    "New Business area"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+    edit:
+      Edit:                                   "Edit the Business area"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+    create:
+      Success:                             	  "Business area was created"
+      Failure:                             	  "Business area cannot be created"
+    update:
+      Success:                             	  "Business area was updated"
+      Failure:                             	  "Business area cannot be updated"
+    activate:
+      Success:                             	  "Business area recovered"
+      Failure:                             	  "Business area cannot be recovered"
+    destroy:
+      Success:                             	  "Business area deleted"
+      Failure:                             	  "Business area cannot be deleted"

@@ -1,0 +1,32 @@
+# Translations related to Skill object
+en:
+  defined_skills:
+    create:
+      Success:                        "The variable has been created"
+      Failure:                        "The variable can't be created"
+    update:
+      Success:                        "The variable has been updated"
+      Failure:                        "The variable can't be updated"
+    destroy:
+      Success:                        "The variable has been deleted"
+      Failure:                        "The variable can't be deleted"
+    activate:
+      Success:                        "The variable has been recalled"
+      Failure:                        "The variable can't be recalled"
+    edit:
+      Failure:                        "Finalised variable can't be modified"
+    propose:
+      Success:                        "The variable has been submitted"
+      Failure:                        "The variable can't be submitted"
+    accept:
+      Success:                        "The variable has been validated"
+      Failure:                        "The variable can't be validated"
+    add_to_cart:
+      Success:                        "The variable was added to the structure"
+      Failure:                        "The variable can't be added to the structure, it probably already exists with the same name"
+    create_values_list:
+      Success:                        "The variable can now receive values"
+      Failure:                        "The variable can't receive values"
+    upload_values_list:
+      Success:                        "The variable now has imported values"
+      Failure:                        "The variable can't receive values"

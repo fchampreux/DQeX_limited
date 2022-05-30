@@ -1,0 +1,84 @@
+# Code for language as declared in i18n configuration
+en:
+  # Considered object from a global view
+  Tasks:                                "Tasks"
+  Task:                                 "Task"
+  Managingtasks:                        "Managing tasks"
+  Newtask:                              "New task"
+  TaskRejected:                         "Task was rejected"
+  GitHashUpdated:                       "Git Hash updated"
+  GitHashError:                         "Git Hash raised an error"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of Managetask )
+  tasks:
+    index:
+      # Columns titles
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      Owner:                                  "Owner"
+      UpdatedBy:                              "Updated by"
+      UpdatedAt:                              "Updated at"
+    index_short:
+      # Columns titles
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      Owner:                                  "Owner"
+      UpdatedBy:                              "Updated by"
+      UpdatedAt:                              "Updated at"
+    show:
+      Manage:                                 "Manage tasks"
+      ShowTask:                               "Task"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      IsSynchronus:                           "Synchronisation"
+      IsTemplate:                             "Is a template"
+      Template:                               "To use as template"
+      NoTemplate:                             "No template"
+      TemplateOn:                             "Selected template"
+      TemplateDefinition:                     "A processing template can be applied to different structures to achieve identical processing."
+      OrderingSequence:                       "Sequence"
+      Synchronus:                             "Synchronous"
+      Asynchronus:                            "Asynchronous"
+      SynchronicityOn:                        "Waits for parent tasks to start"
+      SynchronicityOff:                       "Starts as soon as it is activated by a parent task"
+      NextSuccess:                            "Next if successful"
+      NextFailure:                            "Next if failed"
+      Parameters:                             "Settings"
+      Technology:                             "Technology"
+      TargetObject:                           "Processed structure"
+      NodeType:                               "Node type"
+      New:                                    "New task"
+      Script:                                 "Script"
+      ScriptPath:                             "Path to script"
+      ScriptLanguage:                         "Language"
+      GitHash:                                "Git Hash"
+    new:
+      New:                                    "New task"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+    edit:
+      Edit:                                   "Edit the task"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+    create:
+      Success:                             	  "task was created"
+      Failure:                             	  "task cannot be created"
+    update:
+      Success:                             	  "task was updated"
+      Failure:                             	  "task cannot be updated"
+    activate:
+      Success:                             	  "task recovered"
+      Failure:                             	  "task cannot be recovered"
+    destroy:
+      Success:                             	  "task deleted"
+      Failure:                             	  "task cannot be deleted"
+    form:
+      ShowTask:                               "Task"

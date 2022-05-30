@@ -1,0 +1,53 @@
+
+<div class="modal-header">
+  <h5 class="modal-title" id="childModalLabel">
+    <%= t('.ShowEvent') %>
+  </h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <%= render partial: "shared/error_list", locals: { errors: @production_event.errors } %>
+
+  <% provide :event_specifications do %>
+    <%= render partial: "event_specifications" %>
+  <% end %>
+
+  <% provide :event_parameters do %>
+    <%= render partial: "shared/json_parameters",
+                locals: { this_object: @production_event } %>
+  <% end %>
+
+  <% provide :event_attachments do %>
+    <%= render partial: "event_attachments",
+                locals: { this_object: @production_event } %>
+  <% end %>
+
+  <% tabs_content = [ :event_specifications,
+                      :event_parameters,
+                      :event_attachments] %>
+
+  <section class="tabbable">
+
+    <ul class="nav nav-tabs" role="tablist">
+      <% tabs_content.each_with_index do |tab, index| %>
+        <li class="<%= index == 0 ? 'active' : nil %>">
+          <a href="#<%= tab.to_s %>" data-toggle="tab">
+            <%= t(tab) %>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+
+    <div class="tab-content">
+      <% tabs_content.each_with_index do |tab, index| %>
+        <div class="tab-pane <%= index == 0 ? 'active' : nil %>" id="<%= tab %>">
+          <%= yield tabs_content[index] %>
+        </div>
+      <% end %>
+    </div>
+
+  </section>
+
+</div>

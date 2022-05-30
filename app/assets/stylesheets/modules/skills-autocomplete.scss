@@ -1,0 +1,26 @@
+.skills-autocomplete-list {
+  margin-top: -5px;
+  padding: 5px 0 0;
+  list-style: none;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0 5px rgba(0,0,0,0.2) inset;
+
+  a {
+    display: block;
+    padding: 0.275em calc(0.875em + 1px);
+  }
+
+  .mat-badge-content {
+    margin: 0 0 0 5px;
+    padding: 1px 3px;
+    border-radius: 10px;
+  }
+}
+
+#skills-autocomplete {
+  .translated-name-input {
+    position: relative;
+    z-index: 5;
+    background: white;
+  }
+}

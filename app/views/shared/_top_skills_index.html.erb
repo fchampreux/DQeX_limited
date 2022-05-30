@@ -1,0 +1,50 @@
+
+<table class="child-object-table table table-hover table-clickable">
+
+  <thead>
+    <tr>
+      <th scope="col" class="col-min"><%= t('Status') %></th>
+      <th scope="col" class="col-min-nw"><%= t('Code') %></th>
+      <th scope="col"><%= t('Name') %></th>
+      <th scope="col"><%= t('Description') %></th>
+      <th scope="col" class="col-min-nw"><%= t('UpdatedBy') %></th>
+      <th scope="col" class="col-min-nw text-right"><%= t('UpdatedAt') %></th>
+      <th scope="col" class="col-min-nw text-right"><%= t('Count') %></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% top_skills.each do |child_object| %>
+      <tr data-href="<%= url_for child_object %>">
+        <% if show_status_for_col(top_skills) %>
+          <td class="text-center">
+            <%= render "shared/status-icon", this_object: child_object %>
+            <%= translation_for(child_object.status.name_translations) %>
+          </td>
+        <% end %>
+
+        <td class="no-wrap">
+          <%= link_to child_object do %>
+            <%=h truncate(child_object.code, :length => 15) %>
+          <% end %>
+        </td>
+        <td><%= translation_for(child_object.name_translations) %></td>
+        <td><%=h truncate(translation_for(child_object.description_translations), :length => 200) %></td>
+        <td><%= get_user_name_from_login(child_object.updated_by) %></td>
+        <td class="text-right"><%= format_date(child_object.updated_at) %></td>
+        <td class="text-right"> <%= child_object.count %> </td>
+      </tr>
+    <% end%>
+
+    <% if top_skills.empty? %>
+      <tr>
+        <td class="cell-empty" colspan="<%= show_status_for_col(top_skills) ? 6 : 5 %>">
+          <p class="alert alert-info">
+            <%= t('NoChildren') %>
+          </p>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+
+</table>

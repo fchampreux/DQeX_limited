@@ -1,0 +1,57 @@
+# Code for language as declared in i18n configuration
+en:
+  # Considered object from a global view
+  Groups:                                      "Groups"
+  Group:                                       "Group"
+  ManagingGroups:                              "Managing Groups"
+  NewGroup:                                    "New Group"
+  GroupRejected:                               "Group was rejected"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageGroup  )
+  administration:
+    groups:
+      groups_index:
+        # Columns titles
+        CalculatedStatus:                       "Status"
+        Code:                                   "Identifier"
+        Name:                                   "Name"
+        Description:                            "Description"
+        Owner:                                  "Owner"
+        UpdatedBy:                              "Updated by"
+        UpdatedAt:                              "Updated at"
+        Territory:                              "Territory"
+        Organisation:                           "Organisation"
+      show:
+        Manage:                                 "Manage groups"
+        # Field names
+        Code:                                   "Identifier"
+        Name:                                   "Name"
+        Description:                            "Description"
+      new:
+        New:                                    "New group"
+        # Field names
+        Code:                                   "Identifier"
+        Name:                                   "Name"
+        Description:                            "Description"
+      edit:
+        Edit:                                   "Edit the group "
+        # Field names
+        Code:                                   "Identifier"
+        Name:                                   "Name"
+        Description:                            "Description"
+      create:
+        Success:                             	  "Group was created"
+        Failure:                             	  "Group cannot be created"
+      update:
+        Success:                             	  "Group was updated"
+        Failure:                             	  "Group cannot be updated"
+      activate:
+        Success:                             	  "Group recovered"
+        Failure:                             	  "Group cannot be recovered"
+      destroy:
+        Success:                             	  "Group deleted"
+        Failure:                             	  "Group cannot be deleted"
+    activerecord:
+      errors:
+        messages:
+          EveryoneMembershipMissing:            "The Everyone group is mandatory"

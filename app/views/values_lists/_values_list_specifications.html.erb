@@ -1,0 +1,190 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="row mat-form-row">
+      <div class="mat-form-field col-md-8">
+        <label for="value-lists-resource" class="mat-form-field-label">
+          <%= t('resource') %>
+        </label>
+        <input id="value-lists-resource" class="mat-input-element" readonly
+          value="<%= @values_list.resource_name %>" />
+      </div>
+      <% if @values_list.resource_name&.match?("^(http|https)://") %>
+        <div class="mat-form-field col-md-2">
+          <label for="value-lists-read_SDMX" class="mat-form-field-label">
+            <%= t('Action') %>
+          </label>
+          <%= link_to read_SDMX_values_list_path(@values_list), title: t('values_lists.show.read_SDMX.Title'),  class: "mat-flat-button mat-button-base mat-primary" do %>
+            <span class="fa fa-bolt" %></span>
+            <%= t('values_lists.show.read_SDMX.Button') %>
+            <% end %>
+        </div>
+      <% end %>
+    </div>
+    <div class="row mat-form-row">
+      <div class="mat-form-field col-md-4">
+        <label for="values-list-type" class="mat-form-field-label">
+          <%= t('ListType') %>
+        </label>
+        <input id="values-list-type" class="mat-input-element" readonly
+          value="<%= @values_list.list_type.property %>" />
+      </div>
+      <div class="mat-form-field col-md-4">
+        <label for="values-data-type" class="mat-form-field-label">
+          <%= t('DataType') %>
+        </label>
+        <input id="values-data-type" class="mat-input-element" readonly
+          value="<%= @values_list.code_type.code %>" />
+      </div>
+      <div class="mat-form-field col-md-4">
+        <label for="values-data-length" class="mat-form-field-label">
+          <%= t('CodeMaxLength') %>
+        </label>
+        <input id="values-data-length" class="mat-input-element" readonly
+          value="<%= @values_list.code_max_length %>" />
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="active"><a href="#child-values" data-toggle="tab"><%= t('Values') %></a></li>
+      <% if @values_list.is_hierarchical %>
+        <li><a href="#hierarchy" data-toggle="tab"><%= t('Classification') %></a></li>
+      <% end %>
+    </ul>
+
+    <div class="tab-pane active" id="child-values">
+
+      <div class="mat-button-group">
+        <%= link_to values_list_path(@values_list, format: "xlsx"), class: "mat-flat-button mat-button-base mat-primary" do %>
+          <span class="fa fa-file-excel"></span>
+          Export to Excel
+        <% end %>
+        <%= link_to new_values_list_values_import_path(@values_list), class: "mat-flat-button mat-button-base mat-primary", disabled: @values_list.is_finalised do %>
+          <span class="fa fa-file-alt" %></span>
+          <%= t('ImportValues') %>
+        <% end %>
+      </div>
+
+      <!-- Linked Values -->
+
+        <%= will_paginate @child_values if @child_values %>
+
+        <table class="table table-align-top table-hover">
+          <thead>
+            <tr>
+            <%# ignore do 'Remove hierarchies'%>
+            <% if @values_list.is_hierarchical %>
+              <th class="col-min"><%= t('ParentCode') %></th>
+              <th class="col-min"><%= t('Level') %></th>
+            <% end %>
+            <%# ignore end %>
+              <th class="col-min-nw"><%= t('Item') %></th>
+              <th class="col-min-nw"><%= t('AlternateCode') %></th>
+              <th class="col-min-nw"><%= t('Value') %></th>
+              <% ignore do 'Remove unwanted fields'%>
+              <th class="col-min-nw"><%= t('Alias') %></th>
+              <th class="col-min-nw"><%= t('Abbreviation') %></th>
+              <% ignore end %>
+              <th><%= t('Description') %></th>
+              <th class="col-min-nw"><%= t('UpdatedAt') %></th>
+              <th class="col-min-nw">
+                <%= link_to new_values_list_value_path(@values_list), title: t('New'), data: { toggle: "modal", target: "#childModal" }, class: "mat-flat-button mat-button-base mat-primary" do %>
+                  <span class="fa fa-plus-square" %></span>
+                  <%= t("New") %>
+              <% end %>
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% if @child_values.count > 0 %>
+              <% @child_values.each do |value| %>
+                <tr>
+                <%# ignore do 'Remove hierarchies'%>
+                  <% if @values_list.is_hierarchical %>
+                    <td class="no-wrap"><%= value.superior.code if Value.exists?(value.parent_id) %></td>
+                    <td class="no-wrap"><%= value.level %></td>
+                  <% end %>
+                  <%# ignore end %>
+                  <td class="no-wrap"><%= value.code %></td>
+                  <td class="no-wrap"><%= value.alternate_code %></td>
+                  <td class="no-wrap">
+                    <%= translation_for(value.name_translations) %>
+                  </td>
+                  <% ignore do 'Remove unwanted fields'%>
+                  <td class="no-wrap">
+                    <%= translation_for(value.alias_translations) %>
+                  </td>
+                  <td class="no-wrap">
+                    <%= translation_for(value.abbreviation_translations) %>
+                  </td>
+                  <% ignore end %>
+                  <td class="text-justify">
+                    <%= sanitize translation_for(value.description_translations) %>
+                  </td>
+                  <td class="text-right"><%= format_date(value.updated_at) %></td>
+                  <td class="cell-with-button cell-nw">
+                    <%= link_to values_list_value_path(@values_list, value), title: t('Show'), data: { toggle: "modal", target: "#childModal" }, class: "mat-icon-button mat-button-base mat-secondary" do%>
+                      <span class="fa fa-eye"></span>
+                    <% end %>
+                    <%= link_to edit_values_list_value_path(@values_list, value), title: t('Edit'), data: { toggle: "modal", target: "#childModal" }, class: "mat-icon-button mat-button-base mat-secondary" do%>
+                      <span class="fa fa-edit"></span>
+                    <% end %>
+                    <% ignore do 'Do not allow building hierarchical code-list'%>
+                      <%= link_to new_values_list_value_path(@values_list, parent_id: value.id), title: t('NewChild'), data: { toggle: "modal", target: "#childModal" }, class: "mat-icon-button mat-button-base mat-primary" do%>
+                        <span class="fa fa-plus-square" %></span>
+                      <% end %>
+                    <% ignore end %>
+                    <%= link_to value_path(value), title: t('Delete'), data: { confirm: @values_list.is_hierarchical ? t("ConfirmValueDeletion") : t("Sure")  }, method: :delete, class: "mat-icon-button mat-button-base mat-warn" do%>
+                      <span class="fa fa-trash"></span>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr>
+                <td class="cell-empty" colspan=8">
+                  <p class="alert alert-info">
+                    <%= t('NoChildren') %>
+                  </p>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+
+        </table>
+
+        <%= will_paginate @child_values if @child_values %>
+
+    </div>
+
+    <% if @values_list.is_hierarchical %>
+      <div class="tab-pane" id="hierarchy">
+        <ul class="nav-tree nav-indent nav-toggle expanded nav-bordered nav-hover">
+          <% @values_list.values.where(level: 1).order(:code).each do |value| %>
+            <li role="presentation" id="ui-nav-value-<%= value.id %>">
+              <span class="nav-link-container">
+                <%# link to values_list %>
+                <%= link_to value, class: "nav-link nav-item", data: { toggle: "modal", target: "#childModal" }, role: "treeitem", "data-nav-level": 0 do %>
+                  <strong><%= value.code %></strong>
+                  <%= translation_for(value.name_translations) || t('.MissingTranslation') %>
+                <% end %>
+                <% if !value.subs.empty? %>
+                  <%# children toggle control %>
+                  <a class="nav-link nav-link-toggler has-child collapsed" data-toggle="collapse" aria-controls="<%= 'ui-nav-value-%d-children' % value.id %>" href="#<%= 'ui-nav-value-%d-children' % value.id %>"></a>
+                  <%# children load control %>
+                  <%= link_to '', child_values_value_path(id: value.id), class: 'nav-link-loader', method: 'get', remote: true, format: "js" %>
+                <% end %>
+              </span>
+
+              <div id="ui-nav-value-<%= value.id %>-children" class="collapse show"></div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+</div>

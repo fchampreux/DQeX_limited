@@ -1,0 +1,18 @@
+<% provide(:title, (t('MngBreaches'))) %>
+
+<% provide :page_heading do %>
+  <%= t('Breach') %>: <%= @breach.name %>
+<% end %>
+<% provide :breadcrumbs do %>
+  <ul class="breadcrumbs">
+    <li><%= link_to @breach.business_rule.business_process.business_flow.business_area.name, @breach.business_rule.business_process.business_flow.business_area %></li>
+    <li><%= link_to @breach.business_rule.business_process.business_flow.name, @business_rule.business_process.business_flow %></li>
+    <li><%= link_to @breach.business_rule.business_process.name, @business_rule.business_process %></li>
+    <li><%= link_to @breach.business_rule.name, @breach.business_rule %></li>
+    <li><%= @breach.name %></li>
+  </ul>
+<% end %>
+
+<%= render 'form' %>
+
+<%= link_to 'Back', @breach.business_rule %>

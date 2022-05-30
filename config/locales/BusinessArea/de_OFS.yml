@@ -1,0 +1,57 @@
+# Code for language as declared in i18n configuration
+de_OFS:
+  # Considered object from a global view
+  BusinessAreas:                              "Informationfelden"
+  BusinessArea:                               "Informationfeld"
+  ManagingBusinessAreas:                      "Informationfelden verwalten"
+  NewBusinessArea:                            "Neuer Informationfeld"
+  BusinessAreaRejected:                       "Informationfeld wurde abgelehnt"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  business_areas:
+    index:
+      # Columns titles
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      Owner:                                  "Eigentümer"
+      UpdatedBy:                              "Aktualisiert von"
+      UpdatedAt:                              "Aktualisiert am"
+    index_short:
+      # Columns titles
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      Owner:                                  "Eigentümer"
+      UpdatedBy:                              "Aktualisiert von"
+      UpdatedAt:                              "Aktualisiert am"
+    show:
+      Manage:                                 "Informationfeld verwalten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    new:
+      New:                                    "Neuer Informationfeld"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    edit:
+      Edit:                                   "Informationfeld bearbeiten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    create:
+      Success:                             	  "erfolgreich erstellt Informationfeld"
+      Failure:                                "Informationfeld konnte nicht erstellt werden"
+    update:
+      Success:                             	  "erfolgreich aktualisierter Informationfeld"
+      Failure:                                "Informationfeld konnte nicht aktualisierter werden"
+    activate:
+      Success:                             	  "Informationfeld erfolgreich wiederhergestellt"
+      Failure:                                "Informationfeld konnte nicht abgerufen werden"
+    destroy:
+      Success:                             	  "Informationfeld erfolgreich gelöscht"
+      Failure:                                "Informationfeld konnte nicht gelöscht werden"

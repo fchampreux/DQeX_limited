@@ -1,0 +1,79 @@
+# Code for language as declared in i18n configuration
+fr_OFS:
+  Classifications:                            "Code-listes hiérarchiques"
+  Classification:                             "Code-liste hiérarchique"
+  ManagingClassifications:                    "Gérer les code-listes hiérarchiques"
+  NewClassification:                          "Nouvelle code-liste hiérarchique"
+  ClassificationRejected:                     "La code-liste hiérarchique a été rejetée"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  classifications:
+    index:
+      # Columns titles
+      Code:                                    "Identifiant"
+      Name:                                    "Nom"
+      Description:                             "Description"
+      Parent:                                  "Business area"
+      Owner:                                   "Responsable"
+      UpdatedBy:                               "Mis à jour par"
+      UpdatedAt:                               "Mis à jour le"
+    index_short:
+      # Columns titles
+      Code:                                    "Identifiant"
+      Name:                                    "Nom"
+      Description:                             "Description"
+      Parent:                                  "Business area"
+      Owner:                                   "Responsable"
+      UpdatedBy:                               "Mis à jour par"
+      UpdatedAt:                               "Mis à jour le"
+    show:
+      Classification:                          "Code-liste hiérarchique"
+      ImportClassification:                    "Importer la hiérarchie"
+      Annotations:                             "Annotations"
+      Values:                                  "Valeurs"
+      Skills:                                  "Variables définies"
+      UsedSkills:                              "Variables utilisées"
+      Manage:                                  "Gérer les code-listes hiérarchiques"
+      # Field names
+      Code:                                    "Identifiant"
+      Name:                                    "Nom"
+      Description:                             "Description"
+    new:
+      New:                                     "Nouvelle code-liste hiérarchique"
+      # Field names
+      Code:                                    "Identifiant"
+      Name:                                    "Nom"
+      Description:                             "Description"
+    edit:
+      Edit:                                    "Modifier la code-liste hiérarchique"
+      # Field names
+      Code:                                    "Identifiant"
+      Name:                                    "Nom"
+      Description:                             "Description"
+    new_version:
+      Success:                                "Nouvelle version créée"
+      Failure:                                "La nouvelle version ne peut pas être crée"
+    make_current:
+      Success:                                "La version est sélectionnée"
+      Failure:                                "Cette version ne peut pas être sélectionnée"
+    finalise:
+      Success:                                "Code-liste hiérarchique finalisée"
+      Failure:                                "La code-liste hiérarchique ne peut pas être finalisée"
+    create:
+      Success:                             	  "Nouvelle code-liste hiérarchique créée"
+      Failure:                                "La nouvelle code-liste hiérarchique ne peut pas être créée"
+    update:
+      Success:                             	  "Code-liste hiérarchique modifiée"
+      Failure:                                "La code-liste hiérarchique ne peut pas être modifiée"
+    activate:
+      Success:                             	  "Code-liste hiérarchique récupérée"
+      Failure:                                "La code-liste hiérarchique ne peut pas être récupérée"
+    destroy:
+      Success:                             	  "Code-liste hiérarchique supprimée"
+      Failure:                                "La code-liste hiérarchique ne peut pas être supprimée"
+    propose:
+      Success:                                "Code-liste hiérarchique a été soumise à validation"
+      Failure:                                "La code-liste hiérarchique ne peut pas être soumise à validation"
+    accept:
+      Success:                                "Code-liste hiérarchique a été validée"
+      Failure:                                "La code-liste hiérarchique ne peut pas être validée"

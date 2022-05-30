@@ -1,0 +1,19 @@
+$fa-font-path: "~@oblique/oblique/styles/fonts";
+@import "~@oblique/oblique/styles/scss/fontawesome/fontawesome";
+@import "~@oblique/oblique/styles/scss/fontawesome/solid";
+@import "~@oblique/oblique/styles/scss/fontawesome/regular";
+@import "~@oblique/oblique/styles/scss/fontawesome/brands";
+
+@import "core/components/alert";
+@import "core/components/form";
+@import "core/components/nav-stepper";
+@import "core/components/nav-tabs";
+@import "core/components/overlay";
+@import "core/components/sticky";
+@import "core/components/table";
+@import "core/components/text-control";
+@import "core/components/toggle";
+@import "core/components/type";
+
+@import "core/layouts";
+@import "core/print";

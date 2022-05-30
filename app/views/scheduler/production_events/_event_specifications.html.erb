@@ -1,0 +1,103 @@
+<fieldset>
+  <div class="row mat-form-row">
+    <div class="mat-form-field col-md-4">
+      <label for="production_event-code" class="mat-form-field-label">
+        <%= t('scheduler.production_events.show.Code') %>
+      </label>
+      <input id="production_event-code" class="mat-input-element" readonly
+        value="<%= @production_event.task.code %>" />
+    </div>
+    <div class="mat-form-field col-md-8">
+      <label for="production_event-name" class="mat-form-field-label">
+        <%= t('scheduler.production_events.show.Name') %>
+      </label>
+      <input id="production_event-name" class="mat-input-element" readonly
+        value="<%= translation_for(@production_event.task.name_translations) %>" />
+    </div>
+  </div>
+
+  <div class="row mat-form-row">
+    <div class="mat-form-field col-md-4">
+      <label for="event-source-object" class="mat-form-field-label">
+        <%= t('scheduler.production_events.show.SourceObject') %>
+      </label>
+      <input id="event-source-object" class="mat-input-element" readonly
+        value="<%= @production_event.task.source_object&.code unless @production_event.parent.class.name == 'BusinessRule'  %>" />
+    </div>
+    <div class="col-md-4">
+      <svg  height="50" width="100%">
+        <g fill="none" stroke="black">
+          <path stroke-width="2" d="M5 40 l215 0" />
+        </g>
+      </svg>
+    </div>
+    <div class="mat-form-field col-md-4">
+      <label for="event-target-object" class="mat-form-field-label">
+        <%= t('scheduler.production_events.show.TargetObject') %>
+      </label>
+      <input id="event-target-object" class="mat-input-element" readonly
+        value="<%= @production_event.task.target_object&.code unless @production_event.parent.class.name == 'BusinessRule'  %>" />
+    </div>
+  </div>
+
+  <div class="row mat-form-row">
+    <div class="mat-form-field mat-form-field col-md-4">
+      <label for="event-node-type" class="mat-form-field-label">
+        <%= t('scheduler.production_events.show.NodeType') %>
+      </label>
+      <input id="event-node-type" class="mat-input-element" readonly
+        value="<%= @production_event.node_type.code %>" />
+    </div>
+    <div class="mat-form-field col-md-4">
+      <%# Next activity in case of failure or success %>
+      <label for="event-next-success" class="mat-form-field-label">
+        <%= t('scheduler.production_events.show.NextSuccess') %>
+      </label>
+      <input id="event-next-success" class="mat-input-element" readonly
+        value="<%= @production_event.success_next&.task&.code %>" />
+    </div>
+    <div class="mat-form-field col-md-4">
+      <label for="event-next-failure" class="mat-form-field-label">
+        <%= t('scheduler.production_events.show.NextFailure') %>
+      </label>
+      <input id="event-next-failure" class="mat-input-element" readonly
+        value="<%= @production_event.failure_next&.task&.code %>" />
+    </div>
+  </div>
+
+  <hr/>
+  <%# if @production_event.node_type_id == parameters_for('node_types').find { |x| x["code"] == "RESCUE" }.id %>
+  <%= form_with model: @production_event, url: :trigger_scheduler_production_event, method: :post, html: {id: "trigger_form"}, remote: true do |f| %>
+    <div class="row mat-form-row">
+      <div class="mat-form-field col-md-12">
+        <%= f.label :statement, "#{t('scheduler.production_events.show.Statement')} : #{@production_event.statement_language&.code}", class: "mat-form-field-label" %>
+        <%= f.text_area :statement, spellcheck: false, class: "mat-input-element mat-textarea-md" %>
+      </div>
+    </div>
+    <div class="row mat-form-row">
+      <div class="mat-form-field col-md-6">
+        <%= f.label :technology_id, t('scheduler.production_events.show.Technology'), class: "mat-form-field-label" %>
+        <%= f.grouped_collection_select :technology_id,
+            values_options_for('Technologies', 1), # group
+            :subs,                                 # descendants
+            :code,                                 # group label
+            :id, :code,                            # option key & label
+            {:include_blank => false},
+            { class: "mat-input-element select2-candidate" } %>
+      </div>
+      <div class="mat-form-field col-md-6">
+        <label for="task-return_value" class="mat-form-field-label">
+          <%= t('scheduler.production_events.show.ReturnValue') %>
+        </label>
+        <input id="production_event-return_value" class="mat-input-element" readonly
+          value="<%= @production_event.return_value %>" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="mat-flat-button mat-button-base mat-primary">
+        <%= t('Execute') %>
+      </button>
+    </div>
+  <% end %>
+
+</fieldset>

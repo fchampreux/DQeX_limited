@@ -1,0 +1,90 @@
+
+<div class="modal-header">
+  <h5 class="modal-title" id="childModalLabel">
+    <%= t('.ShowExecution') %>
+  </h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <%= render partial: "shared/error_list", locals: { errors: @production_execution.errors } %>
+
+  <fieldset disabled>
+    <div class="row mat-form-row">
+      <div class="mat-form-field col-md-4">
+        <label for="production_execution-code" class="mat-form-field-label">
+          <%= t('production_executions.show.Code') %>
+        </label>
+        <input id="production_execution-code" class="mat-input-element" readonly
+          value="<%= @production_execution.parent.code %>" />
+      </div>
+    </div>
+    <div class="row mat-form-row">
+      <div class="mat-form-field col-md-4">
+        <label for="production_execution-ordering-sequence" class="mat-form-field-label">
+          <%= t('production_executions.show.OrderingSequence') %>
+        </label>
+        <input id="production_execution-ordering-sequence" class="mat-input-element" readonly
+          value="<%= format_datetime(@production_execution.started_at) %>" />
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="tabbable">
+
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#implementation" data-toggle="tab"><%= t('Implementation') %></a></li>
+    </ul>
+
+    <div class="tab-content">
+
+      <div class="tab-pane active" id="implementation">
+        <div class="row mat-form-row">
+          <div class="mat-form-field col-md-4">
+            <%# Next activity in case of failure or success %>
+            <label for="production_execution-next-success" class="mat-form-field-label">
+              <%= t('production_executions.show.NextSuccess') %>
+            </label>
+            <input id="production_execution-next-success" class="mat-input-element" readonly
+              value="<%# @production_execution.success_next&.code %>" />
+          </div>
+          <div class="mat-form-field col-md-4">
+            <label for="production_execution-next-failure" class="mat-form-field-label">
+              <%= t('production_executions.show.NextFailure') %>
+            </label>
+            <input id="production_execution-next-failure" class="mat-input-element" readonly
+              value="<%# @production_execution.failure_next&.code %>" />
+          </div>
+        </div>
+
+        <hr/>
+          <div class="row mat-form-row">
+            <div class="mat-form-field col-md-12">
+              <label for="task-statement" class="mat-form-field-label">
+                <%= t('tasks.show.Statement') %>
+              </label>
+              <input id="task-statement" class="mat-input-element" readonly
+                value="<%= @production_execution.status.code %>" />
+            </div>
+          </div>
+          <div class="row mat-form-row">
+            <div class="mat-form-field col-md-6">
+              <label for="task-return_value" class="mat-form-field-label">
+                <%= t('tasks.show.ReturnValue') %>
+              </label>
+              <input id="task-return_value" class="mat-input-element" readonly
+                value="<%= @production_execution.processed_count %>" />
+            </div>
+          </div>
+
+          <div class="modal-footer">
+
+          </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

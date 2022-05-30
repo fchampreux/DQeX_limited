@@ -1,0 +1,32 @@
+<div class="row">
+   <div class="mat-form-field col-md-3">
+     <label for="br-rule-object" class="mat-form-field-label">
+       <%= t('UsedBO') %>
+     </label>
+     <%= link_to @business_rule.parent.code, @business_rule.parent, class: "mat-stroked-button mat-button-base mat-primary" %>
+   </div>
+   <div class="mat-form-field col-md-3">
+     <label for="br-rule-skill" class="mat-form-field-label">
+       <%= t('UsedSkill') %>
+     </label>
+     <%= link_to @business_rule.skill.code, @business_rule.skill, class: "mat-stroked-button mat-button-base mat-primary" %>
+   </div>
+</div>
+
+<div class="row">
+  <div class="mat-form-field col-md-6">
+   <%= render partial: "shared/translated_field", locals: {
+     id: 'br-rule-check-description',
+     field: "check_description",
+     isTextarea: true,
+     translations: @business_rule.check_description_translations,
+     label: t('ChkDescription') } %>
+  </div>
+
+  <div class="mat-form-field col-md-6">
+    <label for="br-rule-check-language" class="mat-form-field-label">
+    <%= t('ChkScript') %> : <%= translation_for(@business_rule.check_language.name_translations) %>
+    </label>
+    <textarea id="br-rule-check-script" class="mat-input-element mat-textarea-md-6" readonly > <%= @business_rule.check_script %></textarea>
+  </div>
+</div>

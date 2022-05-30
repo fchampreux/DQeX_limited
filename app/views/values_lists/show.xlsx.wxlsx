@@ -1,0 +1,68 @@
+    ### Exports the parameters attached to @parameters_lists in a Workbook
+    #workbook = WriteXLSX.new("./public/#{@values_list.code}_parameters.xlsx")
+    title = workbook.add_format(:font  => 'Calibri', :size  => 16, :color => 'blue', :bold  => 1)
+    header = workbook.add_format(:font  => 'Calibri', :size  => 12, :color => 'black', :bold  => 1)
+    data = workbook.add_format(:font  => 'Calibri', :size  => 10, :color => 'black', :bold  => 0)
+    workbook.set_properties(
+    :title    => "Values lists export: #{@values_list.code}",
+    :subject  => 'This file contains exported list of values',
+    :author   => 'Open Data Quality',
+    :comments => translation_for(@values_list.name_translations)
+    #,
+    #:hyperlink_base => url_for @values_list
+    )
+
+    # write description sheet
+    cover = workbook.add_worksheet('Values list')
+    cover.write(0, 0, @values_list.code, title)
+    cover.write(1, 0, translation_for(@values_list.name_translations), header)
+    index = 3
+    @values_list.attributes.map do |name, value|
+      cover.write(index, 0, name, header)
+      cover.write(index, 1, value, data)
+      index += 1
+    end
+
+    # write data sheet
+    if @values_list.values.any?
+      data_sheet = workbook.add_worksheet('Values')
+      index = 0
+      ## Headers
+      # Write attributes headers
+      data_sheet.write_row(0, 0, ['Code', 'Parent', 'Level'], header)
+      index = 3
+
+      # Add translations headers
+      list_of_languages.order(:property).each do |locution|
+        data_sheet.write(0, index, "Name_#{locution.code}", header)
+        index += 1
+        data_sheet.write(0, index, "Desc_#{locution.code}", header)
+        index += 1
+      end
+
+      # Add annotations headers (to do)
+
+      ## Data
+      @values_list.values.each_with_index do |value, line_index|
+        index = 0
+        # Write attributes
+        data_sheet.write(line_index + 1, 0, value.code, data)
+        data_sheet.write(line_index + 1, 1, value.superior.code, data) if value.superior
+        data_sheet.write(line_index + 1, 2, value.level, data)
+        index = 3
+
+        # Add translations
+        list_of_languages.order(:property).each do |locution|
+          data_sheet.write(line_index + 1, index, value.name_translations.where(language: locution.property).first&.translation, data)
+          index += 1
+          data_sheet.write(line_index + 1, index, value.description_translations.where(language: locution.property).first&.translation, data)
+          index += 1
+        end
+
+        # Add annotations (to do)
+
+      end
+    end
+
+    # close workbook
+    #workbook.close

@@ -1,0 +1,27 @@
+<div id="left-navigation" class="sticky" role="search">
+  <div id="left-navigation-content" class="sticky-main default-layout pt-1">
+    <ul class="nav-tree nav-indent nav-toggle expanded nav-bordered nav-hover">
+      <li role="presentation">
+        <h3 class="nav-link"><%= t('Governance') %></h3>
+      </li>
+      <li role="presentation">
+        <a aria-selected="false" class="nav-link has-child" role="treeitem" data-toggle="collapse" aria-controls="ui-nav-monitoring" href="#ui-nav-monitoring">
+          <%= t('Monitoring')%>
+        </a>
+        <div class="collapse in show" id="ui-nav-monitoring">
+          <ul class="nav-tree nav-bordered nav-hover expanded" role="tree">
+            <li class="open" role="presentation" id="ui-nav-notifications">
+              <%= link_to t('Notifications'), governance_notifications_path, class: "nav-link", role: "treeitem" %>
+            </li>
+            <li class="open" role="presentation" id="ui-nav-dashboard">
+              <%= link_to t('Dashboard'), governance_monitoring_path, class: "nav-link", role: "treeitem" %>
+            </li>
+            <li class="open" role="presentation" id="ui-nav-audit">
+              <%= link_to t('AuditTrails'), governance_audit_trails_path, class: "nav-link", role: "treeitem" %>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

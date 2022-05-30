@@ -1,0 +1,66 @@
+<section id="activity-specifications">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-4">
+          <%= f.label :source_object_id, t('activities.show.SourceObject'), class: "mat-form-field-label" %>
+          <%= f.collection_select :source_object_id, @activity.parent.deployed_objects, :id, :code, {:include_blank => true}, { class: "mat-input-element select2-candidate" } %>
+        </div>
+        <div class="col-md-4">
+          <svg  height="50" width="100%">
+            <g fill="none" stroke="black">
+              <path stroke-width="2" d="M5 40 l215 0" />
+            </g>
+          </svg>
+        </div>
+        <div class="mat-form-field col-md-4">
+          <%= f.label :business_object_id, t('activities.show.TargetObject'), class: "mat-form-field-label" %>
+          <%= f.collection_select :business_object_id, @activity.parent.deployed_objects, :id, :code, {:include_blank => true}, { class: "mat-input-element select2-candidate" } %>
+        </div>
+      </div>
+      <div class="row mat-form-row">
+        <!--
+        <div class="mat-form-field col-md-4" title="<%= t('activities.show.SynchronicityOn') %>" >
+          <%= f.label :is_synchro, class: "mat-form-field-label mat-checkbox-label" do %>
+            <%= t('activities.show.IsSynchronus') %>
+            <%= f.check_box :is_synchro, class: "mat-checkbox-input" %>
+          <% end %>
+        </div> -->
+        <div class="mat-form-field col-md-4 offset-md-8">
+          <%= f.label :technology_id, t('activities.show.Technology'), class: "mat-form-field-label" %>
+          <%= f.collection_select :technology_id, values_options_for('Technologies', 1), :id, :code, {}, { class: "mat-input-element select2-candidate" } %>
+        </div>
+      </div>
+      <div class="row mat-form-row">
+        <%# Node type Next activity %>
+        <div class="mat-form-field col-md-4">
+          <%= f.label :node_type_id, t('activities.show.NodeType'), class: "mat-form-field-label" %>
+          <%= f.collection_select :node_type_id, options_for('node_types', 'Scheduler'), :id, :code, {:include_blank => false}, { class: "mat-input-element select2-candidate" } %>
+        </div>
+        <div class="mat-form-field col-md-4">
+          <%= f.label :next_success_id, t('activities.show.NextSuccess'), class: "mat-form-field-label" %>
+          <%= f.collection_select :success_next_id, activities_of(@activity.parent.id, @activity.id), :id, :code, {:include_blank => true}, { class: "mat-input-element select2-candidate" } %>
+        </div>
+        <div class="mat-form-field col-md-4">
+          <%= f.label :next_failure_id, t('activities.show.NextFailure'), class: "mat-form-field-label" %>
+          <%= f.collection_select :failure_next_id, activities_of(@activity.parent.id, @activity.id), :id, :code, {:include_blank => true}, { class: "mat-input-element select2-candidate" } %>
+        </div>
+      </div>
+    </div>
+    <%# Parameters %>
+    <div class="col-md-6">
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-12">
+          <%= render partial: "shared/json_parameters_form",
+                      locals: { this_object: @activity,
+                                columns: [
+                                            {"fieldName": "name", "layout": "INPUT"},
+                                            {"fieldName": "dataType", "layout": "CODELIST", "dataValues": options_for('data_types').map {|dt| dt.code} },
+                                            {"fieldName": "value", "layout": "INPUT"},
+                                            {"fieldName": "isMandatory", "layout": "CHECKBOX"},
+                                          ] } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

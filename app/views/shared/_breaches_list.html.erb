@@ -1,0 +1,38 @@
+<!-- Tab content for Rejected records -->
+      
+<table width=100%>
+  <tr><td><hr /></td></tr>
+  <tr align="left">
+    <th> <%= t('Rejected') %> </th>
+    <th></th>
+  </tr>
+  <tr>
+    <td>
+      <table class="table table-striped table-condensed">
+        <tr align="left">
+          <% this_object.business_object.skills.where("is_key = true or is_published = true").each do |column| %> <!-- PK and Published only -->
+            <th> <%= column.name %> </th>
+          <% end %>
+          <th> <%= t('UpdatedBy') %> </th>
+          <th> <%= t('UpdatedAt') %> </th>
+          <th> <%= t('Observation') %> </th>
+        </tr>
+        <%this_object.breaches.each do |breach| %>
+        <tr align="left">
+          <% breach.pk_values.split(";").each do |column| %>
+            <td> <%= link_to column, edit_breach_path(breach)  %> </td>
+          <% end %>
+          <% breach.current_values.split(";").each do |column| %>
+            <td> <%= column %> </td>
+          <% end %>
+          <td valign="top"> <%=breach.updated_by %> </td>
+          <td valign="top"> <%=breach.updated_at %> </td>
+          <td valign="top"> <%=breach.description %> </td>
+        </tr>
+        <% end%>
+      </table>
+    </td>
+  </tr>
+</table>
+      
+<!-- Tab content -->

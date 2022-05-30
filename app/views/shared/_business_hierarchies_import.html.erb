@@ -1,0 +1,37 @@
+  <div class="row">
+    <div class="col-md-2 text-right"> <%= t('Description') %>:
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10"><pre><%= import_usage %></pre>
+    </div>
+  </div>
+
+  <%= form_for (@business_hierarchy_import) do |f| %>
+
+    <%= render partial: "shared/error_list", locals: { errors: @business_hierarchy_import.errors } %>
+
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <div class="field">
+          <%= f.file_field :file %>
+        </div>
+      </div>
+    </div>
+    <br/>
+
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <div class="field">
+          <%= f.label :playground %>
+          <%= f.collection_select :playground, list_of_playgrounds, :id, :translation %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <div class="buttons"><%= f.submit t('Import'), :onclick => "afficherLoading();" %></div>
+      </div>
+    </div>
+  <% end %>

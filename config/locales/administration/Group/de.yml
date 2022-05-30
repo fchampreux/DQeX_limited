@@ -1,0 +1,56 @@
+# Code for language as declared in i18n configuration
+de:
+  # Considered object from a global view
+  Users:                              "Benutzer"
+  User:                                "Benutzer"
+  ManagingUsers:                      "Benutzer verwalten"
+  NewUser:                             "Neuer Benutzer"
+  UserRejected:                        "Benutzer wurde abgelehnt"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageUser )
+  administration:
+    users:
+      users_index:
+        # Columns titles
+        CalculatedStatus:                       "Status"
+        UserName:                               "Login"
+        Name:                                   "Name"
+        Description:                            "Beschreibung"
+        Owner:                                  "Eigentümer"
+        UpdatedBy:                              "Aktualisiert von"
+        UpdatedAt:                              "Aktualisiert am"
+        Territory:                              "Territorium"
+        Organisation:                           "Organisation"
+        ValidFrom:                              "Gültig von"
+        ValidTo:                                "bis"
+        Owner:                                  "Eigentümer"
+      show:
+        Manage:                                 "Benutzer verwalten"
+        # Field names
+        Code:                                   "Kennung"
+        Name:                                   "Name"
+        Description:                            "Beschreibung"
+      new:
+        New:                                    "Neuer Benutzer"
+        # Field names
+        Code:                                   "Kennung"
+        Name:                                   "Name"
+        Description:                            "Beschreibung"
+      edit:
+        Edit:                                   "Benutzer bearbeiten"
+        # Field names
+        Code:                                   "Kennung"
+        Name:                                   "Name"
+        Description:                            "Beschreibung"
+      create:
+        Success:                             	  "erfolgreich erstellt Benutzer"
+        Failure:                                "Benutzer konnte nicht erstellt werden"
+      update:
+        Success:                             	  "erfolgreich aktualisierter Benutzer"
+        Failure:                                "Benutzer konnte nicht aktualisierter werden"
+      activate:
+        Success:                             	  "Benutzer erfolgreich wiederhergestellt"
+        Failure:                                "Benutzer konnte nicht abgerufen werden"
+      destroy:
+        Success:                             	  "Benutzer erfolgreich gelöscht"
+        Failure:                                "Benutzer konnte nicht gelöscht werden"

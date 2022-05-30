@@ -1,0 +1,191 @@
+<% provide(:title, (t('ManagingClassifications'))) %>
+<% provide(:page_class, 'page-view-details') %>
+
+<% provide :page_heading do %>
+  <%= render partial: "shared/heading", locals: {this_object: @classification} %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  <%= render partial: "shared/breadcrumbs" %>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/show_view_navigation", locals: {this_object_parent: @classification.parent, this_object_index: classifications_path} %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_version_actions", locals: {this_object: @classification } %>
+<% end %>
+
+<div id="classification-workflow">
+  <%= render partial: "shared/workflow_buttons", locals: {this_object: @classification, finalised_dependency: @classification.values_lists.map { |r| r.is_finalised? }.reduce(true) { |result, flag| result && flag } } %>
+</div>
+
+<% provide :technical_details do %>
+  <%= render partial: "shared/object_ownership", locals: {this_object: @classification} %>
+<% end %>
+
+<% provide :information do %>
+  <div class="row">
+    <div class="col-md-6">
+      <%= render partial: "shared/object_definition",
+          locals: {this_object: @classification,
+                  smallTextarea: true,
+                  isTechnical: true} %>
+    </div>
+    <div class="col-md-6">
+      <%= render partial: "shared/object_responsibilities",
+          locals: {this_object: @classification,
+                  showStatus: false} %>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-6">
+          <label for="value-lists-active-from" class="mat-form-field-label">
+            <%= t('ActiveFrom') %>
+          </label>
+          <input id="value-lists-active-from" class="mat-input-element" readonly
+            value="<%= format_date(@classification.active_from) %>" />
+        </div>
+        <div class="mat-form-field col-md-6">
+          <label for="value-lists-active-to" class="mat-form-field-label">
+            <%= t('ActiveTo') %>
+          </label>
+          <input id="value-lists-active-to" class="mat-input-element" readonly
+            value="<%= format_date(@classification.active_to) %>" />
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% provide :versions do %>
+  <%= render partial: "shared/object_versions", locals: { this_object: @cloned_classifications } %>
+<% end %>
+
+<% provide :listed_values do %>
+  <%= render partial: "classification_values_lists" %>
+<% end %>
+
+<%= render layout: "layouts/collapsible_details",
+    locals: {tabs_content: [ :listed_values, :information, :versions ],
+    title: t('Classification')}  do %>
+
+<% end %>
+
+<%= render layout: "layouts/collapsible_annotations" do %>
+  <%= render partial: "shared/annotations_show", locals: { annotated_object: @classification} %>
+<% end %>
+<hr />
+
+<section class="tabbable">
+
+  <div class="tabbable">
+
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="active"><a href="#used-in-defined-skills" data-toggle="tab"><%= t('.Skills') %></a></li>
+      <li><a href="#used-in-deployed-skills" data-toggle="tab"><%= t('.UsedSkills') %></a></li>
+    </ul>
+
+    <div class="tab-content">
+
+      <div class="tab-pane" id="used-in-defined-skills">
+        <!-- Linked Skills -->
+
+          <%= will_paginate @defined_skills if @defined_skills %>
+
+        <table class="table table-hover table-clickable">
+          <thead>
+            <tr>
+              <% if not session[:cart_id].nil? %>
+                <th class="col-min-nw"><%=t('.InstancesCountToBeAdded')%></th>
+              <% end %>
+              <th class="col-min-nw"><%= t('.Code') %></th>
+              <th class="col-1-4"><%= t('.Name') %></th>
+              <th class="col-min"><%= t('.Type') %></th>
+              <th class="col-min"><%= t('.Size') %></th>
+              <th class="col-min"><%= t('.Precision') %> </th>
+              <th class="col-min"><%= t('.KeyCols') %></th>
+              <th class="col-min-nw"><%= t('.Linkable') %></th>
+            </tr>
+          </thead>
+
+          <tbody>
+          <% @defined_skills.order(:sort_code).each do |skill| %>
+            <tr data-href="<%= url_for skill %>">
+              <% if skill.is_template and not session[:cart_id].nil? %>
+                <td>
+                  <%= render partial: "shared/add_to_cart", locals: { isCompact: true, model: @skill, item: skill } %>
+                </td>
+              <% end %>
+              <td> <%= link_to skill.code, deployed_skill_path(skill) %> </td>
+              <td class="col_narrow">
+                <% skill.name_translations.order(:language).each_with_index do |tr_name, i| %>
+                  <% if i > 0 %>
+                    <br/>
+                  <% end %>
+                  <strong><%= tr_name.language[0,2] %>:</strong>
+                  <%= tr_name.translation %>
+                <% end %>
+              </td>
+              <td> <%= skill.skill_type.name %> </td>
+              <td> <%= skill.skill_size %> </td>
+              <td> <%= skill.skill_precision %> </td>
+              <td> <%= skill.is_pk %> </td>
+              <td> <%= skill.is_pairing_key %> </td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+
+        <%= will_paginate @defined_skills if @defined_skills %>
+
+      </div>
+
+      <div class="tab-pane" id="used-in-deployed-skills">
+        <!-- Linked Skills -->
+
+          <%= will_paginate @deployed_skills if @deployed_skills %>
+
+        <table class="table table-hover table-clickable">
+          <thead>
+            <tr>
+              <th class="col-min-nw"><%= t('.Code') %></th>
+              <th class="col-1-4"><%= t('.Name') %></th>
+              <th class="col-min"><%= t('.Type') %></th>
+              <th class="col-min"><%= t('.Size') %></th>
+              <th class="col-min"><%= t('.Precision') %> </th>
+              <th class="col-min"><%= t('.KeyCols') %></th>
+              <th class="col-min-nw"><%= t('.Linkable') %></th>
+            </tr>
+          </thead>
+
+          <tbody>
+          <% @deployed_skills.order(:sort_code).each do |skill| %>
+            <tr data-href="<%= url_for skill %>">
+              <td> <%= link_to skill.code, deployed_skill_path(skill) %> </td>
+              <td class="col_narrow">
+                <% skill.name_translations.order(:language).each_with_index do |tr_name, i| %>
+                  <% if i > 0 %>
+                    <br/>
+                  <% end %>
+                  <strong><%= tr_name.language[0,2] %>:</strong>
+                  <%= tr_name.translation %>
+                <% end %>
+              </td>
+              <td> <%= skill.skill_type.name %> </td>
+              <td> <%= skill.skill_size %> </td>
+              <td> <%= skill.skill_precision %> </td>
+              <td> <%= skill.is_pk %> </td>
+              <td> <%= skill.is_pairing_key %> </td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+
+        <%= will_paginate @deployed_skills if @deployed_skills %>
+
+      </div>
+
+    </div>
+  </div>
+
+</section>

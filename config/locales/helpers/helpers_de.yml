@@ -1,0 +1,65 @@
+de:
+  helpers:
+    submit:
+      business_area:
+        create: "Geschäftsbereich erfassen"
+        update: "Geschäftsbereich ändern"
+      business_flow:
+        create: "Geschäftsablauf erfassen"
+        update: "Geschäftsablauf ändern"
+      business_process:
+        create: "Prozess erfassen"
+        update: "Prozess ändern"
+      business_rule:
+        create: "Regel erfassen"
+        update: "Regel ändern"
+      business_object:
+        create: "Fachobjekt erfassen"
+        update: "Fachobjekt ändern"
+
+      playground:
+        create: "Mandant erfassen"
+        update: "Mandant ändern"
+      landscape:
+        create: "Teilprojekt erfassen"
+        update: "Teilprojekt ändern"
+      scope:
+        create: "Dataset erfassen"
+        update: "Dataset ändern"
+
+      organisation:
+        create: "Organisation erfassen"
+        update: "Organisation ändern"
+      territory:
+        create: "Gebiet erfassen"
+        update: "Gebiet ändern"
+
+      breach:
+        create: "Incident erfassen"
+        update: "Incident ändern"
+      notification:
+        create: "Meldung erfassen"
+        update: "Meldung ändern"
+
+      mappings_list:
+        create: "Liste erfassen"
+        update: "Liste ändern"
+      mapping:
+        create: "Mapping erfassen"
+        update: "Mapping ändern"
+      values_list:
+        create: "Liste erfassen"
+        update: "Liste ändern"
+      value:
+        create: "Wert erfassen"
+        update: "Wert ändern"
+      parameter:
+        create: "Parameter erfassen"
+        update: "Parameter ändern"
+      parameters_list:
+        create: "Liste erfassen"
+        update: "Liste ändern"
+
+      user:
+        create: "Benutzer erfassen"
+        update: "Benutzer ändern"

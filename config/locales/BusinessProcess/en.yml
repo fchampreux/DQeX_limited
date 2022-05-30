@@ -1,0 +1,72 @@
+# Code for language as declared in i18n configuration
+en:
+  # Considered object from a global view
+  BusinessProcesses:                             "Business processes"
+  BusinessProcess:                               "Business process"
+  ManagingBusinessProcesses:                     "Managing Business processes"
+  NewBusinessProcess:                            "New Business process"
+  BusinessProcessRejected:                       "Business process was rejected"
+  AddParameter:                                  "New parameter"
+  AddFile:                                       "New file"
+  Edit:                                          "Edit"
+  Delete:                                        "Delete"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessProcess )
+  business_processes:
+    index:
+      # Columns titles
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      Owner:                                  "Owner"
+      UpdatedBy:                              "Updated by"
+      UpdatedAt:                              "Updated at"
+    index_short:
+      # Columns titles
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      Owner:                                  "Owner"
+      UpdatedBy:                              "Updated by"
+      UpdatedAt:                              "Updated at"
+    show:
+      Manage:                                 "Manage Business processes"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      Steps:                                  "Processing"
+      NewActivity:                            "Nouvelle activité"
+      NewBusinessObject:                      "Nouvelle structure"
+      NewBusinessRules:                       "Nouvelle règle"
+      GSBPM:                                  "GSBPM process"
+      Source:                                 "Source"
+      Target:                                 "Target"
+      Overview:                               "Overview"
+      Schedules:                              "Schedules"
+      NewSchedule:                            "Schedule new instance"
+      HelpSchedule:                           "This action generates a complete new script in the scheduler. To create a new schedule, go to the Scheduler module."
+    new:
+      New:                                    "New Business process"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+    edit:
+      Edit:                                   "Edit the Business process"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+    create:
+      Success:                             	  "Business process was created"
+      Failure:                             	  "Business process cannot be created"
+    update:
+      Success:                             	  "Business process was updated"
+      Failure:                             	  "Business process cannot be updated"
+    activate:
+      Success:                             	  "Business process recovered"
+      Failure:                             	  "Business process cannot be recovered"
+    destroy:
+      Success:                             	  "Business process deleted"
+      Failure:                             	  "Business process cannot be deleted"

@@ -1,0 +1,87 @@
+<%# For objects supporting versions, add the version and status icons %>
+<% provide(:title, t('Schedules')) %>
+
+<% provide(:page_heading,t('Schedules')) %>
+
+<% ignore do %>
+  <div class="row">
+    <div class="mat-form-field col-md-6">
+      <%= form_with url: scheduler_production_jobs_path, class: "search-form" do |f| %>
+        <div class="row">
+          <div class="mat-form-field col-md-12">
+            <label for="select-business-area" class="mat-form-field-label">
+              <%= t('BusinessArea') %>
+            </label>
+            <%= f.grouped_collection_select :business_area_id, @playgrounds, :business_areas, :playground_name, :id, :name, {:include_blank => false}, {class: "mat-input-element"} %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="mat-form-field col-md-12">
+            <label for="select-business-area" class="mat-form-field-label">
+              <%= t('BusinessFlow') %>
+            </label>
+            <%= f.grouped_collection_select :business_flow_uuid, @areas, :business_flows, :area_name, :id, :name, {:include_blank => false}, {class: "mat-input-element"} %>
+          </div>
+        </div>
+        <button type="submit" class="mat-icon-button mat-button-base mat-primary" title="<%= t('Filter') %>">
+          <span class="fa fa-bolt">  </span>
+        </button>
+      <% end %>
+    </div>
+  </div>
+<% ignore end %>
+
+<section class="tabbable">
+
+  <div class="tabbable">
+
+<% ignore do "is it relevant ? " %>
+    <ul class="nav nav-tabs" role="tablist">
+      <% values_options_for("environments",1).each_with_index do |environment, index| %>
+      <li class="<%= index == 0 ? "active" : "inactive" %>"><a href="#<%= environment.code %>" data-toggle="tab"><%= translation_for(environment.name_translations) %></a></li>
+
+      <% end %>
+    </ul>
+<% ignore end %>
+
+    <div class="tab-content">
+
+      <div class="tab-pane active" id="1-DEV">
+
+        <table id="production-jobs-list" class="table table-hover table-clickable" style="width:100%">
+        </table>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  $(document).ready( function () {
+
+    var status_icons = ["fa fa-clipboard-check status-active",
+                        "fa fa-archive status-inactive",
+                        "fa fa-glasses status-pending"];
+
+    $('#production-jobs-list').DataTable({
+      data: <%= raw @production_jobs.to_json %>,
+      pageLength: 25,
+      createdRow: function( row, data, dataIndex ) {
+        $(row).attr("data-href", "scheduler/production_jobs/" + data.id)
+      },
+      columns: [
+        { title: '<%= t('scheduler.production_jobs.index.Version') %>', render: function( data, type, row ) {
+          return (row['updated_at']).substring(0,10) + ' ' + (row['updated_at']).substring(11,19)}
+        },
+        { title: '<%= t('Code') %>', data: 'job_code' },
+        { title: '<%= t('Name') %>', data: 'production_flow' },
+        { title: '<%= t('Owner') %>', data: 'owner_name' },
+        { title: '<%= t('scheduler.production_jobs.index.Status') %>',
+          data: 'status_icon_id',
+          render: function(status_icon_id) {return '<span class="status-icon ' + status_icons[status_icon_id] + '"> </span>'}
+        },
+      ]
+    });
+  });
+</script>

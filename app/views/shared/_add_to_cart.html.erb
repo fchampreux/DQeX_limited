@@ -1,0 +1,24 @@
+<% isCompact ||= false %>
+<% if item.status.code == "ACCEPTED" %>
+  <% btnClass = !isCompact ? "mat-flat-button" : "mat-icon-button" %>
+  <%= form_with model: model, url: add_to_cart_defined_skill_path(id: item.id), method: "post", local: false, class: "add-to-cart-form" do |f| %>
+    <div class="mat-form-field">
+      <% if !isCompact %>
+        <%= f.label :counter, t('InstancesCountToBeAdded'), class: "mat-form-field-label" %>
+      <% end %>
+      <div class="mat-form-field-flex">
+        <%= f.number_field :counter, value: 1, step: 1, min: 1, max: 9, class: "mat-input-element" %>
+        <button type="submit" class="<%= btnClass %> mat-button-base mat-primary add-button" title="<%= t('AddToUsed') %>">
+          <span class="fa fa-plus-square"></span>
+          <% if !isCompact %>
+            <%= t('Add') %>
+          <% end %>
+        </button>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+<span class="fa">
+  <%= isCompact ? t('ToApprove') : t('ToApproveMessage') %>
+  </span>
+<% end %>

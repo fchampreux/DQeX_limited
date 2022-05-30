@@ -1,0 +1,22 @@
+#error-list-ct {
+  background: rgba(255,0,0,0.05);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1) inset;
+}
+
+#error-list {
+  padding: 0;
+  list-style: none;
+}
+
+.failed {
+  color: red;
+}
+
+.warning {
+  color: orange;
+}
+
+.success {
+  color: green;
+}

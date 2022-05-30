@@ -1,0 +1,65 @@
+fr:
+  helpers:
+    submit:
+      business_area:
+        create: "Créer le Domaine"
+        update: "Modifier le Domaine"
+      business_flow:
+        create: "Créer le flux"
+        update: "Modifier le flux"
+      business_process:
+        create: "Créer le Processus"
+        update: "Modifier le Processus"
+      business_rule:
+        create: "Créer la Règle"
+        update: "Modifier la Règle"
+      business_object:
+        create: "Creéer l'objet métier"
+        update: "Modifier l'objet métier"
+
+      playground:
+        create: "Créer le Périmètre"
+        update: "Modifier le Périmètre"
+      landscape:
+        create: "Créer le Thème"
+        update: "Modifier le Thème"
+      scope:
+        create: "Créer l'Ensemble"
+        update: "Modifier l'Ensemble"
+
+      organisation:
+        create: "Créer l'Organisation"
+        update: "Modifier l'Organisation"
+      territory:
+        create: "Créer le Territoire"
+        update: "Modifier Territoire"
+
+      breach:
+        create: "Créer l'Incident"
+        update: "Modifier l'Incident"
+      notification:
+        create: "Créer la Notification"
+        update: "Modifier la Notification"
+
+      mappings_list:
+        create: "Créer la Liste"
+        update: "Modifier la Liste"
+      mapping:
+        create: "Créer le Mapping"
+        update: "Modifier le Mapping"
+      values_list:
+        create: "Créer la Liste"
+        update: "Modifier la Liste"
+      value:
+        create: "Créer la Valeur"
+        update: "Modifier la Valeur"
+      parameter:
+        create: "Créer le Paramètre"
+        update: "Modifier le Paramètre"
+      parameters_list:
+        create: "Créer la Liste"
+        update: "Modifier la Liste"
+
+      user:
+        create: "Créer l'utilisateur"
+        update: "Modifier l'utilisateur"

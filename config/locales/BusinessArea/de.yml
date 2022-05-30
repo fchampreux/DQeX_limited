@@ -1,0 +1,57 @@
+# Code for language as declared in i18n configuration
+de:
+  # Considered object from a global view
+  BusinessAreas:                              "Business areas"
+  BusinessArea:                               "Business area"
+  ManagingBusinessAreas:                      "Business areas verwalten"
+  NewBusinessArea:                            "Neuer Business area"
+  BusinessAreaRejected:                       "Business area wurde abgelehnt"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  business_areas:
+    index:
+      # Columns titles
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      Owner:                                  "Eigentümer"
+      UpdatedBy:                              "Aktualisiert von"
+      UpdatedAt:                              "Aktualisiert am"
+    index_short:
+      # Columns titles
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      Owner:                                  "Eigentümer"
+      UpdatedBy:                              "Aktualisiert von"
+      UpdatedAt:                              "Aktualisiert am"
+    show:
+      Manage:                                 "Business area verwalten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    new:
+      New:                                    "Neuer Business area"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    edit:
+      Edit:                                   "Business area bearbeiten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    create:
+      Success:                             	  "erfolgreich erstellt Business area"
+      Failure:                                "Business area konnte nicht erstellt werden"
+    update:
+      Success:                             	  "erfolgreich aktualisierter Business area"
+      Failure:                                "Business area konnte nicht aktualisierter werden"
+    activate:
+      Success:                             	  "Business area erfolgreich wiederhergestellt"
+      Failure:                                "Business area konnte nicht abgerufen werden"
+    destroy:
+      Success:                             	  "Business area erfolgreich gelöscht"
+      Failure:                                "Business area konnte nicht gelöscht werden"

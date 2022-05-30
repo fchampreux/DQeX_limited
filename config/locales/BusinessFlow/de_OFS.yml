@@ -1,0 +1,57 @@
+# Code for language as declared in i18n configuration
+de_OFS:
+  # Considered object from a global view
+  BusinessFlows:                              "Statistische Aktivitäten"
+  BusinessFlow:                               "Statistische Aktivität"
+  ManagingBusinessFlows:                      "Statistische Aktivitäten verwalten"
+  NewBusinessFlow:                            "Neuer Statistische Aktivität"
+  BusinessFlowRejected:                       "Statistische Aktivität wurde abgelehnt"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessFlow )
+  business_flows:
+    index:
+      # Columns titles
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      Owner:                                  "Eigentümer"
+      UpdatedBy:                              "Aktualisiert von"
+      UpdatedAt:                              "Aktualisiert am"
+    index_short:
+      # Columns titles
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      Owner:                                  "Eigentümer"
+      UpdatedBy:                              "Aktualisiert von"
+      UpdatedAt:                              "Aktualisiert am"
+    show:
+      Manage:                                 "Statistische Aktivität verwalten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    new:
+      New:                                    "Neuer Statistische Aktivität"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    edit:
+      Edit:                                   "Statistische Aktivität bearbeiten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    create:
+      Success:                             	  "erfolgreich erstellt Statistische Aktivität"
+      Failure:                                "Statistische Aktivität konnte nicht erstellt werden"
+    update:
+      Success:                             	  "erfolgreich aktualisierter Statistische Aktivität"
+      Failure:                                "Statistische Aktivität konnte nicht aktualisierter werden"
+    activate:
+      Success:                             	  "Statistische Aktivität erfolgreich wiederhergestellt"
+      Failure:                                "Statistische Aktivität konnte nicht abgerufen werden"
+    destroy:
+      Success:                             	  "Statistische Aktivität erfolgreich gelöscht"
+      Failure:                                "Statistische Aktivität konnte nicht gelöscht werden"

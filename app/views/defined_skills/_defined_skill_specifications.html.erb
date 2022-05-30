@@ -1,0 +1,229 @@
+<div class="row">
+  <div class="col-md-6">
+    <% if @skill.values_list_id or @skill.classification_id %>
+      <div class="row mat-form-row">
+        <% if @skill.classification_id %>
+          <div class="mat-form-field col-md-6">
+            <label for="skill-classification" class="mat-form-field-label">
+              <%= t('Classification') %>
+            </label>
+            <input id="skill-values-list" class="mat-input-element" readonly
+              value="<%= @skill.classification&.code %>" />
+          </div>
+        <% else %>
+          <div class="mat-form-field col-md-6">
+            <label for="skill-values-list" class="mat-form-field-label">
+              <%= t('ValuesList') %>
+            </label>
+            <input id="skill-values-list" class="mat-input-element" readonly
+              value="<%= @skill.values_list&.code %>" />
+          </div>
+        <% end %>
+        <div class="mat-form-field col-md-4">
+           <label for="skill_type" class="mat-form-field-label">
+             <%= t('SkillType') %>
+           </label>
+           <input id="skill_type" class="mat-input-element" readonly
+             value="<%= translation_for(@skill.skill_type.name_translations) %>" />
+        </div>
+        <div class="mat-button-group col-md-2">
+          <%= link_to @skill.classification_id ? @skill.classification : @skill.values_list, title: t('ValuesList'), class: "nav-link control-link" do %>
+            <span class="control-icon far fa-hand-point-right" style="font-size: 1.65em;" %></span>
+          <% end %>
+        </div>
+      </div>
+    <% else %>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-4">
+           <label for="skill_type" class="mat-form-field-label">
+             <%= t('SkillType') %>
+           </label>
+           <input id="skill_type" class="mat-input-element" readonly
+             value="<%= translation_for(@skill.skill_type.name_translations) %>" />
+        </div>
+        <div class="mat-form-field col-md-4">
+           <label for="skill_size" class="mat-form-field-label">
+             <%= t('SkillSize') %>
+           </label>
+           <input id="skill_size" class="mat-input-element" readonly
+             value="<%= @skill.skill_size %>" />
+        </div>
+        <div class="mat-form-field col-md-4">
+           <label for="skill_precision" class="mat-form-field-label">
+             <%= t('SkillPrecision') %>
+           </label>
+           <input id="skill_precision" class="mat-input-element" readonly
+             value="<%= @skill.skill_precision %>" />
+        </div>
+      </div>
+    <% end %>
+
+    <div class="row mat-form-row">
+      <div class="mat-form-field col-md-6">
+         <label for="skill_role" class="mat-form-field-label">
+           <%= t('SkillRole') %>
+         </label>
+         <input id="skill_role" class="mat-input-element" readonly
+           value="<%= translation_for(@skill.skill_role.name_translations) %>" />
+      </div>
+      <div class="mat-form-field col-md-6">
+         <label for="skill_aggregation_type" class="mat-form-field-label">
+           <%= t('SkillAggregationType') %>
+         </label>
+         <input id="skill_aggregation_type" class="mat-input-element" readonly
+           value="<%= translation_for(@skill.skill_aggregation.name_translations) %>" />
+      </div>
+    </div>
+  </div>
+  <% if @skill.values_list_id or @skill.classification_id %>
+  <div class="col-md-6">
+    <section class="tabbable">
+
+      <div class="tabbable">
+
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="active"><a href="#child-values-lists" data-toggle="tab"><%= t('ValuesLists') %></a></li>
+        </ul>
+
+        <div class="tab-content">
+
+          <div class="tab-pane active" id="child-values-lists">
+
+            <% if not Classification.exists?(id: @skill.classification_id) %>
+              <%# Action buttons for linked values lists : create, remove, upload, export to csv %>
+              <% if not ValuesList.exists?(id: @skill.values_list_id) %>
+                <div class="mat-button-group">
+                  <%= link_to create_values_list_defined_skill_path(@skill), :method => :get, class: "mat-flat-button mat-button-base mat-primary" do %>
+                    <span class="fa fa-file-alt" %></span>
+                    <%= t('AddValuesList') %>
+                  <% end %>
+                </div>
+              <% else %>
+                <div class="mat-button-group">
+                  <%= link_to remove_values_list_defined_skill_path(@skill), data: { confirm: t('Sure') }, :method => :get, class: "mat-flat-button mat-button-base mat-primary" do %>
+                    <span class="fa fa-file-alt" %></span>
+                    <%= t('RemoveValuesList') %>
+                  <% end %>
+                  <%= link_to upload_values_list_defined_skill_path(@skill), :method => :get, class: "mat-flat-button mat-button-base mat-primary", disabled: @skill.values_list.is_finalised do %>
+                    <span class="fa fa-file-alt" %></span>
+                    <%= t('UploadValuesList') %>
+                  <% end %>
+                  <% if @child_values %>
+                    <%= link_to values_list_path(@skill.values_list, format: "csv"), class: "mat-flat-button mat-button-base mat-primary" do %>
+                      <span class="fa fa-file-excel"></span>
+                      Export to CSV
+                    <% end %>
+                  <% end %>
+                </div>
+              <% end %>
+            <% end %>
+
+            <%# Nested values management, edit is allowed for template skills only %>
+            <% if Classification.exists?(id: @skill.classification_id) %>
+              <%= render partial: "shared/classification_values", locals: {this_object: @skill.classification} %>
+            <% else %>
+              <% if ValuesList.exists?(id: @skill.values_list_id) %>
+
+                <%= will_paginate @child_values if @child_values %>
+
+                <table class="table table-align-top">
+                  <thead>
+                    <tr>
+                    <% ignore do 'Remove hierarchies'%>
+                    <% if @skill.has_hierarchical_values %>
+                      <th class="col-min"><%= t('ParentCode') %></th>
+                      <th class="col-min"><%= t('Level') %></th>
+                    <% end %>
+                    <% ignore end %>
+                      <th class="col-min-nw"><%= t('Item') %></th>
+                    <!--  <th class="col-min-nw"><%= t('AlternateCode') %></th> -->
+                      <th class="col-min-nw"><%= t('Value') %></th>
+                    <!--  <th class="col-min-nw"><%= t('Alias') %></th>
+                      <th class="col-min-nw"><%= t('Abbreviation') %></th> -->
+                      <th><%= t('Description') %></th>
+                      <th class="col-min-nw"><%= t('UpdatedAt') %></th>
+                      <% if @skill.is_template %>
+                      <th class="col-min-nw">
+                        <% if !@skill.values_list.is_finalised %>
+                          <%= link_to new_values_list_value_path(@skill.values_list), title: t('New'), data: { toggle: "modal", target: "#childModal" }, class: "mat-flat-button mat-button-base mat-primary" do%>
+                            <span class="fa fa-plus-square" %></span>
+                            <%= t("New") %>
+                          <% end %>
+                        <% end %>
+                      <% end %>
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <% if @child_values.count > 0 %>
+                      <% @child_values.each do |value| %>
+                        <tr>
+                        <% ignore do 'Remove hierarchies'%>
+                          <% if @skill.has_hierarchical_values %>
+                            <td class="no-wrap"><%= value.superior.code if Value.exists?(value.parent_id) %></td>
+                            <td class="no-wrap"><%= value.level %></td>
+                          <% end %>
+                          <% ignore end %>
+                          <td class="no-wrap"><%= value.code %></td>
+                          <!--  <td class="no-wrap"><%= value.alternate_code %></td> -->
+                          <td class="no-wrap">
+                            <%= translation_for(value.name_translations) %>
+                          </td>
+                          <% ignore do 'Remove unwanted fields'%>
+                          <td class="no-wrap">
+                            <%= translation_for(value.alias_translations) %>
+                          </td>
+                          <td class="no-wrap">
+                            <%= translation_for(value.abbreviation_translations) %>
+                          </td>
+                          <% ignore end %>
+                          <td class="text-justify text-sm">
+                            <%= sanitize translation_for(value.description_translations) %>
+                          </td>
+                          <td class="text-right"><%= format_date(value.updated_at) %></td>
+                          <% if @skill.is_template %>
+                            <td class="cell-with-button cell-nw">
+                              <%= link_to values_list_value_path(@skill.values_list, value), title: t('Show'), data: { toggle: "modal", target: "#childModal" }, class: "mat-icon-button mat-button-base mat-secondary" do%>
+                                <span class="fa fa-eye"></span>
+                              <% end %>
+                              <% if !@skill.values_list.is_finalised %>
+                                <%= link_to edit_values_list_value_path(@skill.values_list, value), title: t('Edit'), data: { toggle: "modal", target: "#childModal" }, class: "mat-icon-button mat-button-base mat-secondary" do%>
+                                  <span class="fa fa-edit"></span>
+                                <% end %>
+                                <% ignore do 'Do not allow building hierarchical code-list'%>
+                                  <%= link_to new_values_list_value_path(@skill.values_list, parent_id: value.id), title: t('NewChild'), data: { toggle: "modal", target: "#childModal" }, class: "mat-icon-button mat-button-base mat-primary" do%>
+                                    <span class="fa fa-plus-square" %></span>
+                                  <% end %>
+                                <% ignore end %>
+                                <%= link_to value_path(value), title: t('Delete'), data: { confirm: @skill.has_hierarchical_values ? t("ConfirmValueDeletion") : t("Sure") }, method: :delete, class: "mat-icon-button mat-button-base mat-warn" do%>
+                                  <span class="fa fa-trash"></span>
+                                <% end %>
+                              <% end %>
+                            </td>
+                          <% end %>
+                        </tr>
+                      <% end %>
+                    <% else %>
+                      <tr>
+                        <td class="cell-empty" colspan="<%= @skill.has_hierarchical_values ? 7 : 5 %>">
+                          <p class="alert alert-info">
+                            <%= t('NoChildren') %>
+                          </p>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+
+                </table>
+
+                <%= will_paginate @child_values if @child_values %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <% end %>
+</div>

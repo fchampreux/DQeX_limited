@@ -1,0 +1,7 @@
+<% provide(:title, (t('ImportPs'))) %>
+
+<% provide :page_heading do %>
+    <%= t('ImportPs') %>
+<% end %>
+
+<%= render partial: "shared/child_object_import", locals: {this_import: @parameters_import, parent_object: @parameters_list} %>

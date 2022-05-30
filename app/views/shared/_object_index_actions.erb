@@ -1,0 +1,9 @@
+<%# The parent module defines the Namespace. If not (Object) then display default link %>
+<div class="mat-button-group">
+
+  <%= link_to [namespace, this_object, :action => :new], method: :get, class: "mat-flat-button mat-button-base mat-primary" do%>
+    <span class="fa fa-file"></span>
+    <%= t("New") %>
+  <% end %>
+
+</div>

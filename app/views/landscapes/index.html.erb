@@ -1,0 +1,15 @@
+<% provide(:title, (t('ManagingLSs'))) %>
+
+<% provide :page_heading do %>
+  <%= t('Landscapes') %>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/index_view_navigation", locals: {this_object: Landscape} %>
+<% end %>
+
+<% provide :navigation do %>
+  <!-- no action is available at this level for this object -->
+<% end %>
+
+<%= render partial: "shared/object_index", locals: {this_index: @landscapes} %>

@@ -1,0 +1,26 @@
+<% provide(:page_class, 'page-view-details') %>
+
+<%= form_for @business_area, html: {id: "edit_form"} do |f| %>
+
+  <%= render partial: "shared/error_list", locals: { errors: @business_area.errors } %>
+
+    <div class="row mat-form-row">
+      <div class="col-md-6">
+        <%= render partial: "shared/object_definition_form", locals: {this_object: @business_area, f: f} %>
+      </div>
+
+      <div class="col-md-6">
+        <%= render partial: "shared/object_responsibilities_form", locals: {this_object: @business_area, f: f} %>
+
+        <div class="row mat-form-row">
+          <div class="mat-form-field col-md-6">
+          </div>
+          <div class="mat-form-field col-md-6">
+            <%= f.label :reviewer_id, t('Reviewer'), class: "mat-form-field-label" %>
+            <%= f.collection_select :reviewer_id, approvers_list, :id, :name, {}, { class: "mat-input-element select2-candidate" } %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<% end %>

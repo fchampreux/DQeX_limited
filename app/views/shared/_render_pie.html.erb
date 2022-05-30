@@ -1,0 +1,54 @@
+
+      <script>  // Draws a pie chart in the target element
+
+        // Input data : Returns an array of hashes
+        var series = <%= this_series %>;
+
+        // Define size and create the svg graph in the target place
+        var width = 650,
+            height = 400;
+        var graph = d3.select("#<%= target %>")
+                  .append("svg")
+                  .attr("width", width)
+                  .attr("height", height);
+
+        // Set up drawing properties
+        var color = d3.scaleOrdinal(d3.schemePaired);
+        var radius = 150;
+
+        // Generate groups to hold graphical elements
+        var drawing = graph.append('g')
+					                 .attr('transform', 'translate(200,200)');
+
+        // Generate the pie slices for the count field
+        var pie = d3.pie()
+            .value(function(d) { return d.count });
+        var slices = pie(series);
+
+        // Define the arcs
+        var arc = d3.arc()
+           .innerRadius(0)
+           .outerRadius(radius);
+
+        // Define the paths for the arcs
+				var path = drawing.datum(series).selectAll("path")
+									    .data(pie)
+										  .enter()
+											.append("path")
+											.attr("fill", function(d, i) { return color(i); })
+											.attr("d", arc)
+
+        // Add legend            
+        drawing.append('g')
+					.attr('transform', 'translate(200,20)')
+					.attr('class', 'legend')
+						 .selectAll('text')
+						 .data(slices)
+							 .enter()
+								.append('text')
+								.text(function(d) { return '• ' + d.data.name; })
+								.attr('fill', function(d, i) { return color(i); })
+								.attr('y', function(d, i) { return 20 * i ; });
+
+
+      </script>

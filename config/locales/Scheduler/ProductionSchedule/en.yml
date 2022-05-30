@@ -1,0 +1,91 @@
+# Code for language as declared in i18n configuration
+en:
+  # Considered object from a global view
+  ProductionSchedules:                          "Production schedules"
+  ProductionSchedule:                           "Production schedule"
+  ManagingProductionSchedules:                  "Manage Production Schedules"
+  NewProductionSchedule:                        "New production schedule"
+  ProductionScheduleRejected:                   "Failed to create the production schedule"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManagePlanning )
+  scheduler:
+    production_schedules:
+      index:
+        # Columns titles
+        Code:                                   "Identifier"
+        Name:                                   "Name"
+        Description:                            "Description"
+        Owner:                                  "Owner"
+        Version:                                "Last update"
+        ActiveFrom:                             "Valid from"
+        ActiveTo:                               "to"
+        Environment:                            "Environment"
+        AverageDuration:                        "Average duration"
+        ExecutionStatus:                        "Execution status"
+        LastRun:                                "Last execution"
+        NextRun:                                "Next run"
+      index_short:
+        # Columns titles
+        Code:                                   "Identifier"
+        Name:                                   "Name"
+        Description:                            "Description"
+        Owner:                                  "Owner"
+        UpdatedBy:                              "Updated by"
+        UpdatedAt:                              "Updated at"
+      show:
+        Manage:                                 "Manage Planning"
+        # Field names
+        Code:                                   "Identifier"
+        Name:                                   "Name"
+        Description:                            "Description"
+        Mode:                                   "Mode"
+      new:
+        New:                                    "New Planning"
+        # Field names
+        Code:                                   "Identifier"
+        Name:                                   "Name"
+        Description:                            "Description"
+        Mode:                                   "Mode"
+        ActiveFrom:                             "Valid from"
+        ActiveTo:                               "until"
+        Environment:                            "Environment"
+        RunOnce:                                "Troubleshooting"
+        RepeatValue:                            "Repetitions"
+        RepeatCounter:                          "Current values"
+        RepeatInterval:                         "Interval"
+        RepeatUnit:                             "Unit"
+        QueueExchange:                          "Object"
+        QueueName:                              "Message queue"
+        QueueKey:                               "Routing Key"
+        QueuePayload:                           "Message"
+      edit:
+        Edit:                                   "Edit the planning"
+        # Field names
+        Code:                                   "Identifier"
+        Name:                                   "Name"
+        Description:                            "Description"
+        Mode:                                   "Mode"
+        ActiveFrom:                             "Valid from"
+        ActiveTo:                               "until"
+        Environment:                            "Environment"
+        RunOnce:                                "Troubleshooting"
+        RepeatValue:                            "Repetitions"
+        RepeatCounter:                          "Current values"
+        RepeatInterval:                         "Interval"
+        RepeatUnit:                             "Unit"
+        QueueExchange:                          "Object"
+        QueueName:                              "Message queue"
+        QueueKey:                               "Routing Key"
+        QueuePayload:                           "Message"
+      create:
+        Success:                             	  "Planning was created"
+        Failure:                             	  "Planning cannot be created"
+      update:
+        Success:                             	  "Planning was updated"
+        Failure:                             	  "Planning cannot be updated"
+      activate:
+        Success:                             	  "Planning recovered"
+        Failure:                             	  "Planning cannot be recovered"
+      destroy:
+        Success:                             	  "Planning deleted"
+        Failure:                             	  "Planning cannot be deleted"

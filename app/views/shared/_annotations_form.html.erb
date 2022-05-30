@@ -1,0 +1,62 @@
+  <%# Manage annotations %>
+  <div class="mat-button-group">
+    <%= f.add_nested_fields_link :annotations, class: "mat-flat-button mat-button-base mat-primary" do %>
+      <span class="fa fa-plus" %></span>
+      <%= t('NewAnnotation') %>
+    <% end %>
+  </div>
+
+  <%# Display annotations in a table %>
+  <table style="width:100%">
+    <tbody>
+      <%=  f.nested_fields_for :annotations, wrapper_tag: 'tr' do |note| %>
+        <td>
+          <table style="width:100%">
+            <tr style="height:30px; vertical-align: bottom; background-color:#C0C0C0;">
+              <!-- <th> <%= t('Id') %> </th> -->
+              <th style="width:30%; text-align: center;"> <%= t('Type') %> </th>
+              <th style="width:30%; text-align: center;"> <%= t('Title') %> </th>
+              <th style="width:30%; text-align: center;"> <%= t('Uri') %> </th>
+              <th style="width:10%"> </th>
+            </tr>
+            <tr>
+              <td colspan="4" style="width:100%">
+                <table style="width:100%">
+                  <tr>
+                    <!-- <td> <%# annotation.code %> </td> -->
+                    <td style="width:30%"> <%= note.collection_select :annotation_type_id, annotation_types, :id, :code, {}, { class: "mat-input-element select2-candidate" } %> </td>
+                    <td style="width:30%"> <%= note.text_field :name, class: "mat-input-element" %> </td>
+                    <% if note.object.annotation_type_id == annotation_types.find { |x| x["code"] == "LOGIN" }.id %>
+                      <td style="width:30%"> <%= note.password_field :uri, class: "mat-input-element"%> </td>
+                    <% else %>
+                      <td style="width:30%"> <%= note.text_field :uri, class: "mat-input-element"%> </td>
+                    <% end %>
+                  </tr>
+                  <tr>
+                    <td colspan="3" style="width:100%">
+                      <% note.object.check_translations %>
+                      <%= render partial: "shared/translated_field_form", locals: {
+                          f: note,
+                          field: "description",
+                          fields: :description_translations,
+                          translations: note.object.description_translations,
+                          isTextarea: true,
+                          smallTextarea: true,
+                          label: t('Description') } %>
+                      </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td style="width:10%; text-align: top;">
+          <%= note.remove_nested_fields_link :annotations, class: "mat-icon-button mat-button-base mat-warn" do %>
+            <span class="fa fa-minus-square" %></span>
+          <% end %>
+        </td>
+      <% end %>
+    </tbody>
+  </table>
+
+  <hr />

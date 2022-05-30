@@ -1,0 +1,14 @@
+<footer class="application-footer offcanvas-main application-footer-sm">
+
+  <div class="footer-item footer-item-info">
+    <small orfooterinfo="">© <%= Time.current.year %> BFS <%= $VERSION %></small>
+  </div>
+
+  <ul class="footer-item footer-item-list">
+    <li><%= link_to $Organisation, $Organisation_URL %></li>
+    <li><%= link_to t('Credits'), help_path('Change_Log') %></li>
+    <li><%= link_to t('License'), "#" %></li>
+  </ul>
+
+  <%= debug(params) if Rails.env.development? %>
+</footer>

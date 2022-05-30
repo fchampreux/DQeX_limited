@@ -1,0 +1,26 @@
+  <div class="mat-form-field">
+    <table id="<%= "#{this_object.class.name.underscore}-#{this_object.id}-mandatoryParameters-table" %>" style="width: 100%">
+    </table>
+  </div>
+
+  <script>
+    $(document).ready( function () {
+
+      var mandatoryParameters = <%= raw this_object.parameters.select {|h| h["isMandatory"] == "true"}.to_json %>;
+
+      $('#' + '<%= "#{this_object.class.name.underscore}-#{this_object.id}-mandatoryParameters-table" %>').DataTable({
+        paging: false,
+        ordering: false,
+        info: false,
+        searching: false,
+        width: "100%",
+        data: mandatoryParameters,
+        columns: [
+          { data: "name"},
+          { data: "value"}
+        ]
+      });
+
+    });
+
+  </script>

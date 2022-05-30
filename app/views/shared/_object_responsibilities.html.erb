@@ -1,0 +1,62 @@
+<%# Object responsibilities %>
+<% showStatus ||= false %>
+
+<fieldset disabled name="objectResponsibilities">
+
+  <%# Responsible organisation for object, object status and version - if available %>
+  <% if this_object.organisation_id or
+        (this_object.has_attribute? :major_version and version_management) or
+        showStatus %>
+    <div class="row mat-form-row">
+      <div class="mat-form-field col-md-6">
+        <% if this_object.organisation_id %>
+          <label for="responsibilities-organisation" class="mat-form-field-label">
+            <%= t('OwningOrganisation') %>
+          </label>
+          <input id="responsibilities-organisation" class="mat-input-element" readonly
+            value="<%= translation_for(this_object.organisation.name_translations) %>" />
+        <% end %>
+      </div>
+      <div class="mat-form-field <%= (this_object.has_attribute? :major_version) ?
+                                    'col-md-4' :
+                                    'col-md-6' %>">
+        <% if showStatus %>
+          <label for="responsibilities-status" class="mat-form-field-label">
+            <%= t('Status') %>
+          </label>
+          <input id="responsibilities-status" class="mat-input-element" readonly
+            value="<%= translation_for(this_object.status.name_translations) %>" />
+        <% end %>
+      </div>
+      <div class="mat-form-field col-md-2">
+        <% if this_object.has_attribute? :major_version and version_management # displays the version only for versionned objects %>
+          <label for="responsibilities-version" class="mat-form-field-label">
+            <%= t('Version') %>
+          </label>
+          <input id="responsibilities-version" class="mat-input-element" readonly
+            value="<%= this_object.full_version %>" />
+        <% end %>
+      </div>
+
+    </div>
+  <% end %>
+
+  <%# Responsible person and deputy for object %>
+  <div class="row mat-form-row">
+    <div class="mat-form-field col-md-6">
+      <label for="responsibilities-responsible" class="mat-form-field-label">
+        <%= t('Responsible') %>
+      </label>
+      <input id="responsibilities-responsible" class="mat-input-element" readonly
+        value="<%= this_object.responsible&.name %>" />
+    </div>
+    <div class="mat-form-field col-md-6">
+      <label for="responsibilities-deputy" class="mat-form-field-label">
+        <%= t('Deputy') %>
+      </label>
+      <input id="responsibilities-deputy" class="mat-input-element" readonly
+        value="<%= this_object.deputy&.name %>" />
+    </div>
+  </div>
+
+</fieldset>

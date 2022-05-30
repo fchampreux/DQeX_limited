@@ -1,0 +1,154 @@
+
+<header class="application-header <%= content_for?(:large_header) ? '' : 'application-header-md' %> offcanvas-main application-header-animate application-header-sticky">
+  <div class="header">
+    <div class="application-header-title">
+      <div class="application-brand">
+        <a tabindex="-1" href="/">
+          <img alt="Back to home" src="/assets/<%= $Logo %>">
+        </a>
+        <h1 class="application-brand-app-title">
+          <b><%= Rails.env.production? ? "" : "#{Rails.env.capitalize} - " %> </b><%= yield(:page_heading || :title) %>
+        </h1>
+      </div>
+    </div>
+
+    <div class="application-header-controls">
+      <h2 class="sr-only">Contrôles</h2>
+      <ul class="header-controls" role="menu">
+        <% if user_signed_in? %>
+          <li id="governance-switch-ct" class="control-item" role="menuitem">
+            <nav id="governance-switch">
+              <%= link_to "/governance/monitoring", title: t("Governance"), class: "nav-link control-link" do %>
+                <span class="control-icon fa fa-map-signs"></span>
+              <% end %>
+            </nav>
+          </li>
+            <li id="medatata-switch-ct" class="control-item" role="menuitem">
+              <nav id="medatata-switch">
+                <%= link_to business_flows_path, title: t("Metadata"), class: "nav-link control-link" do %>
+                  <span class="control-icon fa fa-user-graduate"></span>
+                <% end %>
+              </nav>
+            </li>
+              <li id="scheduler-switch-ct" class="control-item" role="menuitem">
+                <nav id="scheduler-switch">
+                  <%= link_to scheduler_production_jobs_path, title: t("Scheduler"), class: "nav-link control-link" do %>
+                    <span class="control-icon fa fa-tasks"></span>
+                  <% end %>
+                </nav>
+              </li>
+                <li id="administration-switch-ct" class="control-item" role="menuitem">
+                  <nav id="administration-switch">
+                    <%= link_to "administration/users", title: t("Administration"), class: "nav-link control-link" do %>
+                      <span class="control-icon fa fa-tools"></span>
+                    <% end %>
+                  </nav>
+                </li>
+          <li id="language-picker-ct" class="control-item" role="menuitem">
+            <nav id="language-picker">
+              <%= render partial: "shared/language_picker_link", locals: {label: 'DE', locale: 'de_OFS'} %>
+              <%= render partial: "shared/language_picker_link", locals: {label: 'FR', locale: 'fr_OFS'} %>
+              <%= render partial: "shared/language_picker_link", locals: {label: 'IT', locale: 'it_OFS'} %>
+            </nav>
+          </li>
+          <li class="control-item" role="menuitem">
+            <%= link_to administration_user_path(current_user), title: t("User") + ": " + current_login, class: "nav-link control-link" do %>
+              <span class="control-icon fa fa-user"></span>
+            <% end %>
+          </li>
+          <li class="control-item" role="menuitem">
+            <%= link_to destroy_user_session_path, method: "delete", title: t("Sign_out"), class: "nav-link control-link" do %>
+              <span class="control-icon fa fa-sign-out-alt"></span>
+            <% end %>
+          </li>
+        <% else %>
+          <li class="control-item" role="menuitem">
+            <%= link_to new_user_session_path, title: t("Sign_in"), class: "nav-link control-link" do %>
+              <span class="control-icon fa fa-sign-in-alt"></span>
+            <% end %>
+          </li>
+        <% end %>
+
+        <li class="control-item" role="menuitem">
+          <%= link_to help_path(controller_name), title: t("Help"), class: "nav-link control-link" do %>
+            <span class="control-icon fa fa-info-circle"></span>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="application-navigation" ng-reflect-links="[object Object],[object Object">
+    <h2 class="sr-only">i18n.accessible.globalNavigationMenu</h2>
+    <ul class="main-nav" id="navigation" role="menubar" tabindex="-1">
+      <% if user_signed_in? %>
+        <li class="main-nav-item" role="presentation">
+          <%= link_to root_path, role:"menuitem", title: t("Display") do %>
+            <span class="fa fa-home"></span>
+          <% end %>
+        </li>
+
+        <%# Check if the parent is a module defined as Namespace. If not (Object) the display default layout %>
+        <% if controller.class.parent.name == 'Object' %>
+          <% if user_is_admin? %>
+            <li class="main-nav-item" role="presentation">
+              <%= link_to t('Playgrounds'), playgrounds_path, role:"menuitem" %>
+            </li>
+            <li class="main-nav-item" role="presentation">
+              <%= link_to t('BAs'), business_areas_path, role:"menuitem" %>
+            </li>
+            <li class="main-nav-item" role="presentation">
+              <%= link_to t('BFs'), business_flows_path, role:"menuitem" %>
+            </li>
+            <!-- removed from layout
+            <li class="main-nav-item" role="presentation">
+              <%= link_to t('BPs'), business_processes_path, role:"menuitem" %>
+            </li>
+            -->
+            <li class="main-nav-item" role="presentation">
+              <%= link_to t('UsedBOs'), deployed_objects_path, role:"menuitem" %>
+            </li>
+            <li class="main-nav-item" role="presentation">
+              <%= link_to t('UsedSkills'), deployed_skills_path, role:"menuitem" %>
+            </li>
+            <li class="main-nav-item" role="presentation">
+              <%= link_to t('Skills'), defined_skills_path, role:"menuitem" %>
+            </li>
+            <li class="main-nav-item" role="presentation">
+              <%= link_to t('VLs'), values_lists_path, role:"menuitem" %>
+            </li>
+            <li class="main-nav-item" role="presentation">
+              <%= link_to t('Classifications'), classifications_path, role:"menuitem" %>
+            </li>
+            <% if can? :manage, BusinessRule %>
+              <li class="main-nav-item" role="presentation">
+                <%= link_to t('Plausibilisation'), business_rules_path, role:"menuitem" %>
+              </li>
+            <% end %>
+          <% else %>
+            <li class="main-nav-item" role="presentation">
+              <%= link_to t('BFs'), business_flows_path, role:"menuitem" %>
+            </li>
+          <% end %>
+        <% end %>
+
+      <% end %>
+    </ul>
+  </div>
+
+  <% if user_signed_in? and not $Unicity %>
+    <nav class="top_menu">
+      <!-- playground selection form -->
+      <%= form_for(current_user, url: set_playground_user_path(current_user), method: :patch) do |f| %>
+
+        <%= render partial: "shared/error_list", locals: { errors: current_user.errors } %>
+
+        <ul>
+          <li><%= t('Playground') %>: <%= f.collection_select :current_playground_id, list_of_playgrounds, :id, :code  %> </li>
+          <li class="actions" ><%= f.submit "OK" %></li>
+        </ul>
+      <% end %>
+    </nav>
+  <% end %>
+
+</header>

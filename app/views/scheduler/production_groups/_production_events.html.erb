@@ -1,0 +1,78 @@
+<ul class="nav-tree nav-indent nav-toggle expanded nav-bordered nav-hover">
+  <% @production_events.each do |event| %>
+    <li role="presentation" id="<%= "ui-nav-event-#{event.id}" %>">
+      <!-- do not repeat
+      <div class="row mat-form-row" title="event results">
+        <div class="mat-form-field-label col-md-1 offset-md-1">
+          <%= t('TaskStatus') %>
+        </div>
+        <div class="mat-form-field-label col-md-1">
+          <%= t('Activity') %>
+        </div>
+        <div class="mat-form-field-label col-md-1">
+          <%= t('Task') %>
+        </div>
+        <div class="mat-form-field-label col-md-2">
+          <%= t('StartedAt') %>
+        </div>
+        <div class="mat-form-field-label col-md-1">
+          <%= t('EndedAt') %>
+        </div>
+        <div class="mat-form-field-label col-md-1">
+          <%= t('SourceRows') %>
+        </div>
+        <div class="mat-form-field-label col-md-1">
+          <%= t('ProcessedRows') %>
+        </div>
+        <div class="mat-form-field-label col-md-2">
+          <%= t('ErrorMessage') %>
+        </div>
+        <div class="mat-form-field-label col-md-1">
+          <%= t('Actions') %>
+        </div>
+      </div> -->
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-1 offset-md-1">
+          <span class="status-icon fa <%= event.status.property %>"
+            title="<%= translation_for(event.status.name_translations) %>">&nbsp;</span>
+        </div>
+        <div class="mat-form-field col-md-1" title="Subprocess">
+          <%# event.activity.code %>
+        </div>
+        <div class="mat-form-field col-md-1" title="Task">
+          <%= event.task.code %>
+        </div>
+        <div class="mat-form-field col-md-2" title="Started at">
+          <%= event.started_at ? format_datetime(event.started_at) : t('Pending') %>
+        </div>
+        <div class="mat-form-field col-md-1" title="Ended at">
+          <%= event.ended_at ? format_time(event.ended_at) : t('Pending') %>
+        </div>
+        <div class="mat-form-field col-md-1"  title="Source records count">
+          <% event.source_records_count %>
+        </div>
+        <div class="mat-form-field col-md-1" title="Processed records count">
+          <% event.processed_count %>
+        </div>
+        <div class="mat-form-field col-md-2"  title="Error message">
+          <% event.error_message %>
+        </div>
+        <div class="mat-form-field col-md-1"  title="Subprocess caracteristics">
+          <%= link_to analyse_scheduler_production_event_path(event),
+                      title: t('.Show'),
+                      data: { toggle: "modal", target: "#childModal" },
+                      class: "mat-icon-button mat-button-base mat-secondary" do %>
+            <span class="fa fa-eye"></span>
+          <% end %>
+          <% if event.log_file.attached? %>
+            <%= link_to rails_blob_path(event.log_file, disposition: "attachment"),
+                        title: 'Log file',
+                        class: "mat-icon-button mat-button-base mat-secondary" do %>
+              <span class="fa fa-download"></span>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </li>
+  <% end %>
+</ul>

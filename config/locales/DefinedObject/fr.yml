@@ -1,0 +1,75 @@
+# Code for language as declared in i18n configuration
+fr:
+  DefinedObjects:                            "Defined objects"
+  DefinedObject:                             "Defined object"
+  ManagingDefinedObjects:                    "Gérer les defined objects"
+  NewDefinedObject:                          "Nouvelle defined object"
+  DefinedObjectRejected:                     "La defined object a été rejetée"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  defined_objects:
+    index:
+      # Columns titles
+      Code:                                    "Identifiant"
+      Name:                                    "Nom"
+      Description:                             "Description"
+      Parent:                                  "Business area"
+      Owner:                                   "Responsable"
+      UpdatedBy:                               "Mis à jour par"
+      UpdatedAt:                               "Mis à jour le"
+    index_short:
+      # Columns titles
+      Code:                                    "Identifiant"
+      Name:                                    "Nom"
+      Description:                             "Description"
+      Parent:                                  "Business area"
+      Owner:                                   "Responsable"
+      UpdatedBy:                               "Mis à jour par"
+      UpdatedAt:                               "Mis à jour le"
+    show:
+      Manage:                                  "Gérer les defined objects"
+      # Field names
+      Code:                                    "Identifiant"
+      Name:                                    "Nom"
+      Description:                             "Description"
+      SDMXResource:                            "URL de la ressource SDMX"
+      SDMXResourceDefinition:                  "Cette ressource définit une URL vers un service Web SDMX à partir duquel les variables définies (concepts) sont importées ou mises à jour sur la base de la liste d'identifiants. Si la liste est vide, toutes les variables de la ressource sont prises en compte."
+    new:
+      New:                                     "Nouvelle defined object"
+      # Field names
+      Code:                                    "Identifiant"
+      Name:                                    "Nom"
+      Description:                             "Description"
+    edit:
+      Edit:                                    "Modifier la defined object"
+      # Field names
+      Code:                                    "Identifiant"
+      Name:                                    "Nom"
+      Description:                             "Description"
+    new_version:
+      Success:                                "Nouvelle version créée"
+      Failure:                                "La nouvelle version ne peut pas être crée"
+    make_current:
+      Success:                                "La version est sélectionnée"
+      Failure:                                "Cette version ne peut pas être sélectionnée"
+    finalise:
+      Success:                                "Defined object finalisée"
+      Failure:                                "La defined object ne peut pas être finalisée"
+    create:
+      Success:                             	  "Nouvelle defined object créée"
+      Failure:                                "La nouvelle defined object ne peut pas être créée"
+    update:
+      Success:                             	  "Defined object modifiée"
+      Failure:                                "La defined object ne peut pas être modifiée"
+    activate:
+      Success:                             	  "Defined object récupérée"
+      Failure:                                "La defined object ne peut pas être récupérée"
+    destroy:
+      Success:                             	  "Defined object supprimée"
+      Failure:                                "La defined object ne peut pas être supprimée"
+    propose:
+      Success:                                "Defined object a été soumise à validation"
+      Failure:                                "La defined object ne peut pas être soumise à validation"
+    accept:
+      Success:                                "Defined object a été validée"
+      Failure:                                "La defined object ne peut pas être validée"

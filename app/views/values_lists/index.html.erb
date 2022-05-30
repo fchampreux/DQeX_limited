@@ -1,0 +1,11 @@
+<% provide(:title, t('ManagingValuesLists')) %>
+
+<% provide :page_heading do %>
+    <%=t('ValuesLists')%>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/index_view_navigation", locals: {this_object: ValuesList} %>
+<% end %>
+
+<%= render partial: "shared/object_index", locals: {this_index: @values_lists, showType: true} %>

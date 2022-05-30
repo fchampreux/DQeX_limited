@@ -1,0 +1,76 @@
+# Code for language as declared in i18n configuration
+de:
+  DeployedObjects:                            "Deployed Objekten"
+  DeployedObject:                             "Deployed Objekt"
+  ManagingDeployedObjects:                    "Deployed Objekten verwalten"
+  NewDeployedObject:                          "Neuer Deployed Objekt"
+  DeployedObjectRejected:                     "Deployed Objekt wurde abgelehnt"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  deployed_objects:
+    index:
+      # Columns titles
+      Code:                                    "Kennung"
+      Name:                                    "Name"
+      Description:                             "Beschreibung"
+      Parent:                                  "Informationfeld"
+      Owner:                                   "Eigentümer"
+      UpdatedBy:                               "Aktualisiert von"
+      UpdatedAt:                               "Aktualisiert am"
+    index_short:
+      # Columns titles
+      Code:                                    "Kennung"
+      Name:                                    "Name"
+      Description:                             "Beschreibung"
+      Parent:                                  "Informationfeld"
+      Owner:                                   "Eigentümer"
+      UpdatedBy:                               "Aktualisiert von"
+      UpdatedAt:                               "Aktualisiert am"
+    show:
+      Manage:                                 "Deployed Objekt verwalten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      Export:                                 "Exportieren"
+      TranslateInExcel:                       "Übersetzen in Excel"
+      ImportTranslations:                     "Importübersetzung"
+    new:
+      New:                                    "Neuer Deployed Objekt"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    edit:
+      Edit:                                   "Deployed Objekt bearbeiten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    new_version:
+      Success:                                "Erfolgreich erstellte Deployed Objekt"
+      Failure:                                "Die hierarchische Liste konnte nicht erstellt werden"
+    make_current:
+      Success:                                "Deployed Objekt erfolgreich ausgewählt"
+      Failure:                                "Deployed Objekt konnte nicht ausgewählt werden"
+    finalise:
+      Success:                                "Deployed Objekt-Version erfolgreich abgeschlossen"
+      Failure:                                 "Die Version der hierarchischen Codeliste konnte nicht fertiggestellt werden"
+    create:
+      Success:                             	  "erfolgreich erstellt Deployed Objekt"
+      Failure:                                "Deployed Objekt konnte nicht erstellt werden"
+    update:
+      Success:                             	  "erfolgreich aktualisierter Deployed Objekt"
+      Failure:                                "Deployed Objekt konnte nicht aktualisierter werden"
+    activate:
+      Success:                             	  "Deployed Objekt erfolgreich wiederhergestellt"
+      Failure:                                "Deployed Objekt konnte nicht abgerufen werden"
+    destroy:
+      Success:                             	  "Deployed Objekt erfolgreich gelöscht"
+      Failure:                                "Deployed Objekt konnte nicht gelöscht werden"
+    propose:
+      Success:                                "Die Deployed Objekt wurde vorgeschlagen."
+      Failure:                                "Deployed Objekt"
+    accept:
+      Success:                                "Die Deployed Objekt wurde angenommen."
+      Failure:                                "Deployed Objekt"

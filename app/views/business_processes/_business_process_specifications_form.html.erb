@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="row mat-form-row">
+      <div class="mat-form-field col-md-4">
+        <%= f.label :zone_from_id, t('business_processes.show.Source'), class: "mat-form-field-label" %>
+        <%= f.collection_select :zone_from_id, options_for('data_lifecyle_steps'), :id, :property, {:include_blank => true}, { multiple: false, class: "mat-input-element select2-candidate full-width" } %>
+      </div>
+      <div class="col-md-4">
+      </div>
+      <div class="mat-form-field col-md-4">
+        <%= f.label :zone_to_id, t('business_processes.show.Target'), class: "mat-form-field-label" %>
+        <%= f.collection_select :zone_to_id, options_for('data_lifecyle_steps'), :id, :property, {:include_blank => true}, { multiple: false, class: "mat-input-element select2-candidate full-width" } %>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="row mat-form-row">
+      <div class="mat-form-field col-md-12">
+        <%= render partial: "shared/json_parameters_form",
+                    locals: { this_object: @business_process,
+                              columns: [
+                                          {"fieldName": "name", "layout": "INPUT"},
+                                          {"fieldName": "dataType", "layout": "CODELIST", "dataValues": options_for('data_types').map {|dt| dt.code} },
+                                          {"fieldName": "value", "layout": "INPUT"},
+                                          {"fieldName": "isMandatory", "layout": "CHECKBOX"},
+                                        ]
+                            } %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,143 @@
+<% provide(:title, (t('ManagingSkills'))) %>
+<% provide(:page_class, 'page-view-details') %>
+
+<% provide :page_heading do %>
+  <%= render partial: "shared/heading", locals: {this_object: @skill} %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  <%= render partial: "shared/breadcrumbs" %>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/show_view_navigation", locals: {this_object_parent: @skill.parent, this_object_index: defined_objects_path} %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_actions", locals: {this_object: @skill } %>
+<% end %>
+
+<div id="skill-workflow">
+  <%= render partial: "shared/workflow_buttons", locals: {this_object: @skill, finalised_dependency: @skill.values_list ? @skill.values_list.is_finalised : true } %>
+</div>
+
+<% if !@skill.uuid.blank? %>
+  <%= link_to "View in SIS Portal", "#{$MigrationClient}definedVariables/#{@skill.uuid}", :target => "_blank"  %>
+<% end %>
+
+<% provide :technical_details do %>
+  <%= render partial: "shared/object_ownership", locals: {this_object: @skill} %>
+<% end %>
+
+<% provide :information do %>
+  <div class="row">
+    <div class="col-md-6">
+      <%= render partial: "shared/object_definition",
+          locals: {this_object: @skill,
+                  smallTextarea: true,
+                  isTechnical: true} %>
+    </div>
+    <div class="col-md-6">
+      <%= render partial: "shared/object_responsibilities",
+          locals: {this_object: @skill,
+                  showStatus: false} %>
+      <%= render partial: "shared/translated_field", locals: {
+        id: 'external_description',
+        field: "external_description",
+        translations: @skill.external_description_translations,
+        isTextarea: true,
+        smallTextarea: true,
+        label: t('External_Description') } %>
+    </div>
+  </div>
+<% end %>
+
+<% provide :specifications do %>
+  <%= render partial: "defined_skill_specifications" %>
+<% end %>
+
+<%= render layout: "layouts/collapsible_details",
+    locals: {tabs_content: [ :specifications, :information ],
+    title: t('DefinedSkill')}  do %>
+
+<% end %>
+
+<%= render layout: "layouts/collapsible_annotations" do %>
+  <%= render partial: "shared/annotations_show", locals: { annotated_object: @skill } %>
+<% end %>
+
+<hr />
+
+<% if @skill.is_template and not session[:cart_id].nil? %>
+  <div class="row">
+    <div class="col-md-6 offset-6">
+      <%= render partial: "shared/add_to_cart", locals: { model: nil, item: @skill } %>
+    </div>
+  </div>
+
+  <hr />
+<% end %>
+
+<section class="tabbable">
+
+  <div class="tabbable">
+
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="active"><a href="#child-skills" data-toggle="tab"><%= t('UsedSkills') %></a></li>
+    </ul>
+
+    <div class="tab-content">
+
+      <div class="tab-pane" id="child-skills">
+
+      <%= will_paginate @child_skills if @child_skills %>
+
+      <table class="table table-hover table-clickable">
+        <thead>
+          <tr>
+            <th class="col-min-nw"><%= t('TechCode') %></th>
+            <th class="col-min"><%= t('Name') %></th>
+            <th class="col-min"><%= t('BusinessArea') %></th>
+            <th class="col-min"><%= t('UsedBO') %></th>
+            <th class="col-min"><%= t('Organisation') %> </th>
+            <th class="col-min"><%= t('Responsible') %></th>
+            <th class="col-min"><%= t('Owner') %></th>
+            <th class="col-min-nw"><%= t('CreatedAt') %></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% if @child_skills.count > 0 %>
+            <% @child_skills.order(:sort_code).each do |skill| %>
+              <tr data-href="<%= url_for skill %>">
+                <td> <%= skill.code %> </td>
+                <td> <%= translation_for(skill.name_translations) %> </td>
+                <td> <%= translation_for(skill.parent.parent.parent.parent.name_translations) %> </td>
+                <td> <%= translation_for(skill.parent.name_translations) %> </td>
+                <td> <%= translation_for(skill.organisation.name_translations) %> </td>
+                <td> <%= skill.responsible&.name %> </td>
+                <td> <%= skill.owner.name %> </td>
+                <td> <%= format_date(skill.created_at) %> </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td class="cell-empty" colspan="<%= 8 %>">
+                <p class="alert alert-info">
+                  <%= t('NoChildren') %>
+                </p>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <%= will_paginate @child_skills if @child_skills  %>
+
+      </div> <!-- closes child skills pane -->
+
+    </div>
+
+  </div>
+
+</section>

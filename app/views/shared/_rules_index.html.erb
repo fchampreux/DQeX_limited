@@ -1,0 +1,47 @@
+      <table class="child-object-table table table-hover table-clickable">
+
+        <thead>
+          <tr>
+            <th scope="col" class="col-min"><%= t('Status') %></th>
+            <th scope="col" class="col-min-nw"><%= t('Sequence') %></th>
+            <th scope="col" class="col-min-nw"><%= t('Code') %></th>
+            <th scope="col" class="col-min-nw"><%= t('Field') %></th>
+            <th scope="col"><%= t('Name') %></th>
+            <th scope="col"><%= t('Description') %></th>
+            <th scope="col" class="col-min-nw"><%= t('UpdatedBy') %></th>
+            <th scope="col" class="col-min-nw text-right"><%= t('UpdatedAt') %></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% these_rules.order(:ordering_sequence).each do |rule| %>
+            <tr data-href="<%= url_for rule %>">
+              <td> <span class="status-icon <%= status_class_for(rule) %>"
+                title="<%= t('Status') + ' : ' + translation_for(rule.status.name_translations) %>"></span>
+              </td>
+              <td><%= rule.ordering_sequence %></td>
+              <td class="no-wrap">
+                <%= link_to rule do %>
+                  <%=h truncate(rule.code, :length => 15) %>
+                <% end %>
+              </td>
+              <td><%= "#{rule.parent.code}.#{rule.skill.code}" %></td>
+              <td><%= translation_for(rule.name_translations) %></td>
+              <td><%=h truncate(translation_for(rule.description_translations), :length => 200) %></td>
+              <td><%= rule.updated_by %></td>
+              <td class="text-right"><%= format_date(rule.updated_at) %></td>
+            </tr>
+          <% end%>
+
+          <% if these_rules.empty? %>
+            <tr>
+              <td class="cell-empty" colspan=8">
+                <p class="alert alert-info">
+                  <%= t('NoChildren') %>
+                </p>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+
+      </table>

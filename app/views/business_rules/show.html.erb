@@ -1,0 +1,155 @@
+<% provide(:title, (t('ManagingBRs'))) %>
+<% provide(:page_class, 'page-view-details') %>
+
+<% provide :page_heading do %>
+  <%= render partial: "shared/heading", locals: {this_object: @business_rule} %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  <%= render partial: "shared/breadcrumbs" %>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/show_view_navigation", locals: {this_object_parent: @business_rule.parent, this_object_index: business_rules_path} %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_version_actions", locals: {this_object: @business_rule } %>
+<% end %>
+
+<div id="business-rule-workflow">
+  <%= render partial: "shared/workflow_buttons", locals: {this_object: @business_rule, finalised_dependency: true } %>
+</div>
+
+<% provide :technical_details do %>
+  <%= render partial: "shared/object_ownership", locals: {this_object: @business_rule} %>
+<% end %>
+
+<% provide :information do %>
+  <div class="row">
+    <div class="col-md-6">
+      <%= render partial: "shared/object_definition",
+          locals: {this_object: @business_rule,
+                  smallTextarea: true,
+                  isTechnical: true} %>
+    </div>
+    <div class="col-md-6">
+      <%= render partial: "shared/object_responsibilities",
+          locals: {this_object: @business_rule,
+                  showStatus: false} %>
+    </div>
+  </div>
+<% end %>
+
+<% provide :versions do %>
+  <%= render partial: "shared/object_versions", locals: { this_object: @cloned_business_rules } %>
+<% end %>
+
+<% provide :specifications do %>
+  <%= render partial: "rule_specifications" %>
+<% end %>
+
+<% provide :implementation do %>
+  <%= render partial: "rule_implementation" %>
+<% end %>
+
+<% provide :solving do %>
+  <%= render partial: "rule_solving" %>
+<% end %>
+
+<% provide :metrics do %>
+  <%= render partial: "rule_metrics" %>
+<% end %>
+
+<%# provide :notifications do %>
+<%# end %>
+
+<%= render layout: "layouts/collapsible_details",
+    locals: {tabs_content: [ :information,
+                             :specifications,
+                             :implementation,
+                             :solving,
+                             :metrics,
+                             :versions ],
+    title: t('BusinessRule')}  do %>
+
+<% end %>
+
+  <div class="tabbable">
+
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#tasks" data-toggle="tab"> <%= t('Tasks') %> </a></li>
+    </ul>
+
+    <div class="tab-content">
+
+      <div class="tab-pane active" id="tasks">
+
+        <!-- split tasks types into sections -->
+
+        <table class="child-object-table table table-hover table-clickable">
+
+          <thead>
+            <tr>
+              <th scope="col" class="col-min"><%= t('Type') %></th>
+              <th scope="col" class="col-min"><%= t('Sequence') %></th>
+              <th scope="col" class="col-min-nw"><%= t('Code') %></th>
+              <th scope="col"><%= t('Name') %></th>
+              <th scope="col"><%= t('Description') %></th>
+              <th>  <%= t('IsActive') %> </th>
+              <th scope="col" class="col-min-nw"><%= t('UpdatedBy') %></th>
+              <th scope="col" class="col-min-nw text-right"><%= t('UpdatedAt') %></th>
+              <th class="col-min-nw">
+                <%= link_to new_business_rule_task_path(@business_rule, parent_id: @business_rule.id, parent_class: @business_rule.class.name), title: t('.New'), data: { toggle: "modal", target: "#childModal" }, class: "mat-flat-button mat-button-base mat-primary" do %>
+                  <span class="fa fa-plus-square" %></span>
+                  <%= t("New") %>
+              <% end %>
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @business_rule.tasks.order(task_type_id: :asc, sort_code: :asc).each do |task| %>
+
+              <tr>
+                <td class="no-wrap"> <%= translation_for(task.task_type.name_translations) %> </td>
+                <td class="no-wrap"> <%= task.sort_code %> </td>
+                <td class="no-wrap"> <%= task.code %> </td>
+                <td class="no-wrap"> <%= translation_for(task.name_translations) %> </td>
+                <td><%=h truncate(translation_for(task.description_translations), :length => 200) %></td>
+                <td class="col_narrow"> <%=task.is_active %> </td>
+                <td><%= task.updated_by %></td>
+                <td class="text-right"><%= format_date(task.updated_at) %></td>
+                <td class="cell-with-button cell-nw">
+                  <%= link_to business_rule_task_path(@business_rule, task), title: t('.Show'), data: { toggle: "modal", target: "#childModal" }, class: "mat-icon-button mat-button-base mat-secondary" do %>
+                    <span class="fa fa-eye"></span>
+                  <% end %>
+                  <%= link_to edit_business_rule_task_path(@business_rule, task), title: t('.Edit'), data: { toggle: "modal", target: "#childModal" }, class: "mat-icon-button mat-button-base mat-secondary" do %>
+                    <span class="fa fa-edit"></span>
+                  <% end %>
+                  <%= link_to task, title: t('Delete'), data: { confirm: t(".Sure")  }, method: :delete, class: "mat-icon-button mat-button-base mat-warn" do %>
+                    <span class="fa fa-trash"></span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end%>
+
+            <% if @business_rule.tasks.empty? %>
+              <tr>
+                <td class="cell-empty" colspan=9">
+                  <p class="alert alert-info">
+                    <%= t('NoChildren') %>
+                  </p>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+
+        </table>
+
+  <!-- Tab content -->
+      </div>
+
+    </div>
+
+  </div>

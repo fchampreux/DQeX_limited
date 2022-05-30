@@ -1,0 +1,71 @@
+$ct-size: 56px;
+$link-size: 40px;
+
+@mixin hover-style() {
+  border-radius: 0;
+  box-shadow:
+    0 1px 3px rgba(0,0,0,0.2),
+    0 2px 10px rgba(0,0,0,0.2);
+
+  a {
+    height: $link-size;
+
+    &.active {
+      color: white;
+      background-color: #069;
+    }
+  }
+}
+
+#language-picker-ct {
+  overflow: visible;
+  width: $ct-size;
+  height: $ct-size;
+  padding: ($ct-size - $link-size)/2;
+  text-align: center;
+}
+
+#language-picker {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  transition: all 200ms ease-in-out;
+  background: white;
+  border-radius: $link-size / 2;
+
+  a {
+    overflow: hidden;
+    display: block;
+    width: $link-size;
+    height: 0;
+    line-height: $link-size;
+    transition:
+      color 200ms linear,
+      background-color 200ms linear,
+      height 200ms ease-in-out;
+
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      height: $link-size;
+      text-decoration: none;
+      color: white;
+      background-color: #069;
+    }
+    &.active {
+      order: -1;
+      background-color: #666;
+      cursor: default;
+    }
+  }
+
+  &:hover {
+    @include hover-style();
+  }
+  &:focus-within {
+    // distinct code block needed to avoid parsing error of non supporting browsers
+    @include hover-style();
+  }
+}

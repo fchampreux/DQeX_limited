@@ -1,0 +1,84 @@
+# Code for language as declared in i18n configuration
+de_OFS:
+  DefinedObjects:                            "Variablensammlungen"
+  DefinedObject:                             "Variablensammlung"
+  ManagingDefinedObjects:                    "Variablensammlungn verwalten"
+  NewDefinedObject:                          "Neuer Variablensammlung"
+  DefinedObjectRejected:                     "Variablensammlung wurde abgelehnt"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  defined_objects:
+    index:
+      # Columns titles
+      Code:                                    "Kennung"
+      Name:                                    "Name"
+      Description:                             "Beschreibung"
+      Parent:                                  "Informationfeld"
+      Owner:                                   "Eigentümer"
+      UpdatedBy:                               "Aktualisiert von"
+      UpdatedAt:                               "Aktualisiert am"
+    index_short:
+      # Columns titles
+      Code:                                    "Kennung"
+      Name:                                    "Name"
+      Description:                             "Beschreibung"
+      Parent:                                  "Informationfeld"
+      Owner:                                   "Eigentümer"
+      UpdatedBy:                               "Aktualisiert von"
+      UpdatedAt:                               "Aktualisiert am"
+    show:
+      Manage:                                 "Variablensammlung verwalten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      read_SDMX:
+        Button:                               "Aktualisieren"
+        Title:                                "Aktualisieren der Werte durch Abfrage einer entfernten Ressource"
+      Resource:                                 "URL der Ressource"
+      Variables:                                "Variablenbezeichner"
+    new:
+      New:                                    "Neuer Variablensammlung"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    edit:
+      Edit:                                   "Variablensammlung bearbeiten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    new_version:
+      Success:                                "Erfolgreich erstellte Variablensammlung"
+      Failure:                                "Die Variablensammlung konnte nicht erstellt werden"
+    make_current:
+      Success:                                "Variablensammlung erfolgreich ausgewählt"
+      Failure:                                "Variablensammlung konnte nicht ausgewählt werden"
+    finalise:
+      Success:                                "Variablensammlung-Version erfolgreich abgeschlossen"
+      Failure:                                 "Die Version der hierarchischen Codeliste konnte nicht fertiggestellt werden"
+    create:
+      Success:                             	  "erfolgreich erstellt Variablensammlung"
+      Failure:                                "Variablensammlung konnte nicht erstellt werden"
+    update:
+      Success:                             	  "erfolgreich aktualisierter InformVariablensammlungationfeld"
+      Failure:                                "Variablensammlung konnte nicht aktualisierter werden"
+    activate:
+      Success:                             	  "Variablensammlung erfolgreich wiederhergestellt"
+      Failure:                                "Variablensammlung konnte nicht abgerufen werden"
+    destroy:
+      Success:                             	  "Variablensammlung erfolgreich gelöscht"
+      Failure:                                "Variablensammlung konnte nicht gelöscht werden"
+    propose:
+      Success:                                "Die Variablensammlung wurde vorgeschlagen."
+      Failure:                                "Variablensammlung"
+    accept:
+      Success:                                "Die Variablensammlung wurde angenommen."
+      Failure:                                "Variablensammlung"
+    read_SDMX:
+      ImportedConcepts:                       "Importierte Konzepts"
+      UpdatedtedConcepts:                     "Konzepts aktualisiert"
+      TotalConcepts:                          "Verarbeitete Konzepts"
+      InsertedAnnotations:                    "Anmerkungen hinzugefügt"
+      UpdatedtedAnnotations:                  "Anmerkungen geändert"

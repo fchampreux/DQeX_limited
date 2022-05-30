@@ -1,0 +1,102 @@
+<% provide(:title, (t('ManagingGroups'))) %>
+<% provide(:page_class, 'page-view-details') %>
+
+<% provide :page_heading do %>
+  <%= translation_for(@group.name_translations) %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  <ol id="breadcrumbs" class="breadcrumbs">
+    <li>
+      <a href="/" title="<%= t("Display") %>" class="fa fa-home"></a>
+    </li>
+    <li>
+      <%= link_to translation_for(@group.name_translations) %>
+    </li>
+  </ol>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_actions",
+      locals: {this_object: @group } %>
+<% end %>
+
+<% provide :technical_details do %>
+  <%= render partial: "shared/object_ownership",
+      locals: {this_object: @group} %>
+<% end %>
+
+<% provide :information do %>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-12">
+          <%= render partial: "shared/object_definition",
+              locals: {this_object: @group,
+                      smallTextarea: true,
+                      isTechnical: true} %>
+        </div>
+      </div>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-6">
+          <label for="group-organisation" class="mat-form-field-label">
+            <%= t('Organisation') %>
+          </label>
+          <input id="group-organisation" class="mat-input-element" readonly
+            value="<%= translation_for(@group.organisation.name_translations) %>" />
+        </div>
+        <div class="mat-form-field col-md-6">
+          <label for="group-territory" class="mat-form-field-label">
+            <%= t('Territory') %>
+          </label>
+          <input id="group-territory" class="mat-input-element" readonly
+            value="<%= translation_for(@group.territory.name_translations) %>" />
+        </div>
+      </div>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-6">
+          <label for="group-roles" class="mat-form-field-label">
+            <%= t('Roles') %>
+          </label>
+          <%= select_tag 'group-roles',
+              options_for_select_from_list(options_for('user_roles'),
+                @group.role_ids),
+                { multiple: true,
+                  disabled: true,
+                  class: 'mat-input-element select2-candidate' } %>
+        </div>
+      </div>
+    </div>
+    <div class="mat-form-field col-md-6">
+      <label for="users-in-group" class="mat-form-field-label">
+        <%= t('Members') %>
+      <table class="table table-hover table-clickable">
+        <thead>
+          <tr>
+            <th scope="col" class="col-min-nw"><%= t('UserName')%> </th>
+            <th scope="col" class="col-min-nw"><%= t('Name')%> </th>
+            <th scope="col" class="col-min-nw"><%= t('ActivityStatus')%> </th>
+            <th scope="col" class="col-min-nw"><%= t('ActiveFrom')%> </th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <% @group.users.order(:user_name).each do |user| %>
+            <tr data-href="<%= url_for [namespace, user] %>">
+              <td><%= user.is_admin ? '* ' : '' %><%= user.user_name %></td>
+              <td><%= user.name %></td>
+              <td><%= user.activity_status %></td>
+              <td><%= user.active_from %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>
+
+<%= render layout: "layouts/collapsible_details",
+    locals: {tabs_content: [ :information ],
+    title: t('Group')}  do %>
+
+<% end %>

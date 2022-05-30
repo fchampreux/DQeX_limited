@@ -1,0 +1,7 @@
+/* Table creation SQL script */
+<br/>proc sql;
+<br/>
+<b>CREATE TABLE</b> <%= @target.code %> ( <br/>
+    <%= @target.getColList('SAS', 'typed') %> <br/>
+) ;
+<br/>quit;

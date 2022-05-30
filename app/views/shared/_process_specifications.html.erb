@@ -1,0 +1,22 @@
+<div class="row mat-form-row">
+  <div class="mat-form-field col-md-6">
+    <div class="row mat-form-row">
+      <div class="mat-form-field col-md-4">
+        <label for="zone_from_id" class="mat-form-field-label">
+          <%= t('business_processes.show.Source') %>
+        </label>
+        <input id="zone_from_id" class="mat-input-element" readonly
+          value="<%= @business_process.zone_from&.property %>" />
+      </div>
+      <div class="col-md-4">
+      </div>
+      <div class="mat-form-field col-md-4">
+        <label for="zone_to_id" class="mat-form-field-label">
+          <%= t('business_processes.show.Target') %>
+        </label>
+        <input id="zone_to_id" class="mat-input-element" readonly
+          value="<%= @business_process.zone_to&.property %>" />
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+  <div class="mat-form-field"  id="json-attachmentsSet-ct">
+    <label for="<%= this_object.class.name.underscore %>-attachments-table" class="mat-form-field-label">
+      <%= t('Attachments') %>
+    </label>
+    <table id="<%= this_object.class.name.underscore %>-attachments-table" style="width: 100%">
+    </table>
+  </div>
+
+  <script>
+    $(document).ready( function () {
+
+      var file_template = '<a class="mat-icon-button mat-button-base mat-secondary"';
+      var tbId = '<%= "#{this_object.class.name.underscore}-attachments-table" %>';
+      var attachments = [
+        <% this_object.attachments.each do |document| %>
+          {
+            fileName: '<%= document.filename %>',
+            contentType: '<%= document.content_type %>',
+            fileSize: <%= document.byte_size %>,
+            fileURL: '<%= rails_blob_path(document, disposition: 'attachment') %>'
+          },
+        <% end %>
+      ];
+      console.log('Attchments: ' + tbId, attachments);
+
+      $('#' + tbId).DataTable({
+        paging: false,
+        ordering: false,
+        info: false,
+        searching: false,
+        width: "100%",
+        data: attachments,
+        columns: [
+          { title: "<%= t('.FileName') %>", width: "50%", data: "fileName"},
+          { title: "<%= t('.FileType') %>", width: "20%", data: "contentType"},
+          { title: "<%= t('.FileSize') %>", width: "20%", data: "fileSize"},
+          { title: "", width: "10%", render: function(data, type, row) {
+            return (file_template
+                   + 'href=' + row['fileURL'] + '>'
+                   + '<span class="status-icon fa fa-download"> </span> </a>'
+                   )
+            }
+          }
+        ]
+      });
+
+    });
+
+  </script>

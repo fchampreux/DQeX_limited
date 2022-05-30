@@ -1,0 +1,55 @@
+<% provide(:page_class, 'page-view-details') %>
+
+<%= form_with model: [@business_object, @scope], html: {id: "edit_form"} do |f| %>
+
+  <%= render partial: "shared/error_list", locals: { errors: @scope.errors } %>
+
+  <% provide :information do %>
+    <div class="row">
+      <div class="col-md-6">
+
+        <div id="scope-definition">
+          <%= render partial: "shared/object_definition_form",
+                      locals: { this_object: @scope,
+                                f: f,
+                                smallTextarea: true,
+                                isTechnical: true} %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <%= render partial: "shared/object_responsibilities_form",
+                    locals: {this_object: @scope, f: f} %>
+      </div>
+    </div>
+  <% end %>
+
+  <% provide :specifications do %>
+    <%= render partial: "scope_specifications_form", locals: {f: f} %>
+  <% end %>
+
+  <% tabs_content = [ :information,
+                      :specifications ] %>
+
+  <section class="tabbable">
+
+    <ul class="nav nav-tabs" role="tablist">
+      <% tabs_content.each_with_index do |tab, index| %>
+        <li class="<%= index == 0 ? 'active' : nil %>">
+          <a href="#<%= tab.to_s %>" data-toggle="tab">
+            <%= t(tab.capitalize) %>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+
+    <div class="tab-content">
+      <% tabs_content.each_with_index do |tab, index| %>
+        <div class="tab-pane <%= index == 0 ? 'active' : nil %>" id="<%= tab %>">
+        <%= yield tabs_content[index] %>
+        </div>
+      <% end %>
+    </div>
+
+  </section>
+
+<% end %>

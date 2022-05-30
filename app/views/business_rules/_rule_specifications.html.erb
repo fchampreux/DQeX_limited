@@ -1,0 +1,59 @@
+<div class="row mat-form-row">
+  <div class="mat-form-field col-md-3">
+    <label for="br-ordering-sequence" class="mat-form-field-label">
+      <%= t('OrderingSequence') %>
+    </label>
+    <input id="br-ordering-sequence" class="mat-input-element" readonly
+      value="<%= @business_rule.ordering_sequence %>" />
+  </div>
+  <div class="mat-form-field col-md-3">
+    <label for="br-is-published" class="mat-input-label">
+      <%= t('IsPublished') %>
+    </label>
+    <input id="br-is-published" class="mat-input-element" readonly
+      value="<%= @business_rule.is_published ? 'True' : 'Internal' %>" />
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <%= render partial: "shared/translated_field", locals: {
+      id: 'br-business-value',
+      field: "business_value",
+      isTextarea: true,
+      translations: @business_rule.business_value_translations,
+      label: t('BValue') } %>
+  </div>
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-6">
+        <%= render partial: "shared/translated_field", locals: {
+          id: 'br-rule-type',
+          field: "rule_type_id",
+          isTextarea: false,
+          translations: @business_rule.rule_type.name_translations,
+          label: t('RuleType') } %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <%= render partial: "shared/translated_field", locals: {
+          id: 'br-rule-class',
+          field: "rule_class_id",
+          isTextarea: false,
+          translations: @business_rule.rule_class.name_translations,
+          label: t('RuleClass') } %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <%= render partial: "shared/translated_field", locals: {
+          id: 'br-rule-severity',
+          field: "rule_severity_id",
+          isTextarea: false,
+          translations: @business_rule.severity.name_translations,
+          label: t('RuleSeverity') } %>
+      </div>
+    </div>
+  </div>
+</div>

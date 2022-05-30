@@ -1,0 +1,11 @@
+en:
+  values:
+    create:
+      Success:                        "The value has been created"
+      Failure:                        "The value can't be created"
+    update:
+      Success:                        "The value has been updated"
+      Failure:                        "The value can't be updated"
+    destroy:
+      Success:                        "The value has been deleted"
+      Failure:                        "The value can't be deleted"

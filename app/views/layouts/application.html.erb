@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<base href="/">
+
+  <title><%= full_title(yield(:title)).html_safe %></title>
+
+  <link href="/assets/ODQ_favicon64.ico" rel="shortcut icon">
+  <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+	<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+  <%= render "layouts/shim" %>
+</head>
+
+<body class="<%= yield(:page_class) %>">
+
+  <div class="application material application-fixed offcanvas footer-sm has-overlay">
+
+    <%= render "layouts/header" %>
+
+    <div class="application-content offcanvas-main" id="content" role="main" tabindex="-1">
+
+      <div class="alert-compatibility default-layout">
+        <div class="alert alert-error">
+          <span class="sr-only">Error</span>
+          <h4>Unsupported browser!</h4>
+          <p class="lead">Please note that your browser, Internet Explorer 9 or earlier, is deprecated.</p>
+          <p>We recommend upgrading to the
+            <a href="https://www.microsoft.com/en-us/windows/microsoft-edge" rel="noopener" target="_blank">latest version</a>.</p>
+          <p>If you are using IE 10 or above, make sure you
+            <a href="https://support.microsoft.com/en-us/help/17471" rel="noopener" target="_blank">turn off "Compatibility View".</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="application-content-viewport">
+        <main class="empty-layout">
+          <div class="column-layout">
+            <% if user_signed_in? %>
+              <div id="column-left" class="column-left d-print-none" role="complementary" data-turbolinks-temporary>
+								<button class="column-toggle-left" type="button">
+									<span class="sr-only">i18n.oblique.column.left.toggle</span>
+								</button>
+								<div class="column-content">
+									<%# Check if the parent is a module defined as Namespace. If not (Object) the display default layout %>
+									<% if controller.class.parent.name == 'Object' %>
+										<%= render "layouts/navigation" if user_is_admin? %>
+									<% else %>
+                		<%= render "layouts/#{controller.class.parent.name.downcase}" %>
+									<% end %>
+								</div>
+              </div>
+            <% end %>
+
+            <div class="column-main">
+              <div class="sticky">
+                <section class="ui-component sticky">
+                  <% if user_signed_in? %>
+                    <header class="sticky-header sticky-relative d-flex">
+                      <div class="ui-component-heading">
+												<%= render "layouts/sub-navigation" %>
+                      </div>
+                    </header>
+                  <% end %>
+
+                  <div class="sticky-main default-layout">
+                    <%= yield %>
+                  </div>
+                </section>
+              </div>
+            </div>
+
+						<% if content_for?(:error_list) %>
+              <div id="column-right" class="column-right column-narrow d-print-none" role="complementary">
+								<button class="column-toggle-right" type="button">
+									<span class="sr-only">i18n.oblique.column.right.toggle</span>
+								</button>
+								<div class="column-content default-layout">
+                	<%= yield(:error_list) %>
+								</div>
+              </div>
+            <% end %>
+          </div>
+        </main>
+      </div><!-- end: div.application-content-viewport -->
+    </div><!-- end: div#content -->
+
+		<!-- Child Modal window for generic use -->
+		<aside class="modal fade modal-remote" id="childModal" tabindex="-1" role="dialog" aria-labelledby="childModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered modal-lg">
+		    <div class="modal-content"></div>
+		  </div>
+		</aside>
+
+    <%= render "layouts/footer" %>
+
+  </div><!-- end: div.application-->
+
+	<%= render "shared/inline_scripts" %>
+
+</body>
+</html>

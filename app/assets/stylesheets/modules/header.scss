@@ -1,0 +1,237 @@
+/* from Prototype */
+
+.application-header {
+  position:relative;
+  background-color:#fff;
+  background-clip:content-box;
+  z-index:10;
+  transition:height .6s ease-in-out
+  }
+
+.application:not(.application-fixed) .application-header.application-header-sticky {
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:1002
+  }
+
+@media (max-width:992px) {
+
+  .application-header {
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    width:100%;
+    height:61px
+    }
+
+  .header-open .application-header {
+    height:100%
+    }
+
+  .header-open.no-navigation .application-header {
+    height:112px
+    }
+  }
+
+.application-header .header {
+  display:block;
+  z-index:1;
+  width:100%;
+  padding:0;
+  background-color:inherit;
+  border-bottom:5px solid $lineColor
+  }
+
+@media (min-width:992px) {
+
+  .application-header {
+    height:141px
+    }
+
+  .application-header.application-header-md {
+    height:112px
+    }
+
+  .application-header.application-header-animate {
+    padding:0;
+    margin:0
+    }
+
+  .application.no-navigation .application-header {
+    height:90px
+    }
+
+  .application.no-navigation .application-header.application-header-md {
+    height:61px
+    }
+
+  .application-fixed .application-header {
+    flex-shrink:0
+    }
+
+  .application-header .header {
+    display:flex;
+    flex-direction:row
+    }
+
+  :not(.application-header-md).application-header .application-brand {
+    padding:15px
+    }
+  }
+
+@media (max-width:992px) {
+  .application-header .header {
+    overflow:hidden;
+    height:61px;
+    transition:height .6s ease-in-out
+    }
+
+  .header-open .application-header .header {
+    height:112px
+    }
+  }
+
+  .application-header .application-header-title {
+    display:flex;
+    flex:1;
+    flex-direction:row;
+    flex-wrap:nowrap;
+    margin-right:auto;
+    min-width:0
+    }
+
+  .application-header .application-brand {
+    display:flex;
+    flex:auto;
+    flex-direction:row;
+    align-items:center;
+    min-width:0;
+    padding:8px 15px;
+    transition:padding .6s ease-in-out
+    }
+
+  .application-header .application-brand-logo {
+    overflow:hidden;
+    width:30px;
+    height:34px;
+    margin-right:15px
+    }
+
+  .application-header .application-brand-logo img {
+    width:216px;
+    height:55px
+    }
+
+  .application-header .application-brand-app-title {
+    display:block;
+    flex:1;
+    font-size:1.65rem;
+    font-weight:300;
+    padding-left:15px;
+    border-left:1px solid #f5f5f5;
+    max-height:34px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap
+    }
+
+  .application .application-header .application-brand-link {
+    color:#171717;
+    text-decoration:none
+    }
+
+  :not(.application-fixed) .application-header.application-header-animate .application-brand-app-title,
+  :not(.application-fixed) .application-header.application-header-animate .application-brand-logo {
+    transition:.6s ease-in-out
+    }
+
+  .application-header .header-toggle {
+    border:none
+    }
+
+@media (max-width:992px) {
+
+  .application-header .header-toggle {
+    flex-wrap:nowrap
+    }
+  }
+
+@media (min-width:992px) {
+  :not(.application-header-md).application-header .application-brand-logo {
+    width:216px;
+    height:55px;
+    margin-top:0
+    }
+
+  :not(.application-header-md).application-header .application-brand-app-title {
+    font-size:1.65rem;
+    max-height:55px
+    }
+
+  .application-header .header-toggle {
+    display:none!important
+    }
+  }
+
+/* ---- */
+
+.application-content-viewport {
+  .sticky-header {
+    .ui-component-heading {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      > * + * {
+        margin-left: 15px;
+      }
+
+      .alert {
+        align-self: center;
+        margin-bottom: 0;
+
+        .close {
+          margin-left: 10px;
+        }
+      }
+
+      .mat-button-base {
+        transition: color 200ms ease-in-out, background-color 200ms ease-in-out;
+
+        &.active {
+          color: white;
+          background-color: #069;
+        }
+      }
+    }
+  }
+}
+
+.application-header {
+  .application-brand-app-title {
+    display: flex;
+    align-items: center;
+
+    & > * + * {
+      margin-left: 10px;
+    }
+    img {
+      max-height: 32px;
+      width: auto;
+    }
+  }
+}
+
+.application-navigation {
+  .main-nav-item {
+    .fa {
+      line-height: inherit;
+    }
+  }
+}

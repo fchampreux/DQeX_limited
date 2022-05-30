@@ -1,0 +1,17 @@
+# Translations related to Skill object
+fr_OFS:
+  deployed_skills:
+    create:
+      Success:                        "La variable a été créée"
+      Failure:                        "La variable ne peut être créée"
+    update:
+      Success:                        "La variable a été modifiée"
+      Failure:                        "La variable ne peut être modifiée"
+    destroy:
+      Success:                        "La variable a été supprimée"
+      Failure:                        "La variable ne peut être supprimée"
+    show:
+      Hierarchy:                      "Hiérarchie"
+      Values:                         "Valeurs"
+      Filter:                         "Filtre des valeurs de référence"
+      IsPairingKey:                   "Clé d'appariement"

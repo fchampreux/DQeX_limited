@@ -1,0 +1,6 @@
+
+<% if is_current_language(locale) %>
+  <a class="active"><%= label %></a>
+<% else %>
+  <%= link_to label, url_for( :locale => locale ), 'data-turbolinks': false %>
+<% end %>

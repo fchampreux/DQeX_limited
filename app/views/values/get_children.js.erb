@@ -1,0 +1,24 @@
+$(function () {
+  var itemId = '<%= @value.id %>',
+      ctId = 'ui-nav-value-' + itemId + '-children',
+      // create children array (code generated server side)
+      children = [
+        <% @values.each do |child| %>
+          {
+            id: '<%= child.id %>',
+            code: '<%= child.code %>',
+            classification_id: '<%= child.classification_id %>',
+            name: '<%= j(translation_for(child.name_translations)) %>',
+            url: '<%= url_for(child) %>',
+            loadUrl: '<%= url_for(get_children_value_path(child, classification_id: child.classification_id)) %>',
+            hasChildren: <%= (!child.child_values.empty?).to_json %>
+          },
+        <% end %>
+      ];
+
+  $('#' + ctId).sisNavigation({
+    children: children,
+    childLevelId: 'value',
+    modal: '#childModal'
+  });
+});

@@ -1,0 +1,55 @@
+# Code for language as declared in i18n configuration
+de_OFS:
+  # Considered object from a global view
+  DataPolicies:                              "Data policies"
+  DataPolicy:                                "Data policy"
+  ManagingDataPolicies:                      "Data policies verwalten"
+  NewDataPolicy:                             "Neuer Data policy"
+  DataPolicyRejected:                        "Data policy wurde abgelehnt"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageDataPolicy )
+  data_policies:
+    policies_index:
+      # Columns titles
+      CalculatedStatus:                       "Status"
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      Owner:                                  "Eigentümer"
+      UpdatedBy:                              "Aktualisiert von"
+      UpdatedAt:                              "Aktualisiert am"
+      Territory:                              "Territorium"
+      Organisation:                           "Organisation"
+      ValidFrom:                              "Gültig von"
+      ValidTo:                                "bis"
+      Owner:                                  "Eigentümer"
+    show:
+      Manage:                                 "Data policy verwalten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    new:
+      New:                                    "Neuer Data policy"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    edit:
+      Edit:                                   "Data policy bearbeiten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    create:
+      Success:                             	  "erfolgreich erstellt Data policy"
+      Failure:                                "Data policy konnte nicht erstellt werden"
+    update:
+      Success:                             	  "erfolgreich aktualisierter Data policy"
+      Failure:                                "Data policy konnte nicht aktualisierter werden"
+    activate:
+      Success:                             	  "Data policy erfolgreich wiederhergestellt"
+      Failure:                                "Data policy konnte nicht abgerufen werden"
+    destroy:
+      Success:                             	  "Data policy erfolgreich gelöscht"
+      Failure:                                "Data policy konnte nicht gelöscht werden"

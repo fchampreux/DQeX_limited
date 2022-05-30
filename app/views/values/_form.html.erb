@@ -1,0 +1,117 @@
+
+<%= form_with model: [@values_list, @value], html: {id: "edit_form"} do |f| %>
+
+  <div class="modal-header">
+    <h5 class="modal-title" id="childModalLabel">
+      <%= t('EditValue') %>
+    </h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <%= render partial: "shared/error_list", locals: { errors: @value.errors } %>
+
+      <div style="text-align: right">
+        <button type="button" class="mat-stroked-button mat-button-base" data-dismiss="modal">
+          <%= t('Cancel') %>
+        </button>
+        <button class="mat-flat-button mat-button-base mat-primary">
+          <%= t('Submit') %>
+        </button>
+      </div>
+
+    <%# If parent_id is null, do not show it %>
+    <%# ignore do 'Remove hierarchies'%>
+    <% if (not @value.parent_id.blank?) or @values_list.is_hierarchical %>
+      <div class="row mat-form-row">
+        <div class="mat-form-field mat-form-field col-md-6">
+          <%= f.label :parent_code, t('ParentCode'), class: "mat-form-field-label" %>
+          <%= f.text_field :parent_code, value: (Value.exists?(f.object.parent_id) ? f.object.superior.code : nil), class: "mat-input-element", autofocus: true %>
+        </div>
+        <div class="mat-form-field mat-form-field-required col-md-6">
+          <%= f.label :level, t('Level'), class: "mat-form-field-label" %>
+          <%= f.text_field :level, class: "mat-input-element", disabled: true %>
+        </div>
+      </div>
+    <% end %>
+    <%# ignore end %>
+    <div class="row mat-form-row">
+      <div class="mat-form-field mat-form-field-required col-md-4">
+        <%= f.label :code, t('Item'), class: "mat-form-field-label" %>
+        <%= f.text_field :code, class: "mat-input-element" %>
+      </div>
+      <div class="mat-form-field mat-form-field col-md-4">
+        <%= f.label :alternate_code, t('AlternateCode'), class: "mat-form-field-label" %>
+        <%= f.text_field :alternate_code, class: "mat-input-element" %>
+      </div>
+      <div class="mat-form-field mat-form-field col-md-4">
+        <%= f.label :uri, t('Uri'), class: "mat-form-field-label" %>
+        <%= f.text_field :uri, class: "mat-input-element" %>
+      </div>
+    <% ignore do 'Remove alternate code'%>
+    <div class="mat-form-field mat-form-field col-md-4">
+      <%= f.label :code, t('AlternateCode'), class: "mat-form-field-label" %>
+      <%= f.text_field :alternate_code, class: "mat-input-element" %>
+    </div>
+    <% ignore end %>
+    </div>
+
+    <div class="row mat-form-row">
+      <div class="mat-form-field mat-form-field col-md-4">
+        <%= f.label :sort_code, t('SortOrder'), class: "mat-form-field-label" %>
+        <%= f.text_field :sort_code, class: "mat-input-element" %>
+      </div>
+      <% ignore do 'Remove alias'%>
+      <div class="mat-form-field mat-form-field col-md-4">
+        <%= render partial: "shared/translated_field_form", locals: {
+          f: f,
+          field: "alias",
+          fields: :alias_translations,
+          translations: @value.alias_translations,
+          label: t('Alias') } %>
+      </div>
+      <div class="mat-form-field mat-form-field col-md-4">
+        <%= render partial: "shared/translated_field_form", locals: {
+          f: f,
+          field: "abbreviation",
+          fields: :abbreviation_translations,
+          translations: @value.abbreviation_translations,
+          label: t('Abbreviation') } %>
+      </div>
+      <% ignore end %>
+    </div>
+
+    <div class="row mat-form-row">
+      <div class="mat-form-field mat-form-field col-md-4">
+        <%= render partial: "shared/translated_field_form", locals: {
+          f: f,
+          field: "name",
+          fields: :name_translations,
+          translations: @value.name_translations,
+          label: t('Value') } %>
+      </div>
+    </div>
+
+    <%= render partial: "shared/translated_field_form", locals: {
+      f: f,
+      field: "description",
+      fields: :description_translations,
+      translations: @value.description_translations,
+      isTextarea: true,
+      smallTextarea: true,
+      label: t('Description') } %>
+
+    <%= render partial: "shared/annotations_form", locals: { annotations: @value.annotations, f: f} %>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="mat-stroked-button mat-button-base" data-dismiss="modal">
+      <%= t('Cancel') %>
+    </button>
+    <button class="mat-flat-button mat-button-base mat-primary">
+      <%= t('Submit') %>
+    </button>
+  </div>
+
+<% end %>

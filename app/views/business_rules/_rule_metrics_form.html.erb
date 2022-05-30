@@ -1,0 +1,44 @@
+  <!-- Tab content for Metrics -->
+        <div class="row">
+          <div class="col-md-6">
+            <%= render partial: "shared/translated_field_form", locals: {
+              f: f,
+              field: "check_error_message",
+              fields: :check_error_message_translations,
+              translations: @business_rule.check_error_message_translations,
+              isTextarea: true,
+              label: t('NotificationMessage') } %>
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <div class="mat-form-field col-md-6">
+                <%= f.label :rule_class_id, t('Complexity'), class: "mat-form-field-label" %>
+                <%= f.collection_select :rule_class_id, options_for('rules_complexity'), :id, :name, {}, { class: "mat-input-element" } %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="mat-form-field col-md-6">
+                <%= f.label :severity_id, t('Severity'), class: "mat-form-field-label" %>
+                <%= f.collection_select :severity_id, options_for('rules_severity'), :id, :name, {}, { class: "mat-input-element" } %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="mat-form-field col-md-6">
+                <%= f.label :added_value, "#{t('AValue')} #{display_currency}", class: "mat-form-field-label" %>
+                <%= f.text_field :added_value, class: "mat-input-element" %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="mat-form-field col-md-6">
+                <%= f.label :maintenance_cost, "#{t('MCost')} #{display_currency}", class: "mat-form-field-label" %>
+                <%= f.text_field :maintenance_cost, class: "mat-input-element" %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="mat-form-field col-md-6">
+                <%= f.label :maintenance_duration, "#{t('MWorkload')} #{display_duration}", class: "mat-form-field-label" %>
+                <%= f.text_field :maintenance_duration, class: "mat-input-element" %>
+              </div>
+            </div>
+          </div>
+        </div>

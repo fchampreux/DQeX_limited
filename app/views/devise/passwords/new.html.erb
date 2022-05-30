@@ -1,0 +1,32 @@
+<% provide(:title, 'Password reset') %>
+
+<h2>Forgot your password?</h2>
+
+<div class="container">
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+    <div class="row mat-form-row">
+      <div class="col-md-12">
+  <%= devise_error_messages! %>
+      </div>
+    </div>
+    <div class="row mat-form-row">
+      <div class="mat-form-field col-md-4">
+          <%= f.label :email, class: "mat-form-field-label"%><br />
+          <%= f.email_field :email, autofocus: true, class: "mat-input-element" %>
+      </div>
+    </div>
+    <div class="row mat-form-row">
+      <div class="col-md-4">
+        <div class="mat-button-group">
+          <%= link_to t('Cancel'), root_path, method: :get, class: "mat-stroked-button mat-button-base"  %>
+          <%= submit_tag(t('Submit'), class: "mat-flat-button mat-button-base mat-primary" ) %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-md-4 ">
+      <%= render "devise/shared/links" %>
+     </div>
+  </div>
+</div>

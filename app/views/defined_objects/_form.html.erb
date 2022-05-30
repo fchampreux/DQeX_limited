@@ -1,0 +1,109 @@
+<% provide(:page_class, 'page-view-details') %>
+
+<%= form_for [@parent, @business_object], html: {id: "edit_form"} do |f| %>
+
+  <%= render partial: "shared/error_list", locals: { errors: @business_object.errors } %>
+
+    <div class="row mat-form-row">
+      <div class="col-md-6">
+        <%= render partial: "shared/object_definition_form", locals: {this_object: @business_object, f: f, isTechnical: (not @business_object.is_template), show_status: (not @business_object.is_template) } %>
+      </div>
+
+      <div class="col-md-6">
+        <%= render partial: "shared/object_responsibilities_form", locals: {this_object: @business_object, f: f} %>
+        <% if not @business_object.is_template %>
+          <div class="row mat-form-row">
+            <div class="mat-form-field col-md-6">
+              <%= f.label :period, t('Period'), class: "mat-form-field-label" %>
+              <%= f.text_field :period, class: "mat-input-element" %>
+            </div>
+            <div class="mat-form-field col-md-6">
+              <%= f.label :granularity_id, t('Granularity'), class: "mat-form-field-label" %>
+              <%= f.collection_select :granularity_id, options_for('regionalities'), :id, :name, {}, { class: "mat-input-element select2-candidate" } %>
+            </div>
+          </div>
+          <div class="row mat-form-row">
+            <div class="mat-form-field col-md-6">
+              <%= f.label :ogd_id, t('OGD'), class: "mat-form-field-label" %>
+              <%= f.collection_select :ogd_id, options_for('ogd_options'), :id, :name, {}, { class: "mat-input-element select2-candidate" } %>
+            </div>
+          </div>
+          <div class="row mat-form-row">
+            <div class="mat-form-field col-md-12">
+              <%= f.label :participants, t('Participants'), class: "mat-form-field-label" %>
+              <%= f.collection_select :participant_ids, list_of_organisations, :id, :name, { }, { multiple: true, class: "mat-input-element select2-candidate" } %>
+            </div>
+          </div>
+        <% else %>
+          <div class="row mat-form-row">
+            <div class="mat-form-field col-md-12">
+              <label for="bo-sdmx-resource" class="mat-form-field-label">
+                <%= t('defined_objects.show.SDMXResource') %>
+              </label>
+              <textarea id="bo-sdmx-resource" class="mat-input-element mat-textarea-md" readonly >
+                <%= t('defined_objects.show.SDMXResourceDefinition') %>
+              </textarea>
+            </div>
+          </div>
+          <div class="row mat-form-row">
+            <div class="mat-form-field col-md-12" title="<%= t('defined_objects.show.SDMXResourceDefinition') %>">
+              <%= f.label :resource_name, t('SDMXResource'), class: "mat-form-field-label" %>
+              <%= f.text_field :resource_name, class: "mat-input-element" %>
+            </div>
+          </div>
+          <div class="row mat-form-row">
+            <div class="mat-form-field col-md-12" title="<%= t('defined_objects.show.SDMXResourceDefinition') %>">
+              <%= f.label :resource_list, t('ImportedVariables'), class: "mat-form-field-label" %>
+              <%= f.text_field :resource_list, class: "mat-input-element" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+  <!-- ### Hidden fieds trace the parent of this polymorph business object -->
+  <%= f.hidden_field :parent_type %>
+  <%= f.hidden_field :parent_id %>
+  <%= f.hidden_field :is_template %>
+
+  <hr/>
+
+  <%= will_paginate @child_skills %>
+
+  <table class="table table-hover">
+    <tr>
+      <th><%= t('Code') %></th>
+      <th><%= t('Name') %></th>
+      <th><%= t('Type') %></th>
+      <th><%= t('Size') %></th>
+      <th><%= t('Precision') %> </th>
+      <th><%= t('Codelist') %></th>
+      <th><%= t('KeyCols') %></th>
+      <th><%= t('Linkable') %></th>
+    </tr>
+
+    <tbody>
+    <% @child_skills.order(:sort_code).each do |skill| %>
+      <tr>
+        <td> <%= skill.code %> </td>
+        <td class="col_narrow">
+          <% skill.name_translations.order(:language).each_with_index do |tr_name, i| %>
+            <% if i > 0 %>
+              <br/>
+            <% end %>
+            <strong><%= tr_name.language[0,2] %>:</strong>
+            <%= tr_name.translation %>
+          <% end %>
+        </td>
+        <td> <%= skill.skill_type.name %> </td>
+        <td> <%= skill.skill_size %> </td>
+        <td> <%= skill.skill_precision %> </td>
+        <td> <%= skill.values_list&.code %> </td>
+        <td> <%= skill.is_pk %> </td>
+        <td> <%= skill.is_pairing_key %> </td>
+      </tr>
+    <% end %>
+  </table>
+  <%= will_paginate @child_skills %>
+
+<% end %>

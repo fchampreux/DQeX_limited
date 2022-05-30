@@ -1,0 +1,19 @@
+<%= form_for @user, html: {id: "edit_form"} do |f| %>
+<div class="row">
+  <div class="col-md-6">
+    <%= render partial: "shared/error_list", locals: { errors: @user.errors } %>
+  </div>
+</div>
+<br/>
+  <div class="row">
+    <div class="col-md-4">
+      <%=  t('Password') %>
+      <%= f.password_field :password, autocomplete: "off" %>
+    </div>
+    <div class="col-md-4">
+      <%=  t('Confirmation') %>
+      <%= f.password_field :password_confirmation, autocomplete: "off" %>
+    </div>
+  </div>
+
+<% end %>

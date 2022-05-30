@@ -1,0 +1,8 @@
+<%# The parent module defines the Namespace. If not (Object) then display default link %>
+<div class="mat-button-group">
+
+  <%= link_to t('Cancel'), [namespace, this_object], method: :get, class: "mat-stroked-button mat-button-base" %>
+
+  <%= submit_tag(t('Submit'), :onclick => "submitform();", class: "mat-flat-button mat-button-base mat-primary" ) %>
+
+</div>

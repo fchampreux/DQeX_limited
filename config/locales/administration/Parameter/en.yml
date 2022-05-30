@@ -1,0 +1,38 @@
+# Code for language as declared in i18n configuration
+en:
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  administration:
+    parameters:
+      show:
+        ShowParameter:                          "Parameter's details"
+        ParametersList:                         "Parameters list"
+        Parameters:                             "Parameters"
+        ImportParameters:                       "Import"
+        # Field names
+        Code:                                   "Identifier"
+        Name:                                   "Name"
+        Description:                            "Description"
+        Property:                               "Property"
+        TaskScope:                              "Applicability"
+        ValidFrom:                              "Valid from"
+        ValidTo:                                "to"
+      form:
+        ShowParameter:                          "Parameter's details"
+        # Field names
+        Code:                                   "Identifier"
+        Name:                                   "Name"
+        Description:                            "Description"
+        Property:                               "Property"
+        TaskScope:                              "Applicability"
+        ValidFrom:                              "Valid from"
+        ValidTo:                                "to"
+      create:
+        Success:                             	  "Parameter was created"
+        Failure:                                "Parameter cannot be created"
+      update:
+        Success:                             	  "Parameter was updated"
+        Failure:                                "Parameter cannot be updated"
+      destroy:
+        Success:                             	  "Parameter was deleted"
+        Failure:                                "Parameter cannot be deleted"

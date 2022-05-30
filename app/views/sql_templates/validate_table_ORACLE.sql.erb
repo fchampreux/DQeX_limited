@@ -1,0 +1,248 @@
+/* ---------- VALIDATION PROCESS ----------                                     */ <br/>
+/* --- Preparation : collect required objects ---                               */ <br/>
+/* 1 - create error table to collect errors line by line from the dataset       */ <br/>
+/* 2 - identify the Primary Key of the dataset                                  */ <br/>
+/* 3 - create view to link errors to each line of the data table (using PK)     */ <br/>
+/* 4 - import each look-up table required by metadata                           */ <br/>
+/* --- Execution : load errors into error table ---                             */ <br/>
+/* 5 - check PK unicity                                                         */ <br/>
+/* 6 - check data compliance with defined constraints : pattern, mandatory,     */ <br/>
+/*                                                      minimum, maximum        */ <br/>
+/* 7 - check data compliance with look-up tables                                */ <br/>
+/* 8 - check data consistency regardong foreign keys                            */ <br/>
+/* 9 - upload flagged records to the target table                               */ <br/>
+/* ----------  END  OF  PROCESS  ----------                                     */ <br/>
+<br/>
+/* 1 - create error table to collect errors line by line from the dataset       */ <br/>
+<b>CREATE TABLE</b> ERR_<%= @target.id.to_s %> (   <br/>
+  DSD_CODE           varchar2(32),                 <br/>
+  DSD_PK_FIELDS      varchar2(255),                <br/>
+  DSD_PK_VALUE       varchar2(4000),               <br/>
+  VARIABLE_CODE      varchar2(32),                 <br/>
+  VARIABLE_VALUE     varchar2(4000),               <br/>
+  ERROR_TYPE         integer,                      <br/>
+  ERROR_MESSAGE      varchar2(4000),               <br/>
+  ERROR_SEVERITY     integer,                      <br/>
+  CREATED_AT         timestamp,                    <br/>
+  CREATED_BY         varchar2(255)                 <br/>
+);                                                 <br/>
+<br/>
+
+/* 2 - identify the Primary Key of the dataset => getPkList                     */ <br/>
+/* 3 - create view to link errors to each line of the data table (using PK)     */ <br/>
+<b>CREATE VIEW</b> ERR_<%= @target.id.to_s %>_V as <br/>
+  SELECT *                                         <br/>
+  FROM ERR_<%= @target.id.to_s %>                  <br/>
+  INNER JOIN <%= @target.code %>                   <br/>
+  ON DSD_PK_VALUE = <%= @target.getPkList('concat') %> <br/>
+;                                                  <br/>
+<br/>
+
+/* 4 - import each look-up table required by metadata                           */ <br/>
+/* 4a - creation                                                                */ <br/>
+<% @target.getLookupsList.each do |list| %>
+  <b>CREATE TABLE</b> <%= list.gsub(/[^0-9A-Za-z]/, '_') %> ( <br/>
+    PARENT_CODE      varchar2(32),                 <br/>
+    LEVEL            integer,                      <br/>
+    CODE             varchar2(32),                 <br/>
+    NAME             varchar2(32),                 <br/>
+    UUID             varchar2(255)                 <br/>
+  );                                               <br/>
+<br/>
+<% end %>
+<br/>
+
+/* 4a - loading                                                                 */ <br/>
+<% @target.getLookupsList.each do |list| %>
+  <% @target.getValues(list).each do |value| %>
+    <b> INSERT INTO </b> <%= list.gsub(/[^0-9A-Za-z]/, '_') %> ( <br/>
+      PARENT_CODE,
+      LEVEL      ,
+      CODE       ,
+      NAME       ,
+      UUID
+    ) <b> VALUES </b> (
+      '<%= value.superior&.code %>',
+      <%= value.level %>,
+      '<%= value.code %>',
+      '<%= value.name_translations.where(language: "de_OFS" ).take.translation %>',
+      '<%= value.uuid %>'
+    ) <br/>
+    ; <br/>
+  <% end %>
+  <b> CREATE INDEX </b> <%= list.gsub(/[^0-9A-Za-z]/, '_') %>_NDX on CODE;    <br/>
+<% end %>
+<br/>
+
+/* 5 - check PK unicity                                                         */ <br/>
+<b>INSERT INTO</b> ERR_<%= @target.id.to_s %> (    <br/>
+  DSD_CODE,                                        <br/>
+  DSD_PK_FIELDS,                                   <br/>
+  DSD_PK_VALUE,                                    <br/>
+  VARIABLE_CODE,                                   <br/>
+  VARIABLE_VALUE,                                  <br/>
+  ERROR_TYPE,                                      <br/>
+  ERROR_MESSAGE,                                   <br/>
+  CREATED_AT,                                      <br/>
+  CREATED_BY )                                     <br/>
+  SELECT                                           <br/>
+  '<%= @target.code %>' as DSD_CODE,               <br/>
+  '<%= @target.getPkList('list') %>' as DSD_PK_FIELDS,     <br/>
+  <%= @target.getPkList('concat') %> as DSD_PK_VALUE,      <br/>
+  'PK count' as VARIABLE_CODE,                     <br/>
+  count(*) as VARIABLE_VALUE,                      <br/>
+  'PK' as ERROR_TYPE,                              <br/>
+  'The primary key is not unique. The DSD_PK_VALUE occures ' || count(*) || ' times in the dataset' as ERROR_MESSAGE, <br/>
+  current_timestamp as CREATED_AT,                 <br/>
+  current_login as CREATED_BY                      <br/>
+  FROM <%= @target.code %>                         <br/>
+  GROUP BY <%= @target.getPkList('list') %>        <br/>
+  HAVING COUNT(*) > 1                              <br/>
+  ;                                                <br/>
+<br/>
+
+/* 6 - check data compliance with defined constraints                           */ <br/>
+/* 6a - check mandatory fields                                                  */ <br/>
+<% @target.deployed_skills.where("is_mandatory = true").each do |column| %>
+  <b>INSERT INTO</b> ERR_<%= @target.id.to_s %> (    <br/>
+    DSD_CODE,                                        <br/>
+    DSD_PK_FIELDS,                                   <br/>
+    DSD_PK_VALUE,                                    <br/>
+    VARIABLE_CODE,                                   <br/>
+    VARIABLE_VALUE,                                  <br/>
+    ERROR_TYPE,                                      <br/>
+    ERROR_MESSAGE,                                   <br/>
+    CREATED_AT,                                      <br/>
+    CREATED_BY )                                     <br/>
+    <b> SELECT </b>                                  <br/>
+    '<%= @target.code %>' as DSD_CODE,               <br/>
+    '<%= @target.getPkList('list') %>' as DSD_PK_FIELDS,              <br/>
+    <%= @target.getPkList('concat') %> as DSD_PK_VALUE,               <br/>
+    '<%= column.code %>' as VARIABLE_CODE,           <br/>
+    <%= column.code %> as VARIABLE_VALUE,            <br/>
+    'NotNull' as ERROR_TYPE,                         <br/>
+    'The value is mandatory, it should not be null' as ERROR_MESSAGE, <br/>
+    current_timestamp as CREATED_AT,                 <br/>
+    current_login as CREATED_BY                      <br/>
+    <b> FROM </b> <%= @target.code %>                <br/>
+    <b> WHERE </b> <%= column.code %> <b>IS NULL</b> <br/>
+    ;                                                <br/>
+  <br/>
+<% end %>
+
+/* 6b - check field pattern                                                     */ <br/>
+<% @target.deployed_skills.where("regex_pattern is not null").each do |column| %>
+  <b>INSERT INTO</b> ERR_<%= @target.id.to_s %> (    <br/>
+    DSD_CODE,                                        <br/>
+    DSD_PK_FIELDS,                                   <br/>
+    DSD_PK_VALUE,                                    <br/>
+    VARIABLE_CODE,                                   <br/>
+    VARIABLE_VALUE,                                  <br/>
+    ERROR_TYPE,                                      <br/>
+    ERROR_MESSAGE,                                   <br/>
+    CREATED_AT,                                      <br/>
+    CREATED_BY )                                     <br/>
+    <b> SELECT </b>                                  <br/>
+    '<%= @target.code %>' as DSD_CODE,               <br/>
+    '<%= @target.getPkList('list') %>' as DSD_PK_FIELDS,              <br/>
+    <%= @target.getPkList('concat') %> as DSD_PK_VALUE,               <br/>
+    '<%= column.code %>' as VARIABLE_CODE,           <br/>
+    <%= column.code %> as VARIABLE_VALUE,            <br/>
+    'NotNull' as ERROR_TYPE,                         <br/>
+    'The value is mandatory, it should not be null' as ERROR_MESSAGE, <br/>
+    current_timestamp as CREATED_AT,                 <br/>
+    current_login as CREATED_BY                      <br/>
+    <b> FROM </b> <%= @target.code %>                <br/>
+    <b> WHERE NOT </b> <%= column.code %> REGEXP_LIKE(<%= column.regex_pattern %>) <br/>
+    ;                                                <br/>
+  <br/>
+<% end %>
+
+/* 6c - check data minimum and maximum values                                   */ <br/>
+<% @target.deployed_skills.where("min_value is not null or max_value is not null").each do |column| %>
+  <b>INSERT INTO</b> ERR_<%= @target.id.to_s %> (    <br/>
+    DSD_CODE,                                        <br/>
+    DSD_PK_FIELDS,                                   <br/>
+    DSD_PK_VALUE,                                    <br/>
+    VARIABLE_CODE,                                   <br/>
+    VARIABLE_VALUE,                                  <br/>
+    ERROR_TYPE,                                      <br/>
+    ERROR_MESSAGE,                                   <br/>
+    CREATED_AT,                                      <br/>
+    CREATED_BY )                                     <br/>
+    <b> SELECT </b>                                  <br/>
+    '<%= @target.code %>' as DSD_CODE,               <br/>
+    '<%= @target.getPkList('list') %>' as DSD_PK_FIELDS,              <br/>
+    <%= @target.getPkList('concat') %> as DSD_PK_VALUE,               <br/>
+    '<%= column.code %>' as VARIABLE_CODE,           <br/>
+    <%= column.code %> as VARIABLE_VALUE,            <br/>
+    'NotNull' as ERROR_TYPE,                         <br/>
+    'The value is mandatory, it should not be null' as ERROR_MESSAGE, <br/>
+    current_timestamp as CREATED_AT,                 <br/>
+    current_login as CREATED_BY                      <br/>
+    <b> FROM </b> <%= @target.code %>                <br/>
+    <b> WHERE NOT </b> <%= column.code %> BETWEEN <%= column.min_value %> AND <%= column.max_value %>   <br/>
+    ;                                                <br/>
+  <br/>
+<% end %>
+
+/* 7 - check data compliance with look-up tables                                */ <br/>
+<% @target.deployed_skills.where("values_list_id is not null").each do |column| %>
+  <b>INSERT INTO</b> ERR_<%= @target.id.to_s %> (    <br/>
+    DSD_CODE,                                        <br/>
+    DSD_PK_FIELDS,                                   <br/>
+    DSD_PK_VALUE,                                    <br/>
+    VARIABLE_CODE,                                   <br/>
+    VARIABLE_VALUE,                                  <br/>
+    ERROR_TYPE,                                      <br/>
+    ERROR_MESSAGE,                                   <br/>
+    CREATED_AT,                                      <br/>
+    CREATED_BY )                                     <br/>
+    SELECT                                           <br/>
+    '<%= @target.code %>' as DSD_CODE,               <br/>
+    '<%= @target.getPkList('list') %>' as DSD_PK_FIELDS, <br/>
+    <%= @target.getPkList('concat') %> as DSD_PK_VALUE,  <br/>
+    '<%= column.code %>' as VARIABLE_CODE,               <br/>
+    <%= column.code %> as VARIABLE_VALUE,                <br/>
+    'LookUp' as ERROR_TYPE,                              <br/>
+    'The value does not exists in reference codes list <%= column.values_list.code %>' as ERROR_MESSAGE, <br/>
+    current_timestamp as CREATED_AT,                     <br/>
+    current_login as CREATED_BY                          <br/>
+    FROM <%= @target.code %>                             <br/>
+    LEFT OUTER JOIN <%= column.values_list.code %> ON <%= @target.code %>.<%= column.code %> = <%= column.values_list.code %>.code                        <br/>
+    WHERE <%= column.values_list.code %>.code IS NULL    <br/>
+     ;                                                   <br/>
+  <br/>
+<% end %>
+
+/* 8 - check data consistency regarding foreign keys                            */ <br/>
+<%# @target.deployed_skills.where("foreign_key is not null").each do |column| %>
+<% @target.deployed_skills.where("values_list_id is not null").each do |column| %>
+  <b>INSERT INTO</b> ERR_<%= @target.id.to_s %> (    <br/>
+    DSD_CODE,                                        <br/>
+    DSD_PK_FIELDS,                                   <br/>
+    DSD_PK_VALUE,                                    <br/>
+    VARIABLE_CODE,                                   <br/>
+    VARIABLE_VALUE,                                  <br/>
+    ERROR_TYPE,                                      <br/>
+    ERROR_MESSAGE,                                   <br/>
+    CREATED_AT,                                      <br/>
+    CREATED_BY )                                     <br/>
+    SELECT                                           <br/>
+    '<%= @target.code %>' as DSD_CODE,               <br/>
+    '<%= @target.getPkList('list') %>' as DSD_PK_FIELDS, <br/>
+    <%= @target.getPkList('concat') %> as DSD_PK_VALUE,  <br/>
+    '<%= column.code %>' as VARIABLE_CODE,               <br/>
+    <%= column.code %> as VARIABLE_VALUE,                <br/>
+    'LookUp' as ERROR_TYPE,                              <br/>
+    'The value does not exists in reference codes list <%= column.values_list.code %>' as ERROR_MESSAGE, <br/>
+    current_timestamp as CREATED_AT,                     <br/>
+    current_login as CREATED_BY                          <br/>
+    FROM <%= @target.code %>                             <br/>
+    LEFT OUTER JOIN <%= column.values_list.code %> ON <%= @target.code %>.<%= column.code %> = <%= column.values_list.code %>.code                        <br/>
+    WHERE <%= column.values_list.code %>.code IS NULL    <br/>
+     ;                                                   <br/>
+  <br/>
+<% end %>
+
+/* 9 - upload flagged records to the target table                               */ <br/>

@@ -1,0 +1,867 @@
+1                                                          The SAS System                             15:49 Friday, October 29, 2021
+
+NOTE: Copyright (c) 2016 by SAS Institute Inc., Cary, NC, USA. 
+NOTE: SAS (r) Proprietary Software 9.4 (TS1M6) 
+      Licensed to BUNDESAMT FUER STATISTIK, Site 50701487.
+NOTE: This session is executing on the Linux 4.12.14-122.91-default (LIN X64) platform.
+
+
+
+NOTE: Analytical products:
+      
+      SAS/STAT 15.1
+      SAS/ETS 15.1
+      SAS/IML 15.1
+
+NOTE: Additional host information:
+
+ Linux LIN X64 4.12.14-122.91-default #1 SMP Tue Oct 5 07:08:31 UTC 2021 (d50b9e8) x86_64 SUSE Linux Enterprise Server 12 (x86_64) 
+      VERSION = 12 PATCHLEVEL = 5 
+
+You are running SAS 9. Some SAS 8 files will be automatically converted 
+by the V9 engine; others are incompatible.  Please see 
+http://support.sas.com/rnd/migration/planning/platform/64bit.html
+
+PROC MIGRATE will preserve current SAS file attributes and is 
+recommended for converting all your SAS libraries from any 
+SAS 8 release to SAS 9.  For details and examples, please see
+http://support.sas.com/rnd/migration/index.html
+
+
+This message is contained in the SAS news file, and is presented upon
+initialization.  Edit the file "news" in the "misc/base" directory to
+display site-specific news and information in the program log.
+The command line option "-nonews" will prevent this display.
+
+---------------------------------------------------------------------------
+SAS Version 9.4 / Bundesamt für Statistik
+SAS Version 9.4 / Office fédéral de la statistique
+Umgebung / Environnement: DEV
+---------------------------------------------------------------------------
+
+
+NOTE: SAS initialization used:
+      real time           0.03 seconds
+      cpu time            0.00 seconds
+      
+1          /*-------------------------------------------------------------------------------*
+2          Titel:	 			Starschema 		
+3          
+4          Sektion:			SHS/DaDa
+5          Projekt:			
+6          
+7          Autor:				Laura Hahn & Philippe Meyer
+8          Datum erstellt:		21.09.2021
+9          
+10         ----HISTORY-----------------------------------------------------------------------*
+11         Datum letzte Änderung:		geändert durch:		Kommentar:
+12         21.09.2021					LAHA				Erstellung Code für Daten in IDP1 (R1)									
+13         ----------------------------------------------------------------------------------*/
+14         
+2                                                          The SAS System                             15:49 Friday, October 29, 2021
+
+15         /****************************************************************************************
+16         Fehlende Variablen kreieren
+17         ****************************************************************************************/
+18         
+19         *LIBNAME homeLIB '/project/acp/SHS/SHS_MOD/99_Sandbox/F30379';
+20         LIBNAME IDP1_R1 ORACLE user=M_IDP1_SHS_MOD pw=XXXXXXXXXXXX path='AXPDBDWHPD.bfi.admin.ch';
+NOTE: Libref IDP1_R1 was successfully assigned as follows: 
+      Engine:        ORACLE 
+      Physical Name: AXPDBDWHPD.bfi.admin.ch
+21         *LIBNAME oraLIB2 ORACLE user=M_IDP1_SHS_MOD_R2 pw=PSW_62156675 path='AXPDBDWHPD.bfi.admin.ch';
+22         
+23         data addvar;
+24         	set IDP1_R1.TBLPERSON;
+25         	/*Datum der Lieferung kreieren*/
+26         	lieferstring = put(V01_LIEFERUNG_MONAT, 6.);
+27         	lieferjahr = input(substr(lieferstring,1,4),4.);
+28         	liefermonat = input(substr(lieferstring,5,2),2.);
+29         	attrib liefer_time format=MMYYS.;
+30         	liefer_time=mdy(liefermonat,1,lieferjahr);
+31         	/*Geburtsdatum formatieren*/
+32         	attrib gebdat format=DDMMYY10.;
+33         	gebdat = datepart(V12_DAT_GEBURTSDATUM);
+34         	/*Alter kreieren*/
+35         	attrib age format=3.;
+36         	age=(liefer_time - gebdat)/365;
+37         	/*Alterskategorien erstellen*/
+38         	IF age=. THEN age_kat=.;
+39         	ELSE if age<18 THEN age_kat=1;
+40         	else if age<26 THEN age_kat=2;
+41         	else if age<36 THEN age_kat=3;
+42         	else if age<46 THEN age_kat=4;
+43         	else if age<56 THEN age_kat=5;
+44         	else if age<65 THEN age_kat=6;
+45         	else if age<76 THEN age_kat=7;
+46         	ELse age_kat=8;
+47         run;
+
+NOTE: There were 173928 observations read from the data set IDP1_R1.TBLPERSON.
+NOTE: The data set WORK.ADDVAR has 173928 observations and 26 variables.
+NOTE: DATA statement used (Total process time):
+      real time           1.08 seconds
+      cpu time            1.63 seconds
+      
+
+48         
+49         /******************************************************************************************
+50         Fact Sheet erstellen
+51         ******************************************************************************************/
+52         
+53         data factsheet;
+54         	set addvar (keep=V01_LIEFERUNG_MONAT V100_FKEYSLT V102_PKEYPERS V13_FKEYGESCHLECHT V14_FKEYZIVILSTAND V15_FKEYNATION
+54       ! V16_FKEYAUFENTHALTSSTATUS V19_FKEYAUSBILDUNG V25_FKEYERWERBSSITUATION age_kat);
+55         	fact=1;
+56         run;
+
+NOTE: There were 173928 observations read from the data set WORK.ADDVAR.
+NOTE: The data set WORK.FACTSHEET has 173928 observations and 11 variables.
+NOTE: DATA statement used (Total process time):
+3                                                          The SAS System                             15:49 Friday, October 29, 2021
+
+      real time           0.19 seconds
+      cpu time            0.19 seconds
+      
+
+57         
+58         /*****************************************************************************************
+59         Dimension Sheet Alter
+60         *****************************************************************************************/
+61         
+62         proc freq data=factsheet;
+63         	table age_kat / out=dimalterhelp;
+64         run;
+
+NOTE: There were 173928 observations read from the data set WORK.FACTSHEET.
+NOTE: The data set WORK.DIMALTERHELP has 8 observations and 3 variables.
+NOTE: The PROCEDURE FREQ printed page 1.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.01 seconds
+      
+
+65         
+66         data dimalter;
+67         	set dimalterhelp (KEEP=age_kat);
+68         	attrib labelalter format=$30.;
+69         	if age_kat=1 THEN labelalter="0-17 Jahre";
+70         	else if age_kat=2 THEN labelalter="18-25 Jahre";
+71         	else if age_kat=3 THEN labelalter="26-35 Jahre";
+72         	else if age_kat=4 THEN labelalter="36-45 Jahre";
+73         	else if age_kat=5 THEN labelalter="46-55 Jahre";
+74         	else if age_kat=6 THEN labelalter="56-64 Jahre";
+75         	else if age_kat=7 THEN labelalter="65-75 Jahre";
+76         	else if age_kat=8 THEN labelalter="76 und mehr Jahre";
+77         	ELSE if age_kat=. THEN labelalter="Keine Angabe";
+78         run;
+
+NOTE: There were 8 observations read from the data set WORK.DIMALTERHELP.
+NOTE: The data set WORK.DIMALTER has 8 observations and 2 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+79         
+80         /*****************************************************************************************
+81         Dimension Sheet Geschlecht
+82         *****************************************************************************************/
+83         
+84         proc freq data=factsheet noprint;
+85         	table V13_FKEYGESCHLECHT / missing out=dimsexhelp;
+86         run;
+
+NOTE: There were 173928 observations read from the data set WORK.FACTSHEET.
+NOTE: The data set WORK.DIMSEXHELP has 3 observations and 3 variables.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+4                                                          The SAS System                             15:49 Friday, October 29, 2021
+
+
+87         
+88         data dimsex;
+89         	set dimsexhelp (KEEP=V13_FKEYGESCHLECHT);
+90         	attrib labelsex format=$30.;
+91         	if V13_FKEYGESCHLECHT=1 THEN labelsex="Mann";
+92         	else if V13_FKEYGESCHLECHT=2 THEN labelsex="Frau";
+93         	else if V13_FKEYGESCHLECHT=. THEN labelsex="Keine Angabe";
+94         run;
+
+NOTE: There were 3 observations read from the data set WORK.DIMSEXHELP.
+NOTE: The data set WORK.DIMSEX has 3 observations and 2 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+95         
+96         /*****************************************************************************************
+97         Dimension Sheet Zivilstand
+98         *****************************************************************************************/
+99         
+100        proc freq data=factsheet noprint;
+101        	table V14_FKEYZIVILSTAND / missing out=dimzivhelp;
+102        run;
+
+NOTE: There were 173928 observations read from the data set WORK.FACTSHEET.
+NOTE: The data set WORK.DIMZIVHELP has 6 observations and 3 variables.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+103        
+104        data dimziv;
+105        	set dimzivhelp (KEEP=V14_FKEYZIVILSTAND);
+106        	attrib labelziv format=$30.;
+107        	if V14_FKEYZIVILSTAND=1 THEN labelziv="Ledig";
+108        	else if V14_FKEYZIVILSTAND=2 THEN labelziv="Verheiratet";
+109        	else if V14_FKEYZIVILSTAND=3 THEN labelziv="Getrennt";
+110        	else if V14_FKEYZIVILSTAND=4 THEN labelziv="Verwitwet";
+111        	else if V14_FKEYZIVILSTAND=5 THEN labelziv="Geschieden";
+112        	else if V14_FKEYZIVILSTAND=6 THEN labelziv="In eingetragener Partnerschaft";
+113        	else if V14_FKEYZIVILSTAND=. THEN labelziv="Keine Angabe";
+114        run;
+
+NOTE: There were 6 observations read from the data set WORK.DIMZIVHELP.
+NOTE: The data set WORK.DIMZIV has 6 observations and 2 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+115        
+116        /*****************************************************************************************
+117        Dimension Sheet Pilotstadt
+118        *****************************************************************************************/
+119        
+5                                                          The SAS System                             15:49 Friday, October 29, 2021
+
+120        proc freq data=factsheet noprint;
+121        	table V100_FKEYSLT / out=dimpilotcityhelp;
+122        run;
+
+NOTE: There were 173928 observations read from the data set WORK.FACTSHEET.
+NOTE: The data set WORK.DIMPILOTCITYHELP has 1 observations and 3 variables.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+123        
+124        data dimpilotcity;
+125        	set dimpilotcityhelp (KEEP=V100_FKEYSLT);
+126        	attrib labelpilotcity format=$30.;
+127        	if V100_FKEYSLT=13084 THEN labelpilotcity="Zürich";
+128        	else if V100_FKEYSLT=23053 THEN labelpilotcity="Biel/Bienne";
+129        	else if V100_FKEYSLT=198.013068 THEN labelpilotcity="Uster";
+130        run;
+
+NOTE: There were 1 observations read from the data set WORK.DIMPILOTCITYHELP.
+NOTE: The data set WORK.DIMPILOTCITY has 1 observations and 2 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+131        
+132        /*****************************************************************************************
+133        Dimension Sheet Zeit
+134        *****************************************************************************************/
+135        
+136        proc freq data=factsheet noprint;
+137        	table V01_LIEFERUNG_MONAT / out=timehelp;
+138        run;
+
+NOTE: There were 173928 observations read from the data set WORK.FACTSHEET.
+NOTE: The data set WORK.TIMEHELP has 9 observations and 3 variables.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+139        
+140        data dimtime;
+141        	set timehelp (KEEP=V01_LIEFERUNG_MONAT);
+142        	attrib labeltime format=$30.;
+143        	if V01_LIEFERUNG_MONAT=202101 THEN labeltime="Januar 2021";
+144        	else if V01_LIEFERUNG_MONAT=202102 THEN labeltime="Februar 2021";
+145        	else if V01_LIEFERUNG_MONAT=202103 THEN labeltime="März 2021";
+146        	else if V01_LIEFERUNG_MONAT=202104 THEN labeltime="April 2021";
+147        	else if V01_LIEFERUNG_MONAT=202105 THEN labeltime="Mai 2021";
+148        	else if V01_LIEFERUNG_MONAT=202106 THEN labeltime="Juni 2021";
+149        	else if V01_LIEFERUNG_MONAT=202107 THEN labeltime="Juli 2021";
+150        	else if V01_LIEFERUNG_MONAT=202108 THEN labeltime="August 2021";
+151        run;
+
+NOTE: There were 9 observations read from the data set WORK.TIMEHELP.
+6                                                          The SAS System                             15:49 Friday, October 29, 2021
+
+NOTE: The data set WORK.DIMTIME has 9 observations and 2 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+152        
+153        /*****************************************************************************************
+154        Dimension Sheet Ausbildung
+155        *****************************************************************************************/
+156        
+157        proc freq data=factsheet noprint;
+158        	table V19_FKEYAUSBILDUNG / missing out=educhelp;
+159        run;
+
+NOTE: There were 173928 observations read from the data set WORK.FACTSHEET.
+NOTE: The data set WORK.EDUCHELP has 8 observations and 3 variables.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+160        
+161        data dimausbildung;
+162        	set educhelp (KEEP=V19_FKEYAUSBILDUNG);
+163        	attrib labelausbildung format=$30.;
+164        	if V19_FKEYAUSBILDUNG=1 THEN labelausbildung="Schulbesuch weniger als 7 Jahre";
+165        	else if V19_FKEYAUSBILDUNG=2 THEN labelausbildung="Obligatorische Schule";
+166        	else if V19_FKEYAUSBILDUNG=3 THEN labelausbildung="Anlehre";
+167        	else if V19_FKEYAUSBILDUNG=4 THEN labelausbildung="Berufslehre oder Vollzeitberufsschule";
+168        	else if V19_FKEYAUSBILDUNG=5 THEN labelausbildung="Maturitätsschule, Berufsmaturität, Diplommittelschule";
+169        	else if V19_FKEYAUSBILDUNG=6 THEN labelausbildung="Höhere Fach- und Berufsausbildung";
+170        	else if V19_FKEYAUSBILDUNG=7 THEN labelausbildung="Universität, Hochschule, Fachhochschule";
+171        	else if V19_FKEYAUSBILDUNG=8 THEN labelausbildung="Nicht feststellbar";
+172        	else if V19_FKEYAUSBILDUNG=-1 THEN labelausbildung="Weiss nicht";
+173        	else if V19_FKEYAUSBILDUNG=. THEN labelausbildung="Keine Angabe";
+174        run;
+
+NOTE: There were 8 observations read from the data set WORK.EDUCHELP.
+NOTE: The data set WORK.DIMAUSBILDUNG has 8 observations and 2 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+175        
+176        /*****************************************************************************************
+177        Dimension Sheet Erwerbssituation
+178        *****************************************************************************************/
+179        
+180        proc freq data=factsheet noprint;
+181        	table V25_FKEYERWERBSSITUATION / missing out=erwerbhelp;
+182        run;
+
+NOTE: There were 173928 observations read from the data set WORK.FACTSHEET.
+NOTE: The data set WORK.ERWERBHELP has 20 observations and 3 variables.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.01 seconds
+7                                                          The SAS System                             15:49 Friday, October 29, 2021
+
+      cpu time            0.00 seconds
+      
+
+183        
+184        data dimerwerb;
+185        	set erwerbhelp (KEEP=V25_FKEYERWERBSSITUATION);
+186        	attrib labelerwerb format=$30.;
+187        	if V25_FKEYERWERBSSITUATION=1 THEN labelerwerb="Selbständig";
+188        	else if V25_FKEYERWERBSSITUATION=2 THEN labelerwerb="Angestellt in der eigenen Firma";
+189        	else if V25_FKEYERWERBSSITUATION=3 THEN labelerwerb="Regelmässig angestellt";
+190        	else if V25_FKEYERWERBSSITUATION=4 THEN labelerwerb="Zeitlich befristeter Vertrag";
+191        	else if V25_FKEYERWERBSSITUATION=5 THEN labelerwerb="Arbeit auf Abruf";
+192        	else if V25_FKEYERWERBSSITUATION=6 THEN labelerwerb="Gelegenheitsarbeit";
+193        	else if V25_FKEYERWERBSSITUATION=7 THEN labelerwerb="Mitarbeitendes Familienmitglied";
+194        	else if V25_FKEYERWERBSSITUATION=8 THEN labelerwerb="In der Lehre";
+195        	else if V25_FKEYERWERBSSITUATION=9 THEN labelerwerb="Arbeitsintegrationsprogramm";
+196        	else if V25_FKEYERWERBSSITUATION=10 THEN labelerwerb="Beschäftigungsprogramm für Ausgesteuerte";
+197        	else if V25_FKEYERWERBSSITUATION=11 THEN labelerwerb="Auf Stellensuche, beim Arbeitsamt gemeldet";
+198        	else if V25_FKEYERWERBSSITUATION=12 THEN labelerwerb="Auf Stellensuche, nicht beim Arbeitsamt gemeldet";
+199        	else if V25_FKEYERWERBSSITUATION=13 THEN labelerwerb="In Ausbildung (ohne Lehrlinge)";
+200        	else if V25_FKEYERWERBSSITUATION=14 THEN labelerwerb="Haushalt, familiäre Gründe";
+201        	else if V25_FKEYERWERBSSITUATION=15 THEN labelerwerb="Rentner/in";
+202        	else if V25_FKEYERWERBSSITUATION=16 THEN labelerwerb="Vorübergehend arbeitsunfähig";
+203        	else if V25_FKEYERWERBSSITUATION=17 THEN labelerwerb="Dauerinvalidität";
+204        	else if V25_FKEYERWERBSSITUATION=18 THEN labelerwerb="Keine Chance auf dem Arbeitsmarkt";
+205        /*	else if V25_FKEYERWERBSSITUATION=19 THEN labelerwerb="In der Lehre";*/
+206        	else if V25_FKEYERWERBSSITUATION=20 THEN labelerwerb="Anderes (erwerbstätig)";
+207        	else if V25_FKEYERWERBSSITUATION=21 THEN labelerwerb="Anderes (erwerbslos)";
+208        	else if V25_FKEYERWERBSSITUATION=22 THEN labelerwerb="Anderes (nichterwerbstätig)";
+209        	else if V25_FKEYERWERBSSITUATION=-1 THEN labelerwerb="Weiss nicht";
+210        	else if V25_FKEYERWERBSSITUATION=. THEN labelerwerb="Keine Angabe";
+211        run;
+
+NOTE: There were 20 observations read from the data set WORK.ERWERBHELP.
+NOTE: The data set WORK.DIMERWERB has 20 observations and 2 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+212        
+213        /*****************************************************************************************
+214        Dimension Sheet Aufenthaltsstatus
+215        *****************************************************************************************/
+216        
+217        proc freq data=factsheet noprint;
+218        	table V16_FKEYAUFENTHALTSSTATUS / missing out=statushelp;
+219        run;
+
+NOTE: There were 173928 observations read from the data set WORK.FACTSHEET.
+NOTE: The data set WORK.STATUSHELP has 9 observations and 3 variables.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+220        
+221        data dimstatus;
+8                                                          The SAS System                             15:49 Friday, October 29, 2021
+
+222        	set statushelp (KEEP=V16_FKEYAUFENTHALTSSTATUS);
+223        	attrib labelstatus format=$30.;
+224        	if V16_FKEYAUFENTHALTSSTATUS=1 THEN labelstatus="Jahresaufenthalt (B) (ohne Flüchtling mit Asyl B)";
+225        	else if V16_FKEYAUFENTHALTSSTATUS=2 THEN labelstatus="Niederlassung (C) (inkl. Flüchtling mit Asyl C)";
+226        	else if V16_FKEYAUFENTHALTSSTATUS=3 THEN labelstatus="Kurzaufenthalt (L)";
+227        	else if V16_FKEYAUFENTHALTSSTATUS=6 THEN labelstatus="Keine Bewilligung";
+228        	else if V16_FKEYAUFENTHALTSSTATUS=7 THEN labelstatus="Anderes";
+229        	else if V16_FKEYAUFENTHALTSSTATUS=14 THEN labelstatus="Flüchtling mit Asyl 5- (B)";
+230        	else if V16_FKEYAUFENTHALTSSTATUS=15 THEN labelstatus="Vorläufig aufgenommener Flüchtling 7- (F)";
+231        	else if V16_FKEYAUFENTHALTSSTATUS=16 THEN labelstatus="Vorläufig aufgenommener Flüchtling 7+ (F)";
+232        	else if V16_FKEYAUFENTHALTSSTATUS=17 THEN labelstatus="Vorläufig aufgenommene Person 7+ (F)/(VA 7+)";
+233        	else if V16_FKEYAUFENTHALTSSTATUS=18 THEN labelstatus="Flüchtling mit Asyl 5+ (B)";
+234        	else if V16_FKEYAUFENTHALTSSTATUS=19 THEN labelstatus="Asylsuchende/r (N)";
+235        	else if V16_FKEYAUFENTHALTSSTATUS=20 THEN labelstatus="Vorläufig aufgenommene Person 7- (F)/(VA 7-)";
+236        	else if V16_FKEYAUFENTHALTSSTATUS=. THEN labelstatus="Keine Angabe";
+237        run;
+
+NOTE: There were 9 observations read from the data set WORK.STATUSHELP.
+NOTE: The data set WORK.DIMSTATUS has 9 observations and 2 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+238        
+239        /*****************************************************************************************
+240        Dimension Sheet Nationalität
+241        *****************************************************************************************/
+242        
+243        proc freq data=factsheet noprint;
+244        	table V15_FKEYNATION / missing out=nationhelp;
+245        run;
+
+NOTE: There were 173928 observations read from the data set WORK.FACTSHEET.
+NOTE: The data set WORK.NATIONHELP has 132 observations and 3 variables.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+246        
+247        data dimnation;
+248        	set nationhelp (keep=V15_FKEYNATION);
+249        	attrib labelnation format=$30.;
+250        	IF V15_FKeyNation="." then labelnation="Missing";
+251        	IF V15_FKeyNation="8100" then labelnation="Schweiz";
+252        	IF V15_FKeyNation="8201" then labelnation="Albanien";
+253        	IF V15_FKeyNation="8202" then labelnation="Andorra";
+254        	IF V15_FKeyNation="8204" then labelnation="Belgien";
+255        	IF V15_FKeyNation="8205" then labelnation="Bulgarien";
+256        	IF V15_FKeyNation="8206" then labelnation="Dänemark";
+257        	IF V15_FKeyNation="8207" then labelnation="Deutschland";
+258        	IF V15_FKeyNation="8210" then labelnation="Färöer";
+259        	IF V15_FKeyNation="8211" then labelnation="Finnland";
+260        	IF V15_FKeyNation="8212" then labelnation="Frankreich";
+261        	IF V15_FKeyNation="8213" then labelnation="Gibraltar";
+262        	IF V15_FKeyNation="8214" then labelnation="Griechenland";
+263        	IF V15_FKeyNation="8215" then labelnation="Vereinigtes Königreich";
+9                                                          The SAS System                             15:49 Friday, October 29, 2021
+
+264        	IF V15_FKeyNation="8216" then labelnation="Irland";
+265        	IF V15_FKeyNation="8217" then labelnation="Island";
+266        	IF V15_FKeyNation="8218" then labelnation="Italien";
+267        	IF V15_FKeyNation="8222" then labelnation="Liechtenstein";
+268        	IF V15_FKeyNation="8223" then labelnation="Luxemburg";
+269        	IF V15_FKeyNation="8224" then labelnation="Malta";
+270        	IF V15_FKeyNation="8225" then labelnation="Insel Mann";
+271        	IF V15_FKeyNation="8226" then labelnation="Monaco";
+272        	IF V15_FKeyNation="8227" then labelnation="Niederlande";
+273        	IF V15_FKeyNation="8228" then labelnation="Norwegen";
+274        	IF V15_FKeyNation="8229" then labelnation="Österreich";
+275        	IF V15_FKeyNation="8230" then labelnation="Polen";
+276        	IF V15_FKeyNation="8231" then labelnation="Portugal";
+277        	IF V15_FKeyNation="8232" then labelnation="Rumänien";
+278        	IF V15_FKeyNation="8233" then labelnation="San Marino";
+279        	IF V15_FKeyNation="8234" then labelnation="Schweden";
+280        	IF V15_FKeyNation="8236" then labelnation="Spanien";
+281        	IF V15_FKeyNation="8239" then labelnation="Türkei";
+282        	IF V15_FKeyNation="8240" then labelnation="Ungarn";
+283        	IF V15_FKeyNation="8241" then labelnation="Vatikanstadt";
+284        	IF V15_FKeyNation="8242" then labelnation="Zypern";
+285        	IF V15_FKeyNation="8243" then labelnation="Slowakei";
+286        	IF V15_FKeyNation="8244" then labelnation="Tschechien";
+287        	IF V15_FKeyNation="8248" then labelnation="Serbien";
+288        	IF V15_FKeyNation="8249" then labelnation="Serbien und Montenegro";
+289        	IF V15_FKeyNation="8250" then labelnation="Kroatien";
+290        	IF V15_FKeyNation="8251" then labelnation="Slowenien";
+291        	IF V15_FKeyNation="8252" then labelnation="Bosnien und Herzegowina";
+292        	IF V15_FKeyNation="8254" then labelnation="Montenegro";
+293        	IF V15_FKeyNation="8255" then labelnation="Nordmazedonien";
+294        	IF V15_FKeyNation="8256" then labelnation="Kosovo";
+295        	IF V15_FKeyNation="8260" then labelnation="Estland";
+296        	IF V15_FKeyNation="8261" then labelnation="Lettland";
+297        	IF V15_FKeyNation="8262" then labelnation="Litauen";
+298        	IF V15_FKeyNation="8263" then labelnation="Moldova";
+299        	IF V15_FKeyNation="8264" then labelnation="Russland";
+300        	IF V15_FKeyNation="8265" then labelnation="Ukraine";
+301        	IF V15_FKeyNation="8266" then labelnation="Belarus";
+302        	IF V15_FKeyNation="8271" then labelnation="Jersey";
+303        	IF V15_FKeyNation="8272" then labelnation="Guernsey";
+304        	IF V15_FKeyNation="8273" then labelnation="Svalbard und Jan Mayen";
+305        	IF V15_FKeyNation="8274" then labelnation="Alandinseln";
+306        	IF V15_FKeyNation="8301" then labelnation="Äquatorialguinea";
+307        	IF V15_FKeyNation="8302" then labelnation="Äthiopien";
+308        	IF V15_FKeyNation="8303" then labelnation="Dschibuti";
+309        	IF V15_FKeyNation="8304" then labelnation="Algerien";
+310        	IF V15_FKeyNation="8305" then labelnation="Angola";
+311        	IF V15_FKeyNation="8307" then labelnation="Botsuana";
+312        	IF V15_FKeyNation="8308" then labelnation="Burundi";
+313        	IF V15_FKeyNation="8309" then labelnation="Benin";
+314        	IF V15_FKeyNation="8310" then labelnation="Côte d'Ivoire";
+315        	IF V15_FKeyNation="8311" then labelnation="Gabun";
+316        	IF V15_FKeyNation="8312" then labelnation="Gambia";
+317        	IF V15_FKeyNation="8313" then labelnation="Ghana";
+318        	IF V15_FKeyNation="8314" then labelnation="Guinea-Bissau";
+319        	IF V15_FKeyNation="8315" then labelnation="Guinea";
+320        	IF V15_FKeyNation="8317" then labelnation="Kamerun";
+321        	IF V15_FKeyNation="8319" then labelnation="Cabo Verde";
+10                                                         The SAS System                             15:49 Friday, October 29, 2021
+
+322        	IF V15_FKeyNation="8320" then labelnation="Kenia";
+323        	IF V15_FKeyNation="8321" then labelnation="Komoren";
+324        	IF V15_FKeyNation="8322" then labelnation="Kongo (Brazzaville)";
+325        	IF V15_FKeyNation="8323" then labelnation="Kongo (Kinshasa)";
+326        	IF V15_FKeyNation="8324" then labelnation="Lesotho";
+327        	IF V15_FKeyNation="8325" then labelnation="Liberia";
+328        	IF V15_FKeyNation="8326" then labelnation="Libyen";
+329        	IF V15_FKeyNation="8327" then labelnation="Madagascar";
+330        	IF V15_FKeyNation="8329" then labelnation="Malawi";
+331        	IF V15_FKeyNation="8330" then labelnation="Mali";
+332        	IF V15_FKeyNation="8331" then labelnation="Marokko";
+333        	IF V15_FKeyNation="8332" then labelnation="Mauretanien";
+334        	IF V15_FKeyNation="8333" then labelnation="Mauritius";
+335        	IF V15_FKeyNation="8334" then labelnation="Mosambik";
+336        	IF V15_FKeyNation="8335" then labelnation="Niger";
+337        	IF V15_FKeyNation="8336" then labelnation="Nigeria";
+338        	IF V15_FKeyNation="8337" then labelnation="Burkina Faso";
+339        	IF V15_FKeyNation="8339" then labelnation="Reunion";
+340        	IF V15_FKeyNation="8340" then labelnation="Simbabwe";
+341        	IF V15_FKeyNation="8341" then labelnation="Ruanda";
+342        	IF V15_FKeyNation="8343" then labelnation="Sambia";
+343        	IF V15_FKeyNation="8344" then labelnation="São Tomé und Príncipe";
+344        	IF V15_FKeyNation="8345" then labelnation="Senegal";
+345        	IF V15_FKeyNation="8346" then labelnation="Seychellen";
+346        	IF V15_FKeyNation="8347" then labelnation="Sierra Leone";
+347        	IF V15_FKeyNation="8348" then labelnation="Somalia";
+348        	IF V15_FKeyNation="8349" then labelnation="Südafrika";
+349        	IF V15_FKeyNation="8350" then labelnation="Sudan";
+350        	IF V15_FKeyNation="8351" then labelnation="Namibia";
+351        	IF V15_FKeyNation="8352" then labelnation="Eswatini";
+352        	IF V15_FKeyNation="8353" then labelnation="Tansania";
+353        	IF V15_FKeyNation="8354" then labelnation="Togo";
+354        	IF V15_FKeyNation="8356" then labelnation="Tschad";
+355        	IF V15_FKeyNation="8357" then labelnation="Tunesien";
+356        	IF V15_FKeyNation="8358" then labelnation="Uganda";
+357        	IF V15_FKeyNation="8359" then labelnation="Ägypten";
+358        	IF V15_FKeyNation="8360" then labelnation="Zentralafrikanische Republik";
+359        	IF V15_FKeyNation="8361" then labelnation="Mayotte";
+360        	IF V15_FKeyNation="8362" then labelnation="Eritrea";
+361        	IF V15_FKeyNation="8363" then labelnation="Südsudan";
+362        	IF V15_FKeyNation="8371" then labelnation="Britische Territorien im Indischen Ozean";
+363        	IF V15_FKeyNation="8372" then labelnation="Westsahara";
+364        	IF V15_FKeyNation="8373" then labelnation="St. Helena";
+365        	IF V15_FKeyNation="8401" then labelnation="Argentinien";
+366        	IF V15_FKeyNation="8402" then labelnation="Bahamas";
+367        	IF V15_FKeyNation="8403" then labelnation="Barbados";
+368        	IF V15_FKeyNation="8404" then labelnation="Bermuda";
+369        	IF V15_FKeyNation="8405" then labelnation="Bolivien";
+370        	IF V15_FKeyNation="8406" then labelnation="Brasilien";
+371        	IF V15_FKeyNation="8407" then labelnation="Chile";
+372        	IF V15_FKeyNation="8408" then labelnation="Costa Rica";
+373        	IF V15_FKeyNation="8409" then labelnation="Dominikanische Republik";
+374        	IF V15_FKeyNation="8410" then labelnation="Ecuador";
+375        	IF V15_FKeyNation="8411" then labelnation="El Salvador";
+376        	IF V15_FKeyNation="8412" then labelnation="Falklandinseln";
+377        	IF V15_FKeyNation="8413" then labelnation="Grönland";
+378        	IF V15_FKeyNation="8414" then labelnation="Guadeloupe";
+379        	IF V15_FKeyNation="8415" then labelnation="Guatemala";
+11                                                         The SAS System                             15:49 Friday, October 29, 2021
+
+380        	IF V15_FKeyNation="8416" then labelnation="Französisch-Guyana";
+381        	IF V15_FKeyNation="8417" then labelnation="Guyana";
+382        	IF V15_FKeyNation="8418" then labelnation="Haiti";
+383        	IF V15_FKeyNation="8419" then labelnation="Belize";
+384        	IF V15_FKeyNation="8420" then labelnation="Honduras";
+385        	IF V15_FKeyNation="8421" then labelnation="Jamaika";
+386        	IF V15_FKeyNation="8423" then labelnation="Kanada";
+387        	IF V15_FKeyNation="8424" then labelnation="Kolumbien";
+388        	IF V15_FKeyNation="8425" then labelnation="Kuba";
+389        	IF V15_FKeyNation="8426" then labelnation="Martinique";
+390        	IF V15_FKeyNation="8427" then labelnation="Mexiko";
+391        	IF V15_FKeyNation="8429" then labelnation="Nicaragua";
+392        	IF V15_FKeyNation="8430" then labelnation="Panama";
+393        	IF V15_FKeyNation="8431" then labelnation="Paraguay";
+394        	IF V15_FKeyNation="8432" then labelnation="Peru";
+395        	IF V15_FKeyNation="8433" then labelnation="Puerto Rico";
+396        	IF V15_FKeyNation="8434" then labelnation="St. Pierre und Miquelon";
+397        	IF V15_FKeyNation="8435" then labelnation="Suriname";
+398        	IF V15_FKeyNation="8436" then labelnation="Trinidad und Tobago";
+399        	IF V15_FKeyNation="8437" then labelnation="Uruguay";
+400        	IF V15_FKeyNation="8438" then labelnation="Venezuela";
+401        	IF V15_FKeyNation="8439" then labelnation="Vereinigte Staaten";
+402        	IF V15_FKeyNation="8440" then labelnation="Dominica";
+403        	IF V15_FKeyNation="8441" then labelnation="Grenada";
+404        	IF V15_FKeyNation="8442" then labelnation="Antigua und Barbuda";
+405        	IF V15_FKeyNation="8443" then labelnation="St. Lucia";
+406        	IF V15_FKeyNation="8444" then labelnation="St. Vincent und die Grenadinen";
+407        	IF V15_FKeyNation="8445" then labelnation="St. Kitts und Nevis";
+408        	IF V15_FKeyNation="8446" then labelnation="Anguilla";
+409        	IF V15_FKeyNation="8448" then labelnation="Saint-Martin";
+410        	IF V15_FKeyNation="8449" then labelnation="Saint-Barthélemy";
+411        	IF V15_FKeyNation="8472" then labelnation="Jungferninseln";
+412        	IF V15_FKeyNation="8473" then labelnation="Kaimaninseln";
+413        	IF V15_FKeyNation="8474" then labelnation="Turks- und Caicosinseln";
+414        	IF V15_FKeyNation="8475" then labelnation="Montserrat";
+415        	IF V15_FKeyNation="8476" then labelnation="Jungferninseln (UK)";
+416        	IF V15_FKeyNation="8482" then labelnation="Aruba";
+417        	IF V15_FKeyNation="8483" then labelnation="Südgeorgien und Südliche Sandwichinseln";
+418        	IF V15_FKeyNation="8484" then labelnation="Curaçao";
+419        	IF V15_FKeyNation="8485" then labelnation="Sint Maarten";
+420        	IF V15_FKeyNation="8486" then labelnation="Bonaire, Saint Eurstatius und Saba";
+421        	IF V15_FKeyNation="8501" then labelnation="Afghanistan";
+422        	IF V15_FKeyNation="8502" then labelnation="Bahrain";
+423        	IF V15_FKeyNation="8503" then labelnation="Bhutan";
+424        	IF V15_FKeyNation="8504" then labelnation="Brunéi Darussalam";
+425        	IF V15_FKeyNation="8505" then labelnation="Myanmar";
+426        	IF V15_FKeyNation="8506" then labelnation="Sri Lanka";
+427        	IF V15_FKeyNation="8507" then labelnation="Taiwan (Chinesisches Taipei)";
+428        	IF V15_FKeyNation="8508" then labelnation="China";
+429        	IF V15_FKeyNation="8509" then labelnation="Hongkong";
+430        	IF V15_FKeyNation="8510" then labelnation="Indien";
+431        	IF V15_FKeyNation="8511" then labelnation="Indonesien";
+432        	IF V15_FKeyNation="8512" then labelnation="Irak";
+433        	IF V15_FKeyNation="8513" then labelnation="Iran";
+434        	IF V15_FKeyNation="8514" then labelnation="Israel";
+435        	IF V15_FKeyNation="8515" then labelnation="Japan";
+436        	IF V15_FKeyNation="8516" then labelnation="Jemen";
+437        	IF V15_FKeyNation="8517" then labelnation="Jordanien";
+12                                                         The SAS System                             15:49 Friday, October 29, 2021
+
+438        	IF V15_FKeyNation="8518" then labelnation="Kambodscha";
+439        	IF V15_FKeyNation="8519" then labelnation="Katar";
+440        	IF V15_FKeyNation="8521" then labelnation="Kuwait";
+441        	IF V15_FKeyNation="8522" then labelnation="Laos";
+442        	IF V15_FKeyNation="8523" then labelnation="Libanon";
+443        	IF V15_FKeyNation="8524" then labelnation="Macao";
+444        	IF V15_FKeyNation="8525" then labelnation="Malaysia";
+445        	IF V15_FKeyNation="8526" then labelnation="Malediven";
+446        	IF V15_FKeyNation="8527" then labelnation="Oman";
+447        	IF V15_FKeyNation="8528" then labelnation="Mongolei";
+448        	IF V15_FKeyNation="8529" then labelnation="Nepal";
+449        	IF V15_FKeyNation="8530" then labelnation="Korea (Nord-)";
+450        	IF V15_FKeyNation="8532" then labelnation="Vereinigte Arabische Emirate";
+451        	IF V15_FKeyNation="8533" then labelnation="Pakistan";
+452        	IF V15_FKeyNation="8534" then labelnation="Philippinen";
+453        	IF V15_FKeyNation="8535" then labelnation="Saudi-Arabien";
+454        	IF V15_FKeyNation="8537" then labelnation="Singapur";
+455        	IF V15_FKeyNation="8539" then labelnation="Korea (Süd-)";
+456        	IF V15_FKeyNation="8541" then labelnation="Syrien";
+457        	IF V15_FKeyNation="8542" then labelnation="Thailand";
+458        	IF V15_FKeyNation="8545" then labelnation="Vietnam";
+459        	IF V15_FKeyNation="8546" then labelnation="Bangladesch";
+460        	IF V15_FKeyNation="8547" then labelnation="Timor-Leste";
+461        	IF V15_FKeyNation="8550" then labelnation="Palästina";
+462        	IF V15_FKeyNation="8560" then labelnation="Armenien";
+463        	IF V15_FKeyNation="8561" then labelnation="Aserbaidschan";
+464        	IF V15_FKeyNation="8562" then labelnation="Georgien";
+465        	IF V15_FKeyNation="8563" then labelnation="Kasachstan";
+466        	IF V15_FKeyNation="8564" then labelnation="Kirgisistan";
+467        	IF V15_FKeyNation="8565" then labelnation="Tadschikistan";
+468        	IF V15_FKeyNation="8566" then labelnation="Turkmenistan";
+469        	IF V15_FKeyNation="8567" then labelnation="Usbekistan";
+470        	IF V15_FKeyNation="8571" then labelnation="Abchasien";
+471        	IF V15_FKeyNation="8601" then labelnation="Australien";
+472        	IF V15_FKeyNation="8602" then labelnation="Fidschi";
+473        	IF V15_FKeyNation="8604" then labelnation="Nauru";
+474        	IF V15_FKeyNation="8605" then labelnation="Vanuatu";
+475        	IF V15_FKeyNation="8606" then labelnation="Neukaledonien";
+476        	IF V15_FKeyNation="8607" then labelnation="Neuseeland";
+477        	IF V15_FKeyNation="8608" then labelnation="Papua-Neuguinea";
+478        	IF V15_FKeyNation="8610" then labelnation="Tonga";
+479        	IF V15_FKeyNation="8611" then labelnation="Wallis und Futuna";
+480        	IF V15_FKeyNation="8612" then labelnation="Samoa";
+481        	IF V15_FKeyNation="8614" then labelnation="Salomoinseln";
+482        	IF V15_FKeyNation="8615" then labelnation="Tuvalvu";
+483        	IF V15_FKeyNation="8616" then labelnation="Kiribati";
+484        	IF V15_FKeyNation="8617" then labelnation="Marshallinseln";
+485        	IF V15_FKeyNation="8618" then labelnation="Mikronesien";
+486        	IF V15_FKeyNation="8619" then labelnation="Palau";
+487        	IF V15_FKeyNation="8621" then labelnation="Amerikanisch-Samoa";
+488        	IF V15_FKeyNation="8630" then labelnation="Nördliche Marianen";
+489        	IF V15_FKeyNation="8632" then labelnation="Guam";
+490        	IF V15_FKeyNation="8633" then labelnation="Johnstoninsel";
+491        	IF V15_FKeyNation="8652" then labelnation="Kokosinseln";
+492        	IF V15_FKeyNation="8653" then labelnation="Heard und McDonaldinseln";
+493        	IF V15_FKeyNation="8654" then labelnation="Norfolkinsel";
+494        	IF V15_FKeyNation="8655" then labelnation="Weihnachtsinsel";
+495        	IF V15_FKeyNation="8671" then labelnation="Französisch-Polynesien";
+13                                                         The SAS System                             15:49 Friday, October 29, 2021
+
+496        	IF V15_FKeyNation="8682" then labelnation="Cookinseln";
+497        	IF V15_FKeyNation="8683" then labelnation="Niue";
+498        	IF V15_FKeyNation="8684" then labelnation="Tokelau";
+499        	IF V15_FKeyNation="8685" then labelnation="Pitcairninseln";
+500        	IF V15_FKeyNation="8701" then labelnation="Antarktis";
+501        	IF V15_FKeyNation="8702" then labelnation="Bouvetinseln";
+502        	IF V15_FKeyNation="8703" then labelnation="Französische Süd- und Antarktisgebiete";	
+503        run;
+
+NOTE: Character values have been converted to numeric values at the places given by: (Line):(Column).
+      250:20   251:20   252:20   253:20   254:20   255:20   256:20   257:20   258:20   259:20   260:20   261:20   262:20   263:20
+      264:20   265:20   266:20   267:20   268:20   269:20   270:20   271:20   272:20   273:20   274:20   275:20   276:20   277:20
+      278:20   279:20   280:20   281:20   282:20   283:20   284:20   285:20   286:20   287:20   288:20   289:20   290:20   291:20
+      292:20   293:20   294:20   295:20   296:20   297:20   298:20   299:20   300:20   301:20   302:20   303:20   304:20   305:20
+      306:20   307:20   308:20   309:20   310:20   311:20   312:20   313:20   314:20   315:20   316:20   317:20   318:20   319:20
+      320:20   321:20   322:20   323:20   324:20   325:20   326:20   327:20   328:20   329:20   330:20   331:20   332:20   333:20
+      334:20   335:20   336:20   337:20   338:20   339:20   340:20   341:20   342:20   343:20   344:20   345:20   346:20   347:20
+      348:20   349:20   350:20   351:20   352:20   353:20   354:20   355:20   356:20   357:20   358:20   359:20   360:20   361:20
+      362:20   363:20   364:20   365:20   366:20   367:20   368:20   369:20   370:20   371:20   372:20   373:20   374:20   375:20
+      376:20   377:20   378:20   379:20   380:20   381:20   382:20   383:20   384:20   385:20   386:20   387:20   388:20   389:20
+      390:20   391:20   392:20   393:20   394:20   395:20   396:20   397:20   398:20   399:20   400:20   401:20   402:20   403:20
+      404:20   405:20   406:20   407:20   408:20   409:20   410:20   411:20   412:20   413:20   414:20   415:20   416:20   417:20
+      418:20   419:20   420:20   421:20   422:20   423:20   424:20   425:20   426:20   427:20   428:20   429:20   430:20   431:20
+      432:20   433:20   434:20   435:20   436:20   437:20   438:20   439:20   440:20   441:20   442:20   443:20   444:20   445:20
+      446:20   447:20   448:20   449:20   450:20   451:20   452:20   453:20   454:20   455:20   456:20   457:20   458:20   459:20
+      460:20   461:20   462:20   463:20   464:20   465:20   466:20   467:20   468:20   469:20   470:20   471:20   472:20   473:20
+      474:20   475:20   476:20   477:20   478:20   479:20   480:20   481:20   482:20   483:20   484:20   485:20   486:20   487:20
+      488:20   489:20   490:20   491:20   492:20   493:20   494:20   495:20   496:20   497:20   498:20   499:20   500:20   501:20
+      502:20   
+NOTE: There were 132 observations read from the data set WORK.NATIONHELP.
+NOTE: The data set WORK.DIMNATION has 132 observations and 2 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+504        
+505        /*****************************************************************************************
+506        Dimension Sheet Personendaten -> to do at a later point in time
+507        *****************************************************************************************/
+508        
+509        /*****************************************************************************************
+510        StarJoin: Ledige Frauen im Alter von 18-25
+511        *****************************************************************************************/
+512        proc sql;
+513        	create table singwom as
+514        	select sum(fact) as singleyoungwomen,
+515        	V01_LIEFERUNG_MONAT
+516        	from
+517        	factsheet f,
+518        	dimsex s,
+519        	dimziv z,
+520        	dimalter a
+521        	where
+522        	f.V13_FKeyGeschlecht = s.V13_FKeyGeschlecht
+523        	and f.V14_FKeyZivilstand = z.V14_FKeyZivilstand
+524        	and f.age_kat = a.age_kat
+525        	and s.labelsex = "Frau"
+14                                                         The SAS System                             15:49 Friday, October 29, 2021
+
+526        	and z.labelziv = "Ledig"
+527        	and a.labelalter = "18-25 Jahre"
+528        	group by V01_LIEFERUNG_MONAT;
+NOTE: Table WORK.SINGWOM created, with 8 rows and 2 columns.
+
+529        quit;
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.05 seconds
+      cpu time            0.03 seconds
+      
+
+530        
+531        /*testweise in R2 schreiben*/
+532        LIBNAME w_idp1r2 ORACLE
+533             SCHEMA=M_IDP1_SHS_MOD_R2
+534             USER=M_IDP1_SHS_MOD_R2
+535             PASSWORD=XXXXXXXXXXXX
+536             PATH=AXPDBDWHPD
+537             OR_BINARY_DOUBLE=NO
+538             ADJUST_NCHAR_COLUMN_LENGTHS=YES
+539             DBSERVER_MAX_BYTES=1;
+NOTE: Libref W_IDP1R2 was successfully assigned as follows: 
+      Engine:        ORACLE 
+      Physical Name: AXPDBDWHPD
+540        
+541        %macro checktable;
+542        	%if %sysfunc(exist(w_idp1r2.singwom)) %then %do;
+543        		proc delete data=w_idp1r2.singwom; run;
+544        	%end;
+545        %mend;
+546        %checktable;
+
+NOTE: Deleting W_IDP1R2.SINGWOM (memtype=DATA).
+NOTE: PROCEDURE DELETE used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.00 seconds
+      
+
+547        
+548        data w_idp1r2.singwom;
+549        	set singwom;
+550        run;
+
+NOTE: SAS variable labels, formats, and lengths are not written to DBMS tables.
+NOTE: There were 8 observations read from the data set WORK.SINGWOM.
+NOTE: The data set W_IDP1R2.SINGWOM has 8 observations and 2 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.51 seconds
+      cpu time            0.12 seconds
+      
+
+551        
+552        /*****************************************************************************************
+553        Beispielgrafik erstellen
+554        *****************************************************************************************/
+555        
+556        /*für den Export:procject acp shs_mod*/
+557        ods pdf file="/project/acp/SHS/SHS_MOD/30_Processing_QMonitor/Starschema/Output/beispielgraph.pdf";
+15                                                         The SAS System                             15:49 Friday, October 29, 2021
+
+NOTE: Writing ODS PDF output to DISK destination 
+      "/project/acp/SHS/SHS_MOD/30_Processing_QMonitor/Starschema/Output/beispielgraph.pdf", printer "PDF".
+558        /*eigentliche Grafik erstellen*/
+559        proc sgplot data=w_idp1r2.singwom;
+560        	vbar V01_LIEFERUNG_MONAT / response=singleyoungwomen;
+561        run;
+
+NOTE: PROCEDURE SGPLOT used (Total process time):
+      real time           1.92 seconds
+      cpu time            0.06 seconds
+      
+NOTE: Listing image output written to /home/tu_shs_mod/SGPlot.png.
+
+562        /*ods schliessen*/
+563        ods pdf close;
+NOTE: ODS PDF printed 1 page to /project/acp/SHS/SHS_MOD/30_Processing_QMonitor/Starschema/Output/beispielgraph.pdf.
+564        
+565        
+566        
+
+NOTE: SAS Institute Inc., SAS Campus Drive, Cary, NC USA 27513-2414
+NOTE: The SAS System used:
+      real time           5.41 seconds
+      cpu time            2.56 seconds
+      

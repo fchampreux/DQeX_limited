@@ -1,0 +1,84 @@
+    ### Exports the parameters attached to @parameters_lists in a Workbook
+    #workbook = WriteXLSX.new("./public/#{@business_object.code}_parameters.xlsx")
+    title = workbook.add_format(:font  => 'Calibri', :size  => 16, :color => 'blue', :bold  => 1)
+    header = workbook.add_format(:font  => 'Calibri', :size  => 12, :color => 'black', :bold  => 1)
+    data = workbook.add_format(:font  => 'Calibri', :size  => 10, :color => 'black', :bold  => 0)
+    data_change = workbook.add_format(:font  => 'Calibri', :size  => 10, :bg_color => 'grey', :color => 'white', :bold  => 1)
+    workbook.set_properties(
+    :title    => "DSD export: #{@business_object.code}",
+    :subject  => 'This file contains exported list of Used Variables',
+    :author   => 'Open Data Quality',
+    :comments => translation_for(@business_object.name_translations)
+    #,
+    #:hyperlink_base => url_for @business_object
+    )
+
+    # write description sheet
+    cover = workbook.add_worksheet('DSD')
+    cover.write(0, 0, @business_object.code, title)
+    cover.write(1, 0, translation_for(@business_object.name_translations), header)
+    line_index = 3
+    @business_object.attributes.map do |name, value|
+      cover.write(line_index, 0, name, header)
+      cover.write(line_index, 1, value, data)
+      line_index += 1
+    end
+
+    # write data sheet
+    if @business_object.deployed_skills.any?
+      data_sheet = workbook.add_worksheet('Used Variables')
+      index = 0
+      nb_languages = list_of_languages.length
+      ## Headers
+      # Write identification headers
+      #data_sheet.merge_range(0, 0, 0, 3, 'IDENTIFICATION', header)
+      #data_sheet.merge_range(1, 0, 1, 3, 'Variable définie', header)
+      #data_sheet.merge_range(1, 4, 1, 7, 'Variable utilisée', header)
+      data_sheet.write(0, 0, 'Source_ID', header)
+      data_sheet.write(0, 1, 'Source_CODE', header)
+      data_sheet.write(0, 2, 'Source_UUID', header)
+      data_sheet.write(0, 3, 'Source_Name', header)
+      data_sheet.write(0, 4, 'ID', header)
+      data_sheet.write(0, 5, 'CODE', header)
+      data_sheet.write(0, 6, 'UUID', header)
+      data_sheet.write(0, 7, 'Name', header)
+      data_sheet.write(0, 8, 'Type', header)
+      data_sheet.write(0, 9, 'Size', header)
+      data_sheet.write(0, 10, 'Precision', header)
+      data_sheet.write(0, 11, 'Mandatory', header)
+      data_sheet.write(0, 12, 'Role', header)
+      data_sheet.write(0, 13, 'Published', header)
+      data_sheet.write(0, 14, 'Sensitivity', header)
+      data_sheet.write(0, 15, 'Min value', header)
+      data_sheet.write(0, 16, 'Max value', header)
+      data_sheet.write(0, 17, 'Pairing key', header)
+      data_sheet.write(0, 18, 'DSD', header)
+      data_sheet.write(0, 19, 'Code-list', header)
+      data_sheet.write(0, 20, 'Filter', header)
+      data_sheet.write(0, 21, 'Responsible', header)
+      data_sheet.write(0, 22, 'Organisation', header)
+
+      # Add annotations headers (to do)
+
+      ## Data
+      @linked_skills.each_with_index do |variable, line_index|
+
+        # Write attributes
+        data_sheet.write_row(line_index + 1, 0, [variable.defined_variable_id, variable.defined_variable_code, variable.defined_variable_uuid], data_change)
+        name = Translation.where(document_id: variable.defined_variable_id, document_type: 'Skill', field_name: 'name', language: current_language).take.translation
+        data_sheet.write(line_index + 1, 3, name, data_change)
+
+        data_sheet.write_row(line_index + 1, 4, [variable.used_variable_id, variable.used_variable_code, variable.used_variable_uuid], data)
+        name = Translation.where(document_id: variable.used_variable_id, document_type: 'Skill', field_name: 'name', language: current_language).take.translation
+        data_sheet.write(line_index + 1, 7, name, data)
+
+        data_sheet.write_row(line_index + 1, 8, [variable.data_type, variable.used_variable_size, variable.used_variable_precision, variable.used_variable_mandatory,
+                                                variable.used_variable_role, variable.used_variable_published,
+                                                variable.used_variable_sensitive, variable.used_variable_min, variable.used_variable_max,
+                                                variable.used_variable_pairing, variable.used_variable_dsd, variable.values_list_code,
+                                                variable.used_variable_filter, variable.used_variable_responsible, variable.used_variable_organisation], data)
+      end
+
+    end
+    # close workbook
+    #workbook.close

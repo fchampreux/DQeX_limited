@@ -1,0 +1,15 @@
+
+.search-form {
+  position: relative;
+
+  .search-button {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -20px;
+  }
+
+  .sticky-header & {
+    width: 100%;
+  }
+}

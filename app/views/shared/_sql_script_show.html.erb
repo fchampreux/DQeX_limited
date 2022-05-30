@@ -1,0 +1,22 @@
+
+      <button class="mat-flat-button mat-button-base mat-primary" id="copy-<%= action %>-script">
+        <span class="fa fa-file-alt" %></span>
+        <%= t('CopyScript') %>
+      </button>
+
+      <div id="SQL-<%= action %>">
+        <%= query.pretty_sql.gsub(',--', ',<br/>').html_safe %>
+      </div>
+
+      <script>
+        $("#copy-<%= action %>-script").click(function(){
+          var script = $('<textarea/>')
+          script.val( $("#SQL-<%= action %>").text() );
+          $('body').append(script);
+          script.select();
+          $(document.execCommand('copy'));
+          // removing input area after copy
+          script.remove();
+          alert("Copied the <%= action %> script for: " + "<%= @business_object.code %>");
+        });
+      </script>

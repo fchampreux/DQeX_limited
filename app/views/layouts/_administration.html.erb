@@ -1,0 +1,61 @@
+<div id="left-navigation" class="sticky" role="search">
+
+  <div id="left-navigation-content" class="sticky-main default-layout pt-1">
+    <ul class="nav-tree nav-indent nav-toggle expanded nav-bordered nav-hover">
+
+      <% if can? :administrate, current_user %>
+        <li role="presentation">
+          <h3 class="nav-link"><%= t('Customisation') %></h3>
+        </li>
+        <li role="presentation">
+          <a aria-selected="false" class="nav-link has-child" role="treeitem" data-toggle="collapse" aria-controls="ui-nav-security" href="#ui-nav-security">
+            <%= t('Security')%>
+          </a>
+          <div class="collapse in show" id="ui-nav-security">
+            <ul class="nav-tree nav-bordered nav-hover expanded" role="tree">
+              <li class="open" role="presentation" id="ui-nav-administration-users">
+                <%= link_to t('Users'), administration_users_path, class: "nav-link", role: "treeitem" %>
+              </li>
+              <li class="open" role="presentation" id="ui-nav-administration-groups">
+                <%= link_to t('GroupsRoles'), administration_groups_path, class: "nav-link", role: "treeitem" %>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li role="presentation">
+          <a aria-selected="false" class="nav-link has-child" role="treeitem" data-toggle="collapse" aria-controls="ui-nav-administration" href="#ui-nav-administration">
+            <%= t('Configuration')%>
+          </a>
+          <div class="collapse in show" id="ui-nav-administration">
+            <ul class="nav-tree nav-bordered nav-hover expanded" role="tree">
+              <li class="open" role="presentation" id="ui-nav-administration-params">
+                <%= link_to t('Settings'), administration_parameters_lists_path, class: "nav-link", role: "treeitem" %>
+              </li>
+              <li class="open" role="presentation" id="ui-nav-administration-imports">
+                <%= link_to t('DataImport'), administration_data_imports_path, class: "nav-link", role: "treeitem" %>
+              </li>
+              <li class="open" role="presentation" id="ui-nav-administration-api">
+                <%= link_to t('Swagger API'), rswag_ui_path, class: "nav-link", role: "treeitem" %>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li role="presentation">
+          <a aria-selected="false" class="nav-link has-child" role="treeitem" data-toggle="collapse" aria-controls="ui-nav-topology" href="#ui-nav-topology">
+            <%= t('OrganisationTopology')%>
+          </a>
+          <div class="collapse in show" id="ui-nav-topology">
+            <ul class="nav-tree nav-bordered nav-hover expanded" role="tree">
+              <li class="open" role="presentation" id="ui-nav-topology-organisations">
+                <%= link_to t('Organisations'), administration_organisations_path, class: "nav-link", role: "treeitem" %>
+              </li>
+              <li class="open" role="presentation" id="ui-nav-topology-territories">
+                <%= link_to t('Territories'), administration_territories_path, class: "nav-link", role: "treeitem" %>
+              </li>
+            </ul>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

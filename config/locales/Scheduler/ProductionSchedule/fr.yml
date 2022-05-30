@@ -1,0 +1,82 @@
+# Code for language as declared in i18n configuration
+fr:
+  # Considered object from a global view
+  Activities:                              "Planifications"
+  Activity:                                "Planification"
+  ManagingActivities:                      "Gérer les activités"
+  NewActivity:                             "Nouvelle activité"
+  ActivityRejected:                        "La planification a été rejetée"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageActivity )
+  activities:
+    index:
+      # Columns titles
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+      Owner:                                  "Responsable"
+      UpdatedBy:                              "Mis à jour par"
+      UpdatedAt:                              "Mis à jour le"
+    index_short:
+      # Columns titles
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+      Owner:                                  "Responsable"
+      UpdatedBy:                              "Mis à jour par"
+      UpdatedAt:                              "Mis à jour le"
+    show:
+      Manage:                                 "Gérer les activités"
+      # Field names
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+      IsSynchronus:                           "Synchronisation"
+      IsTemplate:                             "Est un modèle"
+      Template:                               "Utiliser comme modèle"
+      NoTemplate:                             "Pas de modèle"
+      TemplateOn:                             "Modèle sélectionné"
+      TemplateDefinition:                     "Un modèle de sous-processus peut être appliqué à différentes structures pour réaliser un sous-processus identique."
+      OrderingSequence:                       "Séquence"
+      Synchronus:                             "Synchrone"
+      Asynchronus:                            "Asynchrone"
+      SynchronicityOn:                        "Attend les activités parentes pour démarrer"
+      SynchronicityOff:                       "Démarre dès qu'il est activé par une activité parente"
+      NextSuccess:                            "Suivant si succès"
+      NextFailure:                            "Suivant si échec"
+      Parameters:                             "Paramètres"
+      Technology:                             "Technologie"
+      TargetObject:                           "Structure traitée"
+      SourceObject:                           "Ressource"
+      NodeType:                               "Type d'action"
+      New:                                    "Nouvelle tâche"
+      UpdatedBy:                              "Mis à jour par"
+      UpdatedAt:                              "Mis à jour le"
+      GSBPM :                                 "Sous-processus GSBPM"
+      Show:                                   "Voir"
+      Edit:                                   "Modifier"
+      Delete:                                 "Supprimer"
+    new:
+      New:                                    "Nouvelle activité"
+      # Field names
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+    edit:
+      Edit:                                   "Modifier la planification"
+      # Field names
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+    create:
+      Success:                             	  "Planification créée avec succès"
+      Failure:                             	  "La planification ne peut pas être créée"
+    update:
+      Success:                             	  "Planification mis à jour avec succès"
+      Failure:                             	  "La planification ne peut pas être modifiée"
+    activate:
+      Success:                             	  "Planification récupéré"
+      Failure:                             	  "La planification ne peut pas être récupérée"
+    destroy:
+      Success:                             	  "Planification supprimé"
+      Failure:                             	  "La planification ne peut pas être supprimée"

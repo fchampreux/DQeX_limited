@@ -1,0 +1,10 @@
+<ul>
+  <% current_value.child_values.each do |value| %>
+    <li>
+      <%= value.code %> : <%= translation_for(value.name_translations) %>
+      <%  if value.child_values %>
+        <%= render partial: "shared/values_sub_list", locals: {current_value: value} %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

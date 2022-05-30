@@ -1,0 +1,17 @@
+<%= form_with(model: production_group, local: true) do |form| %>
+  <% if production_group.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(production_group.errors.count, "error") %> prohibited this production_group from being saved:</h2>
+
+      <ul>
+      <% production_group.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

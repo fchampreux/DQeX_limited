@@ -1,0 +1,77 @@
+# Code for language as declared in i18n configuration
+en:
+  ParametersLists:                               "Parameters lists"
+  ParametersList:                                "Parameters list"
+  ManagingParametersLists:                       "Manage parameters lists"
+  NewParametersList:                             "New parameters list"
+  ParametersListRejected:                        "Parameters list was rejected"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  administration:
+    parameters_lists:
+      index:
+        # Columns titles
+        Code:                                   "Identifier"
+        Name:                                   "Name"
+        Description:                            "Description"
+        Parent:                                 "Business area"
+        Owner:                                  "Owner"
+        UpdatedBy:                              "Updated by"
+        UpdatedAt:                              "Updated at"
+      index_short:
+        # Columns titles
+        Code:                                   "Identifier"
+        Name:                                   "Name"
+        Description:                            "Description"
+        Parent:                                 "Business area"
+        Owner:                                  "Owner"
+        UpdatedBy:                              "Updated by"
+        UpdatedAt:                              "Updated at"
+      show:
+        ParametersList:                          "Parameters list"
+        Parameters:                              "Parameters"
+        ImportParameters:                        "Import"
+        # Field names
+        Code:                                   "Identifier"
+        Name:                                   "Name"
+        Description:                            "Description"
+        Property:                               "Property"
+        TaskScope:                              "Applicability"
+        ValidFrom:                               "Valid from"
+        ValidTo:                                 "to"
+        Sure:                                    "Do you confirm?"
+      new:
+        ParametersList:                          "Parameters list"
+        Parameters:                              "Parameters"
+        ImportParameters:                        "Import"
+        New:                                    "New parameters list"
+        # Field names
+        Code:                                   "Identifier"
+        Name:                                   "Name"
+        Description:                            "Description"
+        Property:                               "Property"
+        TaskScope:                              "Applicability"
+        ValidFrom:                               "Valid from"
+        ValidTo:                                 "to"
+      edit:
+        ParametersList:                          "Parameters list"
+        Parameters:                              "Parameters"
+        ImportParameters:                        "Import"
+        Edit:                                   "Edit parameters list"
+        # Field names
+        Code:                                   "Identifier"
+        Name:                                   "Name"
+        Description:                            "Description"
+        Property:                               "Property"
+        TaskScope:                              "Applicability"
+        ValidFrom:                               "Valid from"
+        ValidTo:                                 "to"
+      create:
+        Success:                             	  "Parameters list was created"
+        Failure:                                "Parameters list cannot be created"
+      update:
+        Success:                             	  "Parameters list was updated"
+        Failure:                                "Parameters list cannot be updated"
+      destroy:
+        Success:                             	  "Parameters list was deleted"
+        Failure:                                "Parameters list cannot be deleted"

@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col-md-6">
+     <%= render partial: "shared/translated_field", locals: {
+       id: 'br-rule-check-error-message',
+       field: "check_error_message",
+       isTextarea: true,
+       translations: @business_rule.check_error_message_translations,
+       label: t('ErrorMessage') } %>
+  </div>
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-6">
+         <%= render partial: "shared/translated_field", locals: {
+           id: 'br-rule-complexity',
+           field: "complexity_id",
+           isTextarea: false,
+           translations: @business_rule.complexity.name_translations,
+           label: t('Complexity') } %>
+      </div>
+    </div>
+    <div class="row">
+       <div class="mat-form-field col-md-6">
+         <label for="br-added-value" class="mat-form-field-label">
+           <%= t('AValue') %>
+         </label>
+         <input id="br-added-value" class="mat-input-element" readonly
+           value="<%= @business_rule.added_value %> <%= display_currency%>" />
+       </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+         <%= render partial: "shared/translated_field", locals: {
+           id: 'br-rule-severity',
+           field: "severity_id",
+           isTextarea: false,
+           translations: @business_rule.severity.name_translations,
+           label: t('Severity') } %>
+      </div>
+    </div>
+    <div class="row">
+       <div class="mat-form-field col-md-6">
+         <label for="br-maintenance-cost" class="mat-form-field-label">
+           <%= t('MCost') %>
+         </label>
+         <input id="br-maintenance-cost" class="mat-input-element" readonly
+           value="<%= @business_rule.maintenance_cost %> <%= display_currency%>" />
+       </div>
+    </div>
+    <div class="row">
+       <div class="mat-form-field col-md-6">
+         <label for="br-rule-maintenance-duration" class="mat-form-field-label">
+           <%= t('MWorkload') %>
+         </label>
+         <input id="br-rule-maintenance-duration" class="mat-input-element" readonly
+           value="<%= @business_rule.maintenance_duration %> <%= display_duration%>" />
+       </div>
+    </div>
+  </div>
+</div>

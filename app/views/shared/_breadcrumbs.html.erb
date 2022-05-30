@@ -1,0 +1,13 @@
+
+<ol id="breadcrumbs" class="breadcrumbs <%= @breadcrumbs.length < 2 ? 'sr-only' : '' %>">
+  <li>
+    <a href="/" title="<%= t("Display") %>" class="fa fa-home"></a>
+  </li>
+  <% @breadcrumbs.each_with_index do |crumb, idx| %>
+    <li>
+      <%= link_to [namespace, crumb], title: translation_for(crumb.name_translations) do %>
+        <%= translation_for(crumb.name_translations) %>
+      <% end %>
+    </li>
+  <% end %>
+</ol>

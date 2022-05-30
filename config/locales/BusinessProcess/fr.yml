@@ -1,0 +1,72 @@
+# Code for language as declared in i18n configuration
+fr:
+  # Considered object from a global view
+  BusinessProcesses:                            "Business processes"
+  BusinessProcess:                              "Business process"
+  ManagingBusinessProcesses:                    "Gérer les Business processes"
+  NewBusinessProcess:                           "Nouveau Business process"
+  BusinessProcessRejected:                      "Le Business process a été rejeté"
+  AddParameter:                                 "Nouveau paramètre"
+  AddFile:                                      "Nouveau fichier"
+  Edit:                                         "Modifier"
+  Delete:                                       "Supprimer"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessProcess )
+  business_processes:
+    index:
+      # Columns titles
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+      Owner:                                  "Responsable"
+      UpdatedBy:                              "Mis à jour par"
+      UpdatedAt:                              "Mis à jour le"
+    index_short:
+      # Columns titles
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+      Owner:                                  "Responsable"
+      UpdatedBy:                              "Mis à jour par"
+      UpdatedAt:                              "Mis à jour le"
+    show:
+      Manage:                                 "Gérer les Business processes"
+      # Field names
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+      Steps:                                  "Sous-processus"
+      NewActivity:                            "Nouvelle activité"
+      NewBusinessObject:                      "Nouvelle structure"
+      NewBusinessRules:                       "Nouvelle règle"
+      GSBPM:                                  "Processus GSBPM"
+      Source:                                 "Source"
+      Target:                                 "Cible"
+      Overview:                               "Aperçu"
+      Schedules:                              "Planifications"
+      NewSchedule:                            "Programmer une nouvelle instance"
+      HelpSchedule:                           "Cette action génère un nouveau script complet dans le scheduler. Pour créer une nouvelle planification, rendez-vous dans le module Scheduler."
+    new:
+      New:                                    "Nouveau Business process"
+      # Field names
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+    edit:
+      Edit:                                   "Modifier le Business process"
+      # Field names
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+    create:
+      Success:                             	  "Business process créé avec succès"
+      Failure:                             	  "Le Business process ne peut pas être créé"
+    update:
+      Success:                             	  "Business process mis à jour avec succès"
+      Failure:                             	  "Le Business process ne peut pas être modifié"
+    activate:
+      Success:                             	  "Business process récupéré"
+      Failure:                             	  "Le Business process ne peut pas être récupéré"
+    destroy:
+      Success:                             	  "Business process supprimé"
+      Failure:                             	  "Le Business process ne peut pas être supprimé"

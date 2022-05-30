@@ -1,0 +1,15 @@
+<% provide(:title, (t('ManagingActs'))) %>
+
+<% provide :page_heading do %>
+    <%= t('NewActivity') %>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/edit_view_navigation" %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_edit_actions", locals: {this_object: @activity } %>
+<% end %>
+
+<%= render 'form' %>

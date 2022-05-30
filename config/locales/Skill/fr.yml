@@ -1,0 +1,12 @@
+# Translations related to ValuesList object
+fr_OFS:
+  values:
+    create:
+      Success:                        "La valeur a été créée"
+      Failure:                        "La valeur ne peut être créée"
+    update:
+      Success:                        "La valeur a été modifiée"
+      Failure:                        "La valeur ne peut être modifiée"
+    destroy:
+      Success:                        "La valeur a été supprimée"
+      Failure:                        "La valeur ne peut être supprimée"

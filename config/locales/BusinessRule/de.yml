@@ -1,0 +1,57 @@
+# Code for language as declared in i18n configuration
+de:
+  # Considered object from a global view
+  BusinessRules:                              "Business rules"
+  BusinessRule:                               "Business rule"
+  ManagingBusinessRules:                      "Business rules verwalten"
+  NewBusinessRule:                            "Neuer Business rule"
+  BusinessRuleRejected:                       "Business rule wurde abgelehnt"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessRule )
+  business_rules:
+    index:
+      # Columns titles
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      Owner:                                  "Eigentümer"
+      UpdatedBy:                              "Aktualisiert von"
+      UpdatedAt:                              "Aktualisiert am"
+    index_short:
+      # Columns titles
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      Owner:                                  "Eigentümer"
+      UpdatedBy:                              "Aktualisiert von"
+      UpdatedAt:                              "Aktualisiert am"
+    show:
+      Manage:                                 "Business rule verwalten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    new:
+      New:                                    "Neuer Business rule"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    edit:
+      Edit:                                   "Business rule bearbeiten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    create:
+      Success:                             	  "erfolgreich erstellt Business rule"
+      Failure:                                "Business rule konnte nicht erstellt werden"
+    update:
+      Success:                             	  "erfolgreich aktualisierter Business rule"
+      Failure:                                "Business rule konnte nicht aktualisierter werden"
+    activate:
+      Success:                             	  "Business rule erfolgreich wiederhergestellt"
+      Failure:                                "Business rule konnte nicht abgerufen werden"
+    destroy:
+      Success:                             	  "Business rule erfolgreich gelöscht"
+      Failure:                                "Business rule konnte nicht gelöscht werden"

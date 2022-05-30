@@ -1,0 +1,272 @@
+<div class="row">
+  <div class="col-md-6">
+    <% if @skill.values_list_id or @skill.classification_id %>
+      <div class="row mat-form-row">
+        <% if @skill.classification_id %>
+          <div class="mat-form-field col-md-6">
+            <label for="skill-classification" class="mat-form-field-label">
+              <%= t('Classification') %>
+            </label>
+            <input id="skill-values-list" class="mat-input-element" readonly
+              value="<%= @skill.classification&.code %>" />
+          </div>
+        <% else %>
+          <div class="mat-form-field col-md-6">
+            <label for="skill-values-list" class="mat-form-field-label">
+              <%= t('ValuesList') %>
+            </label>
+            <input id="skill-values-list" class="mat-input-element" readonly
+              value="<%= @skill.values_list&.code %>" />
+          </div>
+        <% end %>
+        <div class="mat-form-field col-md-4">
+          <label for="skill_type" class="mat-form-field-label">
+            <%= t('SkillType') %>
+          </label>
+          <input id="skill_type" class="mat-input-element" readonly
+            value="<%= translation_for(@skill.skill_type.name_translations) %>" />
+        </div>
+        <div class="mat-button-group col-md-2">
+          <%= link_to @skill.classification_id ? @skill.classification : @skill.values_list, title: t('ValuesList'), class: "nav-link control-link" do %>
+            <span class="control-icon far fa-hand-point-right" style="font-size: 1.65em;" %></span>
+          <% end %>
+        </div>
+      </div>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-12">
+          <label for="skill-code-list-filter" class="mat-form-field-label">
+            <%= t('Filter') %>
+          </label>
+          <input id="skill-code-list-filter" class="mat-input-element" readonly
+            value="<%= @skill.filter %>" />
+        </div>
+      </div>
+    <% else %>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-4">
+           <label for="skill_type" class="mat-form-field-label">
+             <%= t('SkillType') %>
+           </label>
+           <input id="skill_type" class="mat-input-element" readonly
+             value="<%= translation_for(@skill.skill_type.name_translations) %>" />
+        </div>
+        <div class="mat-form-field col-md-4">
+           <label for="skill_size" class="mat-form-field-label">
+             <%= t('SkillSize') %>
+           </label>
+           <input id="skill_size" class="mat-input-element" readonly
+             value="<%= @skill.skill_size %>" />
+        </div>
+        <div class="mat-form-field col-md-4">
+           <label for="skill_precision" class="mat-form-field-label">
+             <%= t('SkillPrecision') %>
+           </label>
+           <input id="skill_precision" class="mat-input-element" readonly
+             value="<%= @skill.skill_precision %>" />
+        </div>
+      </div>
+    <% end %>
+
+    <div class="row mat-form-row">
+      <div class="mat-form-field col-md-4">
+         <label for="skill_role" class="mat-form-field-label">
+           <%= t('SkillRole') %>
+         </label>
+         <input id="skill_role" class="mat-input-element" readonly
+           value="<%= translation_for(@skill.skill_role.name_translations) %>" />
+      </div>
+      <div class="mat-form-field col-md-4">
+         <label for="skill_aggregation_type" class="mat-form-field-label">
+           <%= t('SkillAggregationType') %>
+         </label>
+         <input id="skill_aggregation_type" class="mat-input-element" readonly
+           value="<%= translation_for(@skill.skill_aggregation.name_translations) %>" />
+      </div>
+      <div class="mat-form-field col-md-4">
+         <label for="skill-is-pairing-key" class="mat-form-field-label">
+           <%= t('IsPairingKey') %>
+         </label>
+         <input id="skill-is-pairing-key" class="mat-input-element" readonly
+           value="<%= @skill.is_pairing_key %>" />
+      </div>
+    </div>
+
+    <% if !(@skill.values_list_id or @skill.classification_id) %>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-4">
+           <label for="skill_min_value" class="mat-form-field-label">
+             <%= t('MinValue') %>
+           </label>
+           <input id="skill_min_value" class="mat-input-element" readonly
+             value="<%= @skill.min_value %>" />
+        </div>
+        <div class="mat-form-field col-md-4">
+           <label for="skill_max_value" class="mat-form-field-label">
+             <%= t('MaxValue') %>
+           </label>
+           <input id="skill_max_value" class="mat-input-element" readonly
+             value="<%= @skill.max_value %>" />
+        </div>
+        <div class="mat-form-field col-md-4">
+           <label for="skill_pattern" class="mat-form-field-label">
+             <%= t('RegExpPattern') %>
+           </label>
+           <input id="skill_pattern" class="mat-input-element" readonly
+             value="<%= @skill.regex_pattern %>" />
+        </div>
+      </div>
+    <% end %>
+
+    <div class="row mat-form-row">
+      <div class="mat-form-field col-md-4">
+        <% if !(@skill.values_list_id or @skill.classification_id) %>
+           <label for="skill_unit" class="mat-form-field-label">
+             <%= t('SkillUnit') %>
+           </label>
+           <input id="skill_unit" class="mat-input-element" readonly
+             value="<%= translation_for(@skill.skill_unit.name_translations) if @skill.skill_unit %>" />
+        <% end %>
+      </div>
+      <div class="mat-form-field col-md-4">
+         <label for="skill-is-mandatory" class="mat-form-field-label">
+           <%= t('IsMandatory') %>
+         </label>
+         <input id="skill-is-mandatory" class="mat-input-element" readonly
+           value="<%= @skill.is_mandatory %>" />
+      </div>
+      <div class="mat-form-field col-md-4">
+         <label for="skill-sensitivity" class="mat-form-field-label">
+           <%= t('DataSensitivity') %>
+         </label>
+         <input id="skill-sensitivity" class="mat-input-element" readonly
+           value="<%= translation_for(@skill.sensitivity.name_translations) %>" />
+      </div>
+    </div>
+
+    <% if (Classification.exists?(id: @skill.classification_id) or ValuesList.exists?(id: @skill.values_list_id))  %>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-12">
+          <label for="value-lists-links" class="mat-form-field-label">
+            <%= t('Quality') %>
+          </label>
+          <table class="table table-hover table-clickable">
+            <tr>
+              <th class="col-min"> <%= t('Type') %> </th>
+              <th class="col-1-4"> <%= t('Code') %> </th>
+              <th class="col-1-4"> <%= t('Filter') %> </th>
+              <th> <%= t('Description') %> </th>
+            </tr>
+            <% @values_lists_links.each do |link| %>
+              <tr  data-href="<%= url_for link.reference %>">
+                <td> <%= translation_for(link.reference.list_type.name_translations) %> </td>
+                <td> <span class="status-icon <%= status_class_for(link.reference) %>"
+                  title="<%= t('Status') + ' : ' + translation_for(link.reference.status.name_translations) %>"></span>
+                  <%= link.reference.code %> </td>
+                <td> <%= link.filter %> </td>
+                <td> <%= link.description %> </td>
+              </tr>
+            <% end %>
+          </table>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+  <% if @skill.values_list_id or @skill.classification_id %>
+  <div class="col-md-6">
+    <section class="tabbable">
+
+      <div class="tabbable">
+
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="active"><a href="#child-values" data-toggle="tab"><%= t('.Values') %></a></li>
+          <% if Classification.exists?(id: @skill.classification_id) %>
+            <li><a href="#hierarchy" data-toggle="tab"><%= t('.Hierarchy') %></a></li>
+          <% end %>
+        </ul>
+
+        <div class="tab-content">
+
+          <div class="tab-pane active" id="child-values">
+            <!-- Linked Values -->
+
+            <%= will_paginate @filtered_values if @child_values.any? %>
+
+            <table class="table table-align-top">
+              <thead>
+                <tr>
+                <% ignore do 'Remove hierarchies'%>
+                <% if @skill.has_hierarchical_values %>
+                  <th class="col-min"><%= t('ParentCode') %></th>
+                  <th class="col-min"><%= t('Level') %></th>
+                <% end %>
+                <% ignore end %>
+                  <th class="col-min-nw"><%= t('Code') %></th>
+                  <% ignore do 'Remove unwanted fields'%>
+                  <!-- <th class="col-min-nw"><%= t('AlternateCode') %></th> -->
+                  <% ignore end %>
+                  <th class="col-min-nw"><%= t('Value') %></th>
+                  <% ignore do 'Remove unwanted fields'%>
+                  <!-- <th class="col-min-nw"><%= t('Alias') %></th> -->
+                  <!-- <th class="col-min-nw"><%= t('Abbreviation') %></th> -->
+                  <% ignore end %>
+                  <th><%= t('Description') %></th>
+                  <th class="col-min-nw"><%= t('UpdatedAt') %></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% if ValuesList.exists?(id: @skill.values_list_id) %>
+                  <% @child_values.each do |value| %>
+                    <tr>
+                    <% ignore do 'Remove hierarchies'%>
+                      <% if @skill.has_hierarchical_values %>
+                        <td class="no-wrap"><%= value.superior.code if Value.exists?(value.parent_id) %></td>
+                        <td class="no-wrap"><%= value.level %></td>
+                      <% end %>
+                      <% ignore end %>
+                      <td class="no-wrap"><%= value.code %></td>
+                      <% ignore do 'Remove unwanted fields'%>
+                        <!-- <td class="no-wrap"><%= value.alternate_code %></td> -->
+                        <% ignore end %>
+                        <td class="no-wrap"><%= translation_for(value.name_translations) %></td>
+                        <% ignore do 'Remove unwanted fields'%>
+                        <!-- <td class="no-wrap"><%= translation_for(value.alias_translations) %></td> -->
+                        <!-- <td class="no-wrap"><%= translation_for(value.abbreviation_translations) %></td> -->
+                        <% ignore end %>
+                      <td class="text-justify text-sm"><%= sanitize translation_for(value.description_translations) %></td>
+                      <td class="text-right"><%= format_date(value.updated_at) %></td>
+                    </tr>
+                  <% end %>
+                <% else %>
+                  <tr>
+                    <td class="cell-empty" colspan="<%= @skill.has_hierarchical_values ? 6 : 4 %>">
+                      <p class="alert alert-info">
+                        <%= t('NoChildren') %>
+                      </p>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+
+            </table>
+
+            <%= will_paginate @filtered_values if @child_values.any? %>
+
+          </div>
+
+          <div class="tab-pane" id="hierarchy">
+            <%# If specified, the hierarchy should give the context of reference data %>
+            <% if Classification.exists?(id: @skill.classification_id) %>
+              <%= render partial: "shared/classification_values", locals: {this_object: @skill.classification, display_filter: @skill.filter} %>
+            <% end %>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+  </div>
+  <% end %>
+</div>

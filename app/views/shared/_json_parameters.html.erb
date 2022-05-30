@@ -1,0 +1,31 @@
+  <div class="mat-form-field"  id="json-parametersSet-ct">
+    <label for="<%= this_object.class.name.underscore %>-parameters-table" class="mat-form-field-label">
+      <%= t('Parameters') %>
+    </label>
+    <table id="<%= this_object.class.name.underscore %>-parameters-table" style="width: 100%">
+    </table>
+  </div>
+
+  <script>
+    $(document).ready( function () {
+
+      var parametersSet = <%= raw this_object.parameters.to_json %>;
+
+      $('#<%= this_object.class.name.underscore %>-parameters-table').DataTable({
+        paging: false,
+        ordering: false,
+        info: false,
+        searching: false,
+        width: "100%",
+        data: parametersSet,
+        columns: [
+          { title: "<%= t('ParamName') %>", width: "20%", data: "name"},
+          { title: "<%= t('ParamType') %>", width: "20%", data: "dataType"},
+          { title: "<%= t('ParamValue') %>", width: "50%", data: "value"},
+          { title: "<%= t('ParamIsMandatory') %>", width: "10%", data: "isMandatory"}
+        ]
+      });
+
+    });
+
+  </script>

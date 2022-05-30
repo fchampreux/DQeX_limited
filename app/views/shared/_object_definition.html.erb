@@ -1,0 +1,40 @@
+<%# Object definition %>
+<% smallTextarea ||= false %>
+<% isTechnical ||= false %>
+
+<fieldset disabled name="objectDefinition">
+
+
+  <%# Object identifier %>
+  <div class="row mat-form-row">
+    <div class="mat-form-field col-md-6">
+      <label for="definition-code" class="mat-form-field-label">
+        <%= isTechnical ? t('TechCode') : t('Code') %>
+      </label>
+      <input id="definition-code" class="mat-input-element" readonly
+        value="<%= this_object.code %>" />
+    </div>
+    <div class="mat-form-field col-md-6">
+
+      <%= yield :extra_attribute %>
+
+    </div>
+  </div>
+
+  <%# Object translated name %>
+      <%= render partial: "shared/translated_field", locals: {
+        id: 'definition-name',
+        field: 'name',
+        translations: this_object.name_translations,
+        label: t('Name') } %>
+
+  <%# Object translated description %>
+      <%= render partial: "shared/translated_field", locals: {
+        id: 'definition-description',
+        field: 'description',
+        isTextarea: true,
+        smallTextarea: smallTextarea,
+        translations: this_object.description_translations,
+        label: t('Description') } %>
+
+</fieldset>

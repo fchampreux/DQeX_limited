@@ -1,0 +1,38 @@
+# Code for language as declared in i18n configuration
+de:
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  administration:
+    parameters:
+      show:
+        ShowParameter:                           "Einzelheiten der Parameter"
+        ParametersList:                          "Parameterliste"
+        Parameters:                              "Parameter"
+        ImportParameters:                        "Importieren"
+        # Field names
+        Code:                                    "Kennung"
+        Name:                                    "Name"
+        Description:                             "Beschreibung"
+        Property:                                "Eigentum"
+        TaskScope:                               "Anwendbarkeit"
+        ValidFrom:                               "Gültig von"
+        ValidTo:                                 "bis"
+      form:
+        ShowParameter:                           "Einzelheiten der Parameter"
+        # Field names
+        Code:                                    "Kennung"
+        Name:                                    "Name"
+        Description:                             "Beschreibung"
+        Property:                                "Eigentum"
+        TaskScope:                               "Anwendbarkeit"
+        ValidFrom:                               "Gültig von"
+        ValidTo:                                 "bis"
+      create:
+        Success:                              	  "erfolgreich erstellt Parameter"
+        Failure:                                  "Parameter konnte nicht erstellt werden"
+      update:
+        Success:                              	  "erfolgreich aktualisierter Parameter"
+        Failure:                                  "Parameter konnte nicht aktualisierter werden"
+      destroy:
+        Success:                                	"Parameter erfolgreich gelöscht"
+        Failure:                                  "Parameter konnte nicht gelöscht werden"

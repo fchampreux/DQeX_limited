@@ -1,0 +1,75 @@
+# Code for language as declared in i18n configuration
+en:
+  Classifications:                            "Classifications"
+  Classification:                             "Classification"
+  ManagingClassifications:                    "Manage classifications"
+  NewClassification:                          "New classification"
+  ClassificationRejected:                     "Classification was rejected"
+  ImportedLinks:                              "Imported links"
+  LinksInserted:                              "inserted"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  classifications:
+    index:
+      # Columns titles
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      Parent:                                 "Business area"
+      Owner:                                  "Owner"
+      UpdatedBy:                              "Updated by"
+      UpdatedAt:                              "Updated at"
+    index_short:
+      # Columns titles
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      Parent:                                 "Business area"
+      Owner:                                  "Owner"
+      UpdatedBy:                              "Updated by"
+      UpdatedAt:                              "Updated at"
+    show:
+      Manage:                                 "Manage classification"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+    new:
+      New:                                    "New classification"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+    edit:
+      Edit:                                   "Edit classification"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+    new_version:
+      Success:                                "New version created"
+      Failure:                                "A new version cannot be created"
+    make_current:
+      Success:                                "Current version is selected"
+      Failure:                                "This version cannot be selected"
+    finalise:
+      Success:                                "Classification has been finalised"
+      Failure:                                "Classification cannot be finalised"
+    create:
+      Success:                             	  "Classification was created"
+      Failure:                                "Classification cannot be created"
+    update:
+      Success:                             	  "Classification was updated"
+      Failure:                                "Classification cannot be updated"
+    activate:
+      Success:                             	  "Classification was recovered"
+      Failure:                                "Classification cannot be recovered"
+    destroy:
+      Success:                             	  "Classification was deleted"
+      Failure:                                "Classification cannot be deleted"
+    propose:
+      Success:                                "Classification is waiting for approval"
+      Failure:                                "Classification cannot be submitted"
+    accept:
+      Success:                                "Classification has been accepted"
+      Failure:                                "Classification cannot change status"

@@ -1,0 +1,84 @@
+# Code for language as declared in i18n configuration
+fr:
+  # Considered object from a global view
+  Tasks:                               "Tâches"
+  Task:                                "Tâche"
+  Managingtasks:                       "Gérer les tâches"
+  Newtask:                             "Nouvelle tâche"
+  TaskRejected:                        "La tâche a été rejetée"
+  GitHashUpdated:                      "Git Hash mis à jour"
+  GitHashError:                        "Git Hash a retourné une erreur"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of Managetask )
+  tasks:
+    index:
+      # Columns titles
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+      Owner:                                  "Responsable"
+      UpdatedBy:                              "Mis à jour par"
+      UpdatedAt:                              "Mis à jour le"
+    index_short:
+      # Columns titles
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+      Owner:                                  "Responsable"
+      UpdatedBy:                              "Mis à jour par"
+      UpdatedAt:                              "Mis à jour le"
+    show:
+      Manage:                                 "Gérer les tâches"
+      ShowTask:                               "Tâche"
+      # Field names
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+      IsSynchronus:                           "Synchronisation"
+      IsTemplate:                             "Est un modèle"
+      Template:                               "Utiliser comme modèle"
+      NoTemplate:                             "Pas de modèle"
+      TemplateOn:                             "Modèle sélectionné"
+      TemplateDefinition:                     "Un modèle de sous-processus peut être appliqué à différentes structures pour réaliser un sous-processus identique."
+      OrderingSequence:                       "Séquence"
+      Synchronus:                             "Synchrone"
+      Asynchronus:                            "Asynchrone"
+      SynchronicityOn:                        "Attend les tâches parentes pour démarrer"
+      SynchronicityOff:                       "Démarre dès qu'il est activé par une tâche parente"
+      NextSuccess:                            "Suivant si succès"
+      NextFailure:                            "Suivant si échec"
+      Parameters:                             "Paramètres"
+      Technology:                             "Technologie"
+      TargetObject:                           "Structure traitée"
+      NodeType:                               "Type d'action"
+      New:                                    "Nouvelle tâche"
+      Script:                                 "Script"
+      ScriptPath:                             "Chemin d'accès au script"
+      ScriptLanguage:                         "Langage"
+      GitHash:                                "Git Hash"
+    new:
+      New:                                    "Nouvelle tâche"
+      # Field names
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+    edit:
+      Edit:                                   "Modifier la tâche"
+      # Field names
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+    create:
+      Success:                             	  "tâche créée avec succès"
+      Failure:                             	  "La tâche ne peut pas être créée"
+    update:
+      Success:                             	  "tâche mis à jour avec succès"
+      Failure:                             	  "La tâche ne peut pas être modifiée"
+    activate:
+      Success:                             	  "tâche récupéré"
+      Failure:                             	  "La tâche ne peut pas être récupérée"
+    destroy:
+      Success:                             	  "tâche supprimé"
+      Failure:                             	  "La tâche ne peut pas être supprimée"
+    form:
+      ShowTask:                               "Tâche"

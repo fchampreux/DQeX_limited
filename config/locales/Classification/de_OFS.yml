@@ -1,0 +1,73 @@
+# Code for language as declared in i18n configuration
+de_OFS:
+  Classifications:                            "Hierarchische Codelisten"
+  Classification:                             "Hierarchische Codeliste"
+  ManagingClassifications:                    "Hierarchische Codelisten verwalten"
+  NewClassification:                          "Neue Hierarchische Codeliste"
+  ClassificationRejected:                     "Hierarchische Codeliste wurde abgelehnt"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  classifications:
+    index:
+      # Columns titles
+      Code:                                    "Kennung"
+      Name:                                    "Name"
+      Description:                             "Beschreibung"
+      Parent:                                  "Informationfeld"
+      Owner:                                   "Eigentümer"
+      UpdatedBy:                               "Aktualisiert von"
+      UpdatedAt:                               "Aktualisiert am"
+    index_short:
+      # Columns titles
+      Code:                                    "Kennung"
+      Name:                                    "Name"
+      Description:                             "Beschreibung"
+      Parent:                                  "Informationfeld"
+      Owner:                                   "Eigentümer"
+      UpdatedBy:                               "Aktualisiert von"
+      UpdatedAt:                               "Aktualisiert am"
+    show:
+      Manage:                                 "Hierarchische Codeliste verwalten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    new:
+      New:                                    "Neue hierarchische Codeliste"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    edit:
+      Edit:                                   "Hierarchische Codeliste bearbeiten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    new_version:
+      Success:                                "Erfolgreich erstellte hierarchische Code-Liste"
+      Failure:                                "Die hierarchische Liste konnte nicht erstellt werden"
+    make_current:
+      Success:                                "Hierarchischer Codeliste erfolgreich ausgewählt"
+      Failure:                                "Hierarchischer Codeliste konnte nicht ausgewählt werden"
+    finalise:
+      Success:                                "Hierarchische Codeliste-Version erfolgreich abgeschlossen"
+      Failure:                                 "Die Version der hierarchischen Codeliste konnte nicht fertiggestellt werden"
+    create:
+      Success:                             	  "erfolgreich erstellt Hierarchischer Codeliste"
+      Failure:                                "Hierarchischer Codeliste konnte nicht erstellt werden"
+    update:
+      Success:                             	  "erfolgreich aktualisierter InformHierarchischer Codelisteationfeld"
+      Failure:                                "Hierarchischer Codeliste konnte nicht aktualisierter werden"
+    activate:
+      Success:                             	  "Hierarchischer Codeliste erfolgreich wiederhergestellt"
+      Failure:                                "Hierarchischer Codeliste konnte nicht abgerufen werden"
+    destroy:
+      Success:                             	  "Hierarchischer Codeliste erfolgreich gelöscht"
+      Failure:                                "Hierarchischer Codeliste konnte nicht gelöscht werden"
+    propose:
+      Success:                                "Die hierarchische Codeliste wurde vorgeschlagen."
+      Failure:                                "Hierarchischer Codeliste"
+    accept:
+      Success:                                "Die hierarchische Codeliste wurde angenommen."
+      Failure:                                "Hierarchischer Codeliste"

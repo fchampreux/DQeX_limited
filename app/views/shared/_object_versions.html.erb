@@ -1,0 +1,26 @@
+<table class="table table-hover table-clickable">
+  <tr>
+    <th><%= t('Version') %></th>
+    <th><%= t('CreatedBy') %></th>
+    <th><%= t('UpdatedBy') %></th>
+    <th><%= t('UpdatedAt')%></th>
+    <th><%= t('IsActive') %></th>
+    <th><%= t('IsCurrent') %></th>
+    <th><%= t('IsFinal') %></th>
+<!--        <th><%= t('Observation') %></th>-->
+  </tr>
+
+  <% this_object.order("major_version, minor_version").each do |version| %>
+    <tr class="<%= 'selected' if version.is_current%>" data-href="<%= url_for values_list_path(version) %>">
+      <td><%=link_to version.full_version, values_list_path(version) %></td>
+      <td><%=version.created_by %></td>
+      <td><%=version.updated_by %></td>
+      <td class="text-right"><%= format_date(version.updated_at) %></td>
+      <td><%=version.is_active %></td>
+      <td><%=version.is_current %></td>
+      <td><%=version.is_finalised %></td>
+<!--          <td><%=version.new_version_remark %></td> -->
+    </tr>
+  <% end%>
+</table>
+<br/>

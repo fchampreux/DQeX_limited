@@ -1,0 +1,26 @@
+
+  <% if annotated_object.annotations.any? %>
+  <%# Display annotations in a table %>
+    <table class="table table-align-top table-hover">
+      <thead>
+        <tr>
+          <!-- <th> <%= t('Id') %> </th> -->
+          <th> <%= t('Type') %> </th>
+          <th> <%= t('Title') %> </th>
+          <th> <%= t('Text') %> </th>
+          <th> <%= t('Uri') %> </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% annotated_object.annotations.each do |note| %>
+          <tr>
+            <!-- <td> <%= note.code %> </td> -->
+            <td> <%= translation_for(note.annotation_type.name_translations) %> </td>
+            <td> <%= note.name %> </td>
+            <td> <%= translation_for(note.description_translations) %> </td>
+            <td> <%= note.annotation_type_id == annotation_types.find { |x| x["code"] == "LOGIN" }.id ? '************' : note.uri %> </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>

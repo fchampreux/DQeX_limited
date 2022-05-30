@@ -1,0 +1,19 @@
+<%= form_with model: [:administration, @parent, @territory], local: true, html: {id: "edit_form"} do |f| %>
+
+  <%= render partial: "shared/error_list", locals: { errors: @territory.errors } %>
+
+    <div class="tabbable">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#definition" data-toggle="tab"> <%= t('Definition') %></a></li>
+      </ul>
+      <div class="tab-content">
+
+        <div class="tab-pane active" id="definition">
+          <!-- Tab content for Definition -->
+
+          <%= render partial: "shared/object_definition_form", locals: {this_object: @territory, f: f} %>
+
+        </div>
+      </div>
+    </div>
+<% end %>

@@ -1,0 +1,28 @@
+<div id="left-navigation" class="sticky" role="search">
+
+  <div id="left-navigation-content" class="sticky-main default-layout pt-1">
+    <ul class="nav-tree nav-indent nav-toggle expanded nav-bordered nav-hover">
+      <li role="presentation">
+        <h3 class="nav-link"><%= t('Scheduler') %></h3>
+      </li>
+      <li role="presentation">
+        <a aria-selected="false" class="nav-link has-child" role="treeitem" data-toggle="collapse" aria-controls="ui-nav-scheduling" href="#ui-nav-scheduling">
+          <%= t('JobsScheduling')%>
+        </a>
+        <div class="collapse in show" id="ui-nav-scheduling">
+          <ul class="nav-tree nav-bordered nav-hover expanded" role="tree">
+            <li class="open" role="presentation" id="ui-nav-production">
+              <%= link_to t('ProductionFlows'), scheduler_production_jobs_path, class: "nav-link", role: "treeitem" %>
+            </li>
+            <li class="open" role="presentation" id="ui-nav-performance">
+              <%= link_to t('Scheduling'), '#', class: "nav-link", role: "treeitem" %>
+            </li>
+            <li class="open" role="presentation" id="ui-nav-workload">
+              <%= link_to t('Performance'), '/sidekiq', class: "nav-link", role: "treeitem", target: :_blank %>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+# Code for language as declared in i18n configuration
+fr:
+  # Considered object from a global view
+  Users:                                     "Utilisateurs"
+  User:                                      "Utilisateur"
+  ManagingUsers:                             "Gérer les utilisateurs"
+  NewUser:                                   "Nouvel utilisateur"
+  UserRejected:                              "L'utilisateur a été rejeté"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageUser )
+  administration:
+    users:
+      users_index:
+        # Columns titles
+        CalculatedStatus:                       "Statut"
+        UserName:                               "Login"
+        Name:                                   "Nom"
+        Description:                            "Description"
+        Owner:                                  "Responsable"
+        UpdatedBy:                              "Mis à jour par"
+        UpdatedAt:                              "Mis à jour le"
+        Organisation:                           "Organisation"
+        ValidFrom:                              "Valide depuis"
+        ValidTo:                                "jusqu'à"
+        Owner:                                  "Responsable"
+      show:
+        Manage:                                 "Gérer les utilisateurs"
+        # Field names
+        Code:                                   "Identifiant"
+        Name:                                   "Nom"
+        Description:                            "Description"
+
+        New:                                    "Nouvel utilisateur"
+        # Field names
+        Code:                                   "Identifiant"
+        Name:                                   "Nom"
+        Description:                            "Description"
+      edit:
+        Edit:                                   "Modifier l'utilisateur"
+        # Field names
+        Code:                                   "Identifiant"
+        Name:                                   "Nom"
+        Description:                            "Description"
+      create:
+        Success:                             	  "Utilisateur créé avec succès"
+        Failure:                             	  "L'utilisateur ne peut pas être créé"
+      update:
+        Success:                             	  "Utilisateur mis à jour avec succès"
+        Failure:                             	  "L'utilisateur ne peut pas être modifié"
+      activate:
+        Success:                             	  "Utilisateur récupéré"
+        Failure:                             	  "L'utilisateur ne peut pas être récupéré"
+      destroy:
+        Success:                             	  "Utilisateur supprimé"
+        Failure:                             	  "L'utilisateur ne peut pas être supprimé"

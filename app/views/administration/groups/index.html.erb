@@ -1,0 +1,48 @@
+<% provide(:title, t('ManagingGroups')) %>
+
+<% provide(:page_heading, t('Groups')) %>
+
+
+<% provide :navigation do %>
+  <%= render partial: "shared/index_view_navigation", locals: {this_object: Group} %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_index_actions", locals: {this_object: Group } %>
+<% end %>
+
+<%= render partial: "groups_index", locals: {this_index: @groups} %>
+
+
+<% ignore do %>
+<%= will_paginate %>
+<table class="table table-hover table-clickable">
+  <thead>
+    <tr>
+      <th scope="col" class="col-min-nw"><%= t('Name')%> </th>
+      <th scope="col" class="col-min-nw"><%= t('Description')%> </th>
+      <!-- <th scope="col" class="col-min-nw"><%= t('Roles')%> </th> -->
+      <th scope="col" class="col-min-nw"><%= t('Territory')%> </th>
+      <th scope="col" class="col-min-nw"><%= t('Organisation')%> </th>
+      <th scope="col" class="col-min-nw"><%= t('UpdatedBy')%> </th>
+      <th scope="col" class="col-min-nw"><%= t('UpdatedAt')%> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @groups.each do |group| %>
+      <tr data-href="<%= url_for group %>">
+        <td><%= translation_for(group.name_translations) %></td>
+        <td><%= translation_for(group.description_translations) %></td>
+        <!-- <td><%= select_tag 'group-roles', options_for_select_from_list(options_for('user_roles'), group.role_ids), { multiple: true, disabled: true, class: 'mat-input-element select2-candidate' } %></td> -->
+        <td><%= translation_for(group.territory.name_translations) %></td>
+        <td><%= translation_for(group.organisation.name_translations) %></td>
+        <td><%= group.updated_by %></td>
+        <td><%= format_datetime(group.updated_at) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= will_paginate %>
+<br />
+
+<% ignore end %>

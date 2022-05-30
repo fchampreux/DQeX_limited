@@ -1,0 +1,9 @@
+<% provide(:title, t('ManagingBusinessRules')) %>
+
+<% provide( :page_heading, t('BusinessRules')) %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/index_view_navigation", locals: {this_object: BusinessRule} %>
+<% end %>
+
+<%= render partial: "shared/object_index", locals: {this_index: @business_rules, showType: true} %>

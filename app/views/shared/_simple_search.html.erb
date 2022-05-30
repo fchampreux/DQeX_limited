@@ -1,0 +1,12 @@
+<% placeholder ||= yield(:search_text).presence || t('SearchBox') %>
+<% id ||= 'criteria' %>
+<% noValue ||= false %>
+<% val = noValue ? '' :params[:criteria] %>
+
+<%= form_tag path, :method => 'get', class: "search-form" do %>
+  <%= text_field_tag :criteria, val, placeholder: placeholder, id: id, class: "mat-input-element" %>
+
+  <button type="submit" class="mat-icon-button mat-button-base mat-primary search-button" title="<%= t('SearchButton') %>">
+    <span class="fa fa-search"></span>
+  </button>
+<% end %>

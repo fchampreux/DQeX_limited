@@ -1,0 +1,108 @@
+
+.translation-block {
+
+  &.active,
+  .modal & {
+    & > .mat-form-row {
+      .mat-input-element {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      textarea.mat-input-element {
+        min-height: 100px;
+
+        &.mat-textarea-md {
+          min-height: calc(5.2em - 6px);
+        }
+      }
+    }
+  }
+
+  .translation {
+    display: none;
+    padding-bottom: 1em;
+
+    textarea.mat-input-element {
+      min-height: 100px;
+      margin-top: -1px;
+
+      &.mat-textarea-md {
+        min-height: calc(5.2em - 6px);
+      }
+    }
+
+    .mat-form-row {
+      padding-bottom: 0;
+
+      .mat-input-element {
+        border-radius: 0;
+      }
+      &:last-of-type {
+        .mat-input-element {
+          border-bottom-left-radius: 5px;
+          border-bottom-right-radius: 5px;
+        }
+      }
+    }
+  }
+
+  .modal & {
+    textarea.mat-input-element {
+      min-height: 100px;
+      margin-top: -1px;
+
+      &.mat-textarea-md {
+        min-height: calc(5.2em - 6px);
+      }
+    }
+
+    .mat-form-row {
+      &:not(:first-child) {
+        .mat-input-element {
+          border-radius: 0;
+        }
+      }
+      &:last-of-type {
+        .mat-input-element {
+          border-bottom-left-radius: 5px;
+          border-bottom-right-radius: 5px;
+        }
+      }
+    }
+  }
+
+  .mat-form-field {
+    position: relative;
+  }
+  .translation-label {
+    position: absolute;
+    z-index: 10;
+    left: 15px;
+    top: -1px;
+    width: 20px;
+    height: 10px;
+    padding: 0;
+    font-size: 9px;
+    line-height: 10px;
+    text-align: center;
+    color: white;
+    background: #069;
+    border-bottom-right-radius: 3px;
+  }
+  .mat-form-field-label {
+    & + .translation-label {
+      top: 2.5em;
+      border-top-left-radius: 5px;
+    }
+  }
+
+  .mat-form-row {
+    & ~ .translation,
+    .modal & ~ .mat-form-row {
+      position: relative;
+      top: calc(-1em - 1px);
+      margin-bottom: calc(-1em - 1px);
+    }
+  }
+}

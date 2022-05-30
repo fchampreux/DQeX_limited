@@ -1,0 +1,58 @@
+# Code for language as declared in i18n configuration
+de_OFS:
+  # Considered object from a global view
+  ProductionJobs:                             "Produktionsablauf"
+  ProductionJob:                              "Produktionsabläufe"
+  ManagingProductionJobs:                     "Produktionsablauf verwalten"
+  NewProductionJob:                           "Neuer Produktionsablauf"
+  ProductionJobRejected:                      "Die Erstellung des Workflows ist fehlgeschlagen"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageActivity )
+  scheduler:
+    production_jobs:
+      index:
+        # Columns titles
+        Code:                                   "Kennung"
+        Name:                                   "Name"
+        Description:                            "Beschreibung"
+        Owner:                                  "Eigentümer"
+        Version:                                "Aktualisiert am"
+        Status:                                 "Status"
+      index_short:
+        # Columns titles
+        Code:                                   "Kennung"
+        Name:                                   "Name"
+        Description:                            "Beschreibung"
+        Owner:                                  "Eigentümer"
+        UpdatedBy:                              "Aktualisiert von"
+        UpdatedAt:                              "Aktualisiert am"
+      show:
+        Manage:                                 "Teilprozess verwalten"
+        # Field names
+        Code:                                   "Kennung"
+        Name:                                   "Name"
+        Description:                            "Beschreibung"
+      new:
+        New:                                    "Neuer Teilprozess"
+        # Field names
+        Code:                                   "Kennung"
+        Name:                                   "Name"
+        Description:                            "Beschreibung"
+      edit:
+        Edit:                                   "Teilprozess bearbeiten"
+        # Field names
+        Code:                                   "Kennung"
+        Name:                                   "Name"
+        Description:                            "Beschreibung"
+      create:
+        Success:                             	  "erfolgreich erstellt Teilprozess"
+        Failure:                                "Teilprozess konnte nicht erstellt werden"
+      update:
+        Success:                             	  "erfolgreich aktualisierter Teilprozess"
+        Failure:                                "Teilprozess konnte nicht aktualisierter werden"
+      activate:
+        Success:                             	  "Teilprozess erfolgreich wiederhergestellt"
+        Failure:                                "Teilprozess konnte nicht abgerufen werden"
+      destroy:
+        Success:                             	  "Teilprozess erfolgreich gelöscht"
+        Failure:                                "Teilprozess konnte nicht gelöscht werden"

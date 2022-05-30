@@ -1,0 +1,43 @@
+@import "variables";
+@import "mixins/layout";
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	height: 100%;
+
+	@include layout-collapse-down() {
+		// Ensure fixed elements keep scrolling smoothly on iOS:
+		-webkit-overflow-scrolling: touch;
+	}
+}
+
+html {
+	line-height: 1.5;
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	min-width: 320px;
+	margin: 0;
+	font-family: $font;
+	font-size: $font-size-base;
+	color: $brand-default;
+}
+
+main {
+	display: block; // IE
+}
+
+.default-layout {
+	padding: $spacing-default;
+}
+
+.bg-secondary {
+	background-color: $brand-extralight !important;
+}

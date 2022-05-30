@@ -1,0 +1,84 @@
+# Code for language as declared in i18n configuration
+en:
+  ValuesLists:                               "Values lists"
+  ValuesList:                                "Values list"
+  ManagingValuesLists:                       "Manage values lists"
+  NewValuesList:                             "New values list"
+  ValuesListRejected:                        "Values list was rejected"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  values_lists:
+    index:
+      # Columns titles
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      Parent:                                 "Business area"
+      Owner:                                  "Owner"
+      UpdatedBy:                              "Updated by"
+      UpdatedAt:                              "Updated at"
+    index_short:
+      # Columns titles
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      Parent:                                 "Business area"
+      Owner:                                  "Owner"
+      UpdatedBy:                              "Updated by"
+      UpdatedAt:                              "Updated at"
+    show:
+      Manage:                                 "Manage values list"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      read_SDMX:
+        Button:                                 "Refresh"
+        Title:                                  "Refresh the values by quering remote resource"
+      Resource:                                 "URL of the resource"
+      Variables:                                "Variable identifiers"
+    new:
+      New:                                    "New values list"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+    edit:
+      Edit:                                   "Edit values list"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+    new_version:
+      Success:                                "New version created"
+      Failure:                                "A new version cannot be created"
+    make_current:
+      Success:                                "Current version is selected"
+      Failure:                                "This version cannot be selected"
+    finalise:
+      Success:                                "Values list has been finalised"
+      Failure:                                "Values list cannot be finalised"
+    create:
+      Success:                             	  "Values list was created"
+      Failure:                                "Values list cannot be created"
+    update:
+      Success:                             	  "Values list was updated"
+      Failure:                                "Values list cannot be updated"
+    activate:
+      Success:                             	  "Values list was recovered"
+      Failure:                                "Values list cannot be recovered"
+    destroy:
+      Success:                             	  "Values list was deleted"
+      Failure:                                "Values list cannot be deleted"
+    propose:
+      Success:                                "Values list is waiting for approval"
+      Failure:                                "Values list cannot be submitted"
+    accept:
+      Success:                                "Values list has been accepted"
+      Failure:                                "Values list cannot change status"
+    read_SDMX:
+      ImportedValues:                         "Codes added"
+      UpdatedtedValues:                       "Codes updated"
+      TotalValues:                            "Codes read"
+      InsertedAnnotations:                    "Annotations added"
+      UpdatedtedAnnotations:                  "Annotations updated"

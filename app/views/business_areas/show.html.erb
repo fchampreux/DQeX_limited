@@ -1,0 +1,122 @@
+<% provide(:title, (t('ManagingBAs'))) %>
+<% provide(:page_class, 'page-view-details') %>
+
+<% provide :page_heading do %>
+  <%= render partial: "shared/heading", locals: {this_object: @business_area} %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  <%= render partial: "shared/breadcrumbs" %>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/show_view_navigation", locals: {this_object_parent: @business_area.parent, this_object_index: business_areas_path} %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_actions", locals: {this_object: @business_area } %>
+<% end %>
+
+<% provide :technical_details do %>
+  <%= render partial: "shared/object_ownership", locals: {this_object: @business_area} %>
+<% end %>
+
+<% provide :information do %>
+  <div class="row">
+    <div class="col-md-6">
+      <%= render partial: "shared/object_definition",
+          locals: {this_object: @business_area,
+                  smallTextarea: true,
+                  isTechnical: true} %>
+    </div>
+    <div class="col-md-6">
+      <%= render partial: "shared/object_responsibilities",
+          locals: {this_object: @business_area,
+                  showStatus: false} %>
+      <div class="row mat-form-row">
+        <div class="col-md-6">
+        </div>
+        <div class="mat-form-field col-md-6">
+          <label for="business_area_reviewer" class="mat-form-field-label">
+            <%= t('Reviewer') %>
+          </label>
+          <input id="business_area_reviewer" class="mat-input-element" readonly
+            value="<%= @business_area.reviewer&.name %>" />
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<%= render layout: "layouts/collapsible_details",
+    locals: {tabs_content: [ :information ],
+    title: t('BusinessArea')}  do %>
+
+<% end %>
+
+<% if display_assessment? %>
+<section>
+  <a class="collapse-toggle" data-toggle="collapse" href="#measures">
+    <%= t('Measures') %>
+  </a>
+
+  <div class="row collapse in" id="measures">
+    <div class="col-md-12">
+      <%= render partial: "shared/render_charts_d3", locals: {this_object: @business_area} %>
+    </div>
+  </div>
+</section>
+<% end %>
+
+<hr />
+
+<section class="tabbable">
+
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="active"><a href="#business_flows" data-toggle="tab"><%= t('BFs') %></a></li>
+    <li><a href="#business_objects" data-toggle="tab"><%= t('DefinedBOs') %></a></li>
+    <li><a href="#values_lists" data-toggle="tab"><%= t('VLs') %></a></li>
+    <li><a href="#classifications" data-toggle="tab"><%= t('Classifications') %></a></li>
+  </ul>
+
+  <div class="tab-content">
+
+    <div class="tab-pane active" id="business_flows">
+      <%= link_to new_business_area_business_flow_path(@business_area), class: 'mat-flat-button mat-button-base mat-primary' do %>
+        <span class="fa fa-file-alt" %></span>
+        <%= t('NewBF') %>
+      <% end %>
+
+      <%= render partial: "shared/child_object_index", locals: {this_child_index: @business_area.business_flows.visible} %>
+    </div>
+
+    <div class="tab-pane" id="business_objects">
+      <%= link_to new_business_area_defined_object_path(@business_area, parent_id: @business_area.id, parent_class: @business_area.class.name), class: 'mat-flat-button mat-button-base mat-primary' do %>
+        <span class="fa fa-file-alt" %></span>
+        <%= t('NewDefinedBO') %>
+      <% end %>
+
+      <%= render partial: "shared/child_object_index", locals: {this_child_index: @business_area.defined_objects.visible} %>
+    </div>
+
+    <div class="tab-pane" id="values_lists">
+      <%= link_to new_business_area_values_list_path(@business_area), class: 'mat-flat-button mat-button-base mat-primary' do %>
+        <span class="fa fa-file-alt" %></span>
+        <%= t('NewVL') %>
+      <% end %>
+
+      <%= render partial: "shared/child_object_index", locals: {this_child_index: @business_area.values_lists.visible} %>
+    </div>
+
+    <div class="tab-pane" id="classifications">
+      <%= link_to new_business_area_classification_path(@business_area), class: 'mat-flat-button mat-button-base mat-primary' do %>
+        <span class="fa fa-file-alt" %></span>
+        <%= t('NewClassification') %>
+      <% end %>
+
+      <%= render partial: "shared/child_object_index", locals: {this_child_index: @business_area.classifications.visible} %>
+    </div>
+
+  </div>
+
+</section>

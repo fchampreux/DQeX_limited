@@ -1,0 +1,82 @@
+# Code for language as declared in i18n configuration
+en:
+  # Considered object from a global view
+  Activities:                               "Activities"
+  Activity:                                 "Activity"
+  ManagingActivities:                       "Managing Activities"
+  NewActivity:                              "New Activity"
+  ActivityRejected:                         "Activity was rejected"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageActivity )
+  activities:
+    index:
+      # Columns titles
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      Owner:                                  "Owner"
+      UpdatedBy:                              "Updated by"
+      UpdatedAt:                              "Updated at"
+    index_short:
+      # Columns titles
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      Owner:                                  "Owner"
+      UpdatedBy:                              "Updated by"
+      UpdatedAt:                              "Updated at"
+    show:
+      Manage:                                 "Manage Activities"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      IsSynchronus:                           "Synchronisation"
+      IsTemplate:                             "Is a template"
+      Template:                               "To use as template"
+      NoTemplate:                             "No template"
+      TemplateOn:                             "Selected template"
+      TemplateDefinition:                     "A processing template can be applied to different structures to achieve identical processing."
+      OrderingSequence:                       "Sequence"
+      Synchronus:                             "Synchronous"
+      Asynchronus:                            "Asynchronous"
+      SynchronicityOn:                        "Waits for parent activities to start"
+      SynchronicityOff:                       "Starts as soon as it is activated by a parent activity"
+      NextSuccess:                            "Next if successful"
+      NextFailure:                            "Next if failed"
+      Parameters:                             "Settings"
+      Technology:                             "Technology"
+      TargetObject:                           "Processed structure"
+      SourceObject:                           "Resource"
+      NodeType:                               "Node type"
+      New:                                    "New task"
+      UpdatedBy:                              "Updated by"
+      UpdatedAt:                              "Updated at"
+      GSBPM:                                  "GSBPM sub-process"
+      Show:                                   "Show"
+      Edit:                                   "Edit"
+      Delete:                                 "Delete"
+    new:
+      New:                                    "New Activity"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+    edit:
+      Edit:                                   "Edit the Activity"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+    create:
+      Success:                             	  "Activity was created"
+      Failure:                             	  "Activity cannot be created"
+    update:
+      Success:                             	  "Activity was updated"
+      Failure:                             	  "Activity cannot be updated"
+    activate:
+      Success:                             	  "Activity recovered"
+      Failure:                             	  "Activity cannot be recovered"
+    destroy:
+      Success:                             	  "Activity deleted"
+      Failure:                             	  "Activity cannot be deleted"

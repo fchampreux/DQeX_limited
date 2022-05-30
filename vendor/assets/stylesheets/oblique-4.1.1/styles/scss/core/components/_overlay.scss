@@ -1,0 +1,33 @@
+@import "../variables";
+
+.has-overlay {
+	position: relative;
+
+	.overlay {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 2;
+		display: none;
+		padding: 15px;
+		opacity: 0;
+		text-align: center;
+		color: $brand-default;
+		background-color: rgba(255, 255, 255, 0.8);
+		transition: opacity $duration-fast ease-in;
+
+		&.overlay-fixed {
+			position: fixed;
+		}
+
+		&.show {
+			display: block;
+		}
+
+		&.overlay-in {
+			opacity: 1;
+		}
+	}
+}

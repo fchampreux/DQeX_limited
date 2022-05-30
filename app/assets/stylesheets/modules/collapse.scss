@@ -1,0 +1,77 @@
+
+.collapsing {
+  overflow: hidden;
+  transition: height 350ms ease-in-out;
+}
+
+.collapse {
+  display: none;
+
+  &.in {
+    display: block;
+
+    &.row {
+      display: flex;
+    }
+  }
+}
+
+.collapse-toggle {
+  display: inline-block;
+  transform-origin: 0 0;
+  transform: scale(0.75);
+  transition: all 350ms ease-out;
+
+  &:before {
+    content: "\f107";
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+  }
+  &.collapsed {
+    transform: scale(1);
+
+    &:before {
+      content: "\f105";
+    }
+  }
+
+  @at-root {
+    a#{&} {
+      color: inherit;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+#collapsible-details-ct {
+  position: relative;
+  min-height: 2.0714em;
+
+  .collapse-toggle {
+    position: absolute;
+    right: 20px;
+    top: -2px;
+    transform: scale(1);
+  }
+
+  .switch-details {
+    position: absolute;
+    opacity: 0.5;
+    right: -15px;
+    top: -4px;
+  }
+}
+
+form {
+  #collapsible-details {
+    // avoid hiding the details when editing
+    display: block;
+    height: auto !important;
+  }
+  .collapse-toggle {
+    display: none;
+  }
+}

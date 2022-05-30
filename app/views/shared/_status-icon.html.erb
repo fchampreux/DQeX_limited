@@ -1,0 +1,5 @@
+
+<% if show_status %>
+  <span class="status-icon <%= status_class_for(this_object) %>"
+    title="<%= t('Status') + ' : ' + translation_for(this_object.status.name_translations) %>"></span>
+<% end %>

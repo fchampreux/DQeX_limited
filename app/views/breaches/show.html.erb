@@ -1,0 +1,14 @@
+<% provide(:title, (t('MngBreaches'))) %>
+
+<p>
+  <strong><%= t('Name') %>: </strong>
+  <%= @breach.name %>
+</p>
+
+<p>
+  <strong><%= t('Description') %>: </strong>
+  <%= @breach.description %>
+</p>
+
+<%= link_to 'Edit', edit_breach_path(@breach) %> |
+<%= link_to 'Back', breaches_path %>

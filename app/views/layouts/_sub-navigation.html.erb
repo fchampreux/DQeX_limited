@@ -1,0 +1,29 @@
+
+<!-- Breadcrumbs -->
+<%= yield(:breadcrumbs) %>
+
+<button id="translation-toggler" class="mat-stroked-button mat-button-base" title="<%= t("Translation") %>">
+  <span class="fa fa-globe"></span>
+</button>
+
+<!-- Navigation -->
+<%= yield :navigation %>
+
+<% if !session[:cart_id].nil? %>
+    <% @tr_name = translation_for(DeployedObject.find(session[:cart_id]).name_translations) %>
+    <%= link_to deployed_object_path(id: session[:cart_id]), title: "#{t('BackToBO')}: #{@tr_name}", class: "mat-icon-button mat-button-base mat-primary" do %>
+       <span class="fa fa-shopping-cart"></span>
+    <% end %>
+<% end %>
+
+<!-- Actions on records -->
+<%= yield :actions %>
+
+<ul id="notifications">
+<% if notice %>
+  <li id="notification" class="alert alert-info" role="alert">
+  	<button type="button" role="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  	<%= notice %>
+  </li>
+<% end %>
+</ul>

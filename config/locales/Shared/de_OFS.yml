@@ -1,0 +1,18 @@
+# Code for language as declared in i18n configuration
+de_OFS:
+  # Columns titles
+  Code:                                   "Kennung"
+  TechCode:                               "Technischer Name"
+  Name:                                   "Name"
+  Description:                            "Beschreibung"
+  Owner:                                  "Eigentümer"
+  UpdatedBy:                              "Aktualisiert von"
+  UpdatedAt:                              "Aktualisiert am"
+  # Completion status
+  Translations:                           "Übersetzungen"
+  ValuesList:                             "Codelisten"
+  LinkedVariable:                         "Quellvariable"
+  Responsibilities:                       "Zuständigkeiten"
+  DataTypes:                              "Datentypen"
+  DataType:                               "Datentyp"
+  PrimaryKey:                             "Primärschlüssel"

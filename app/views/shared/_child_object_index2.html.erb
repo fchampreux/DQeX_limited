@@ -1,0 +1,49 @@
+<%# For objects supporting versions, add the version and status icons %>
+<%# An array can be passed as parameter for additional columns %>
+<% isTechnical ||= false %>
+<% showType ||= false %>
+<% showOrder ||= false %>
+<% Rails.logger.interactions.info "this_class: #{this_class},
+                      this_path: #{this_path},
+                      this_parent: #{this_parent},
+                      showOrder: #{showOrder},
+                      isTechnical: #{isTechnical},
+                      showType: #{showType}  \n" %>
+<table class="table table-hover table-clickable" id="<%="indexTable_#{this_class}"%>" style="width:100%">
+
+</table>
+
+<script>
+  $(document).ready( function () {
+    // Choose statuses icons from views_helper
+    var status_icons = ["fa fa-archive status-inactive",
+                        "fa fa-clipboard-check status-active",
+                        "fa fa-glasses status-pending"];
+    $('<%="#indexTable_#{this_class}"%>').DataTable({
+      ajax:{
+        url: '<%= this_path %>?my_parent=<%= this_parent %>',
+        dataSrc: ''
+      },
+      pageLength: 25,
+      createdRow: function( row, data, dataIndex ) {
+        $(row).attr("data-href", "<%= this_path %>/" + data.id)
+      },
+      columns: [
+        { title: '<%= t('CalculatedStatus') %>',
+          data: 'calculated_status',
+          render: function(calculated_status) {return '<span class="status-icon ' + status_icons[calculated_status] + '"> </span>'} },
+        { title: '<%= t('Sequence') %>', data: 'ordering_sequence' },
+        { title: '<%= isTechnical ? t('TechCode') : t('Code') %>', data: 'code' },
+        <% if showType %>
+        { title: '<%= t('Type') %>', data: 'object_type' },
+        <% end %>
+        { title: '<%= t('Name') %>', data: 'translated_name' },
+        { title: '<%= t('Description') %>', data: 'translated_description' },
+        { title: '<%= t('Owner') %>', data: 'owner_name' },
+        { title: '<%= t('UpdatedAt') %>', render: function( data, type, row ) {
+          return (row['updated_at']).substring(0,10)}
+        }
+      ]
+    });
+  } );
+</script>

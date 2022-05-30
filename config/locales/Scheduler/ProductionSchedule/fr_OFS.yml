@@ -1,0 +1,84 @@
+# Code for language as declared in i18n configuration
+fr_OFS:
+  # Considered object from a global view
+  ProductionSchedules:                          "Plannings de production"
+  ProductionSchedule:                           "Planning de production"
+  ManagingProductionSchedules:                  "Gérer les plannings de production"
+  NewProductionSchedule:                        "Nouveau planning de production"
+  ProductionScheduleRejected:                   "Echec de création du planning de production"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageActivity )
+  scheduler:
+    production_schedules:
+      index:
+        # Columns titles
+        Code:                                   "Identifiant"
+        Name:                                   "Nom"
+        Description:                            "Description"
+        Mode:                                   "Mode"
+        Owner:                                  "Responsable"
+        Version:                                "Mis à jour le"
+        ActiveFrom:                             "Valide de"
+        ActiveTo:                               "à"
+        Environment:                            "Environnement"
+        AverageDuration:                        "Durée moyenne"
+        ExecutionStatus:                        "Statut de l'exécution"
+        LastRun:                                "Dernière exécution"
+        NextRun:                                "Prochaine exécution"
+      show:
+        Manage:                                 "Gérer les planning"
+        Status:                                 "Statut"
+        # Field names
+        Code:                                   "Identifiant"
+        Name:                                   "Nom"
+        Description:                            "Description"
+      new:
+        New:                                    "Nouveau planning"
+        # Field names
+        Code:                                   "Identifiant"
+        Name:                                   "Nom"
+        Description:                            "Description"
+        Mode:                                   "Mode"
+        ActiveFrom:                             "Valide de"
+        ActiveTo:                               "à"
+        Environment:                            "Environnement"
+        RunOnce:                                "Pas à pas"
+        RepeatValue:                            "Répétitions"
+        RepeatCounter:                          "Valeurs courantes"
+        RepeatInterval:                         "Intervalle"
+        RepeatUnit:                             "Unité"
+        QueueExchange:                          "Objet"
+        QueueName:                              "File de messages"
+        QueueKey:                               "Clé de routage"
+        QueuePayload:                           "Message"
+      edit:
+        Edit:                                   "Modifier le planning"
+        # Field names
+        Code:                                   "Identifiant"
+        Name:                                   "Nom"
+        Description:                            "Description"
+        Mode:                                   "Mode"
+        ActiveFrom:                             "Valide de"
+        ActiveTo:                               "à"
+        Environment:                            "Environnement"
+        RunOnce:                                "Pas à pas"
+        RepeatValue:                            "Répétitions"
+        RepeatCounter:                          "Valeurs courantes"
+        RepeatInterval:                         "Intervalle"
+        RepeatUnit:                             "Unité"
+        QueueExchange:                          "Objet"
+        QueueName:                              "File de messages"
+        QueueKey:                               "Clé de routage"
+        QueuePayload:                           "Message"
+      create:
+        Success:                             	  "Planning créé avec succès"
+        Failure:                             	  "Le planning ne peut pas être créé"
+      update:
+        Success:                             	  "Planning mis à jour avec succès"
+        Failure:                             	  "Le planning ne peut pas être modifié"
+      activate:
+        Success:                             	  "Planning récupéré"
+        Failure:                             	  "Le planning ne peut pas être récupéré"
+      destroy:
+        Success:                             	  "Planning supprimé"
+        Failure:                             	  "Le planning ne peut pas être supprimé"

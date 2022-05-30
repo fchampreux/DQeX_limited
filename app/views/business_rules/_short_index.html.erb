@@ -1,0 +1,18 @@
+          <table class="table table-striped">
+            <tr>
+              <th></th>
+              <th><%= t('Code') %></th>
+              <th><%= t('Name') %></th>
+              <th><%= t('Status') %></th>
+            </tr>
+
+          <% @business_rules.each do |business_rule| %>
+            <tr>
+              <td><%= image_tag(activity_tag_for(business_rule), :alt => "Activity hit") %></td>
+              <td class="col_narrow"><%= link_to business_rule.code, business_rule %></td>
+              <td><%= business_rule.name %></td>
+              <td class="col_medium"><%= business_rule.description %></td>
+              <td><%= business_rule.status.name %></td>
+            </tr>
+          <% end %>
+          </table>

@@ -1,0 +1,14 @@
+<% provide(:title, t('ManagingParametersLists')) %>
+
+<% provide(:page_heading, t('ParametersLists')) %>
+
+
+<% provide :navigation do %>
+  <%= render partial: "shared/index_view_navigation", locals: {this_object: ParametersList} %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_index_actions", locals: {this_object: ParametersList } %>
+<% end %>
+
+<%= render partial: "shared/object_index", locals: {this_index: @parameters_lists} %>

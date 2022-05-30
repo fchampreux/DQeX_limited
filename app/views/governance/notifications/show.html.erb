@@ -1,0 +1,92 @@
+<% provide(:title, (t('ManagingNotifications'))) %>
+<% provide(:page_class, 'page-view-details') %>
+
+<% provide :page_heading do %>
+  <%= render partial: "shared/heading", locals: {this_object: @notification} %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  <ol id="breadcrumbs" class="breadcrumbs">
+    <li>
+      <a href="/" title="<%= t("Display") %>" class="fa fa-home"></a>
+    </li>
+    <li>
+      <%= link_to @notification.name %>
+    </li>
+  </ol>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_actions", locals: {this_object: @notification } %>
+<% end %>
+  <div class="row">
+    <div class="col-md-6">
+      <div id="notification-workflow">
+        <%# render partial: "shared/workflow_buttons", locals: {this_object: @notification } %>
+      </div>
+    </div>
+    <div class="mat-form-field col-md-6">
+      <label for="notification-related-object" class="mat-form-field-label">
+        <%= t('RelatedObject') %>
+      </label>
+      <%= link_to @notification.code, @notification.topic %>
+    </div>
+  </div>
+<%= render layout: "layouts/collapsible_details",  locals: {title: t('notification')}   do %>
+  <div class="row">
+    <div class="col-md-6">
+      <%= render partial: "shared/object_definition", locals: {this_object: @notification, smallTextarea: true, isTechnical: false}  %>
+    </div>
+
+    <div class="col-md-6">
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-12">
+          <%= render partial: "shared/object_responsibilities", locals: {this_object: @notification} %>
+        </div>
+      </div>
+
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-4">
+           <label for="notification-creation-date" class="mat-form-field-label">
+             <%= t('CreationDate') %>
+           </label>
+           <input id="notification-creation-date" class="mat-input-element" readonly
+             value="<%= format_datetime(@notification.created_at) %>" />
+        </div>
+        <div class="mat-form-field col-md-4">
+           <label for="notification-due-date" class="mat-form-field-label">
+             <%= t('DueDate') %>
+           </label>
+           <input id="notification-due-date" class="mat-input-element" readonly
+             value="<%= format_datetime(@notification.expected_at) %>" />
+        </div>
+        <div class="mat-form-field col-md-4">
+           <label for="notification-close-date" class="mat-form-field-label">
+             <%= t('CloseDate') %>
+           </label>
+           <input id="notification-close-date" class="mat-input-element" readonly
+             value="<%= format_datetime(@notification.closed_at) %>" />
+        </div>
+      </div>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-4">
+           <label for="notification_severity" class="mat-form-field-label">
+             <%= t('NotificationSeverity') %>
+           </label>
+           <input id="notification_severity" class="mat-input-element" readonly
+             value="<%= translation_for(@notification.severity.name_translations) %>" />
+        </div>
+        <div class="mat-form-field col-md-4">
+          <label for="notification-issuer" class="mat-form-field-label">
+            <%= t('Issuer') %>
+          </label>
+          <input id="notification-issuer" class="mat-input-element" readonly
+            value="<%= @notification.owner.name %>" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <% provide :technical_details do %>
+    <%= render partial: "shared/object_ownership", locals: {this_object: @notification, showParent: false} %>
+  <% end %>
+<% end %>

@@ -1,0 +1,211 @@
+<div id="jsonArrayForm">
+  <table class="table table-hover" id="jsonTable-<%=this_object.class.name%>">
+      <thead>
+        <tr> <!-- Create default header for parameters and remove button -->
+          <th><%= t('ParamName') %> </th>
+          <th><%= t('ParamType') %> </th>
+          <th><%= t('ParamValue') %> </th>
+          <th><%= t('ParamIsMandatory') %> </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+  </table>
+  <input type="button" id="addRow" value="<%= t('AddRow') %>" class="mat-flat-button mat-button-base mat-primary" />
+</div>
+<script>
+  (function($) {
+
+  function generateFieldIndex(columnName, rowCount) {
+    var fieldIndex = ('parameters').concat('[', (rowCount).toString(), '][', columnName,']');
+    return fieldIndex;
+  }
+
+  function getJsonDataLineValue(jsonDataLine, columnName) {
+    var cellValue;
+    if (jsonDataLine !== null) {
+      cellValue = jsonDataLine[columnName];
+    }
+    return cellValue;
+  }
+
+  function createCellInput(id, name, value) {
+    var td = $('<td/>');
+    var cell = $('<input>', {
+        id: id,
+        name: name,
+        type: 'text',
+        value: value,
+        class: "mat-input-element"
+      });
+      cell.appendTo(td);
+      return td;
+  }
+
+  function createCodeList(id, name, selectedValue, codeList) {
+    var td = $('<td/>');
+    var cell = $('<select>', {
+      id: id,
+      name: name,
+      class: "mat-input-element"
+    });
+    codeList.forEach(function (item, index) {
+      var option = $('<option/>');
+      option.attr('label', item);
+      option.attr('value', item);
+      if (item == selectedValue) {
+      option.attr('selected', 'selected');
+      }
+      option.appendTo(cell);
+    });
+    cell.appendTo(td);
+    return td;
+  }
+
+  function createCellCheckbox(id, name, isChecked) {
+    var td = $('<td/>');
+    var cellUnchecked = $('<input>', {
+      name: name,
+      type: 'hidden',
+      value: 'false',
+      class: "mat-input-checkbox"
+    });
+    var cellChecked = $('<input>', {
+      id: id,
+      name: name,
+      type: 'checkbox',
+      value: 'true',
+      class: "mat-input-checkbox"
+    });
+    if (isChecked == 'true') {
+      cellChecked.attr('checked', true);
+    }
+    cellUnchecked.appendTo(td);
+    cellChecked.appendTo(td);
+    return td;
+  }
+
+  function createButtonRemove(id, name) {
+    var td = $('<td/>');
+    var cell = $('<input>', {
+      id: id,
+      name: name,
+      type: 'button',
+      value: 'Remove',
+      class : "mat-stroked-button mat-button-base mat-warn delete-row"
+    });
+    cell.click(function(){
+      $(this).parent().parent().remove(); // button -> td -> tr
+    });
+    cell.appendTo(td);
+    return td;
+  }
+
+  function createCellUnknownType() {
+    var td = $('<td/>');
+    var cell = $('<p>');
+    cell.text('UnknownType');
+    cell.appendTo(td);
+    return td;
+  }
+  
+  function createCell(rowCount, cellNumber, columnName, columnType, codeListDataValues, columnData) {
+    var td;
+    var id = generateFieldIndex(columnName, rowCount);
+    var name = id;
+    switch (columnType) {
+      case 'INPUT':        
+        td = createCellInput(id, name, columnData);
+        break;
+      case 'CODELIST':
+        var selectedValue = getJsonDataLineValue(jsonDataLine, columnName);
+        td = createCodeList(id, name, selectedValue, codeListDataValues);
+        break;
+      case 'CHECKBOX':
+        td = createCellCheckbox(id, name, columnData);
+        break;
+      default:
+        td = createCellUnknownType();
+    }
+    return td;
+  }
+
+  function createCellHeader(jsonColumn) {
+    var th = $('<th/>');
+    th.text = jsonColumn.fieldName;
+    return th;
+  }
+
+  function createHeaders(jsonColumns) {
+    var tr = $('<tr/>');
+    for (var columnCount = 0; columnCount < jsonColumns.length; columnCount++) {
+      var th = createCellHeader(jsonColumns[columnCount]);
+      th.appendTo(tr);
+    }
+    var thEmptyForRemoveButton = $('<th/>');
+    thEmptyForRemoveButton.appendTo(tr);
+    return tr;
+  }
+
+  function createLine(rowCount, jsonDataLine, jsonColumns) {
+    var tr = $('<tr/>').addClass('line');
+    var rowIndex = ('removeParameterRow').concat('-', (rowCount).toString());
+
+    var cellCount = 0;
+    for (var key in jsonColumns) {
+      var columnName = jsonColumns[key].fieldName;
+      var columnType = jsonColumns[key].layout;
+      var codeListDataValues = jsonColumns[key].dataValues;
+      var jsonDataCell;
+      if (jsonDataLine !== null) {
+        jsonDataCell = jsonDataLine[columnName];
+      }      
+      var td = createCell(rowCount, cellCount, columnName, columnType, codeListDataValues, jsonDataCell);
+      td.appendTo(tr);
+      cellCount++;
+    }
+
+    // last cell - Button Remove    
+    var td = createButtonRemove(rowIndex, rowIndex);        
+    td.appendTo(tr);
+
+    return tr;
+  }
+
+    // Read existing data
+    var jsonData = <%=raw this_object.parameters.to_json%>;
+    var jsonColumns = <%=raw columns.to_json%>;
+
+    var table = $('<%= "#jsonTable-#{this_object.class.name}" %>')
+
+    // Add Headers
+    var headerTr = createHeaders(jsonColumns);
+    headerTr.appendTo(table);
+
+    // Add lines to the table if data available    
+    if (jsonData?.length) {      
+      for (var rowCount = 0; rowCount < jsonData.length; rowCount++) {
+        var jsonDataLine = jsonData[rowCount];
+        var lineTr = createLine(rowCount, jsonDataLine, jsonColumns);
+        lineTr.appendTo(table);
+      }
+    }
+
+    // function to delete a row.
+    $('#jsonArrayForm .delete-row').click(function(){
+      $(this).parent('tr').remove(); // button -> td -> tr
+    });
+
+    // function to add an empty row.
+    $('#jsonArrayForm #addRow').click(function(){
+
+      var maxIndex = ($('#jsonArrayForm #jsonTable-<%=this_object.class.name%> tbody tr').length);
+      var lineTr = createLine(maxIndex, null, jsonColumns);
+      lineTr.appendTo(table);
+    });
+
+  }(jQuery));
+
+
+</script>

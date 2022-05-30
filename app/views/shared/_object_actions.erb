@@ -1,0 +1,37 @@
+<% if can? :update, this_object %>
+  <div class="mat-button-group">
+
+  <%# Check if the parent is a module defined as Namespace. If not (Object) then display default link %>
+  <% namespace = controller.class.parent.name == 'Object' ?
+     nil :
+     controller.class.parent.name.downcase %>
+
+  <% if this_object.is_active %>
+    <%= link_to [ :edit, namespace, this_object],
+        method: :get,
+        class: "mat-flat-button mat-button-base mat-primary" do %>
+        <span class="fa fa-edit"></span>
+        <%= t("Edit") %>
+    <% end %>
+
+    <%= link_to [namespace, this_object],
+        data: { confirm: t("Sure") },
+        method: :delete, 
+        class: "mat-flat-button mat-button-base mat-warn" do %>
+        <span class="fa fa-trash"></span>
+        <%= t("Destroy") %>
+    <% end %>
+
+  <% else %>
+
+    <%= link_to [ :activate,  namespace, this_object],
+        method: :post,
+        class: "mat-stroked-button mat-button-base" do %>
+        <span class="fa fa-trash-restore"></span>
+        <%= t("Recall") %>
+    <% end %>
+
+  <% end %>
+
+  </div>
+<% end %>

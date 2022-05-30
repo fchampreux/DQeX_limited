@@ -1,0 +1,91 @@
+# Code for language as declared in i18n configuration
+de:
+  # Considered object from a global view
+  ProductionSchedules:                          "Produktionspläne"
+  ProductionSchedule:                           "Produktionsplanung"
+  ManagingProductionSchedules:                  "Produktionspläne verwalten"
+  NewProductionSchedule:                        "Neuer Produktionsplan"
+  ProductionScheduleRejected:                   "Produktionsplanerstellung fehlgeschlagen"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageActivity )
+  scheduler:
+    production_schedules:
+      index:
+        # Columns titles
+        Code:                                   "Kennung"
+        Name:                                   "Name"
+        Description:                            "Beschreibung"
+        Mode:                                   "Modus"
+        Owner:                                  "Eigentümer"
+        Version:                                "Aktualisiert am"
+        ActiveFrom:                              "Gültig von"
+        ActiveTo:                                "bis"
+        Environment:                            "Umgebung"
+        AverageDuration:                        "Durchschnittliche Dauer"
+        ExecutionStatus:                        "Status der Ausführung"
+        LastRun:                                "Letzte Ausführung"
+        NextRun:                                "Nächste Ausführung"
+      index_short:
+        # Columns titles
+        Code:                                   "Kennung"
+        Name:                                   "Name"
+        Description:                            "Beschreibung"
+        Owner:                                  "Eigentümer"
+        UpdatedBy:                              "Aktualisiert von"
+        UpdatedAt:                              "Aktualisiert am"
+      show:
+        Manage:                                 "Plannung verwalten"
+        # Field names
+        Code:                                   "Kennung"
+        Name:                                   "Name"
+        Description:                            "Beschreibung"
+      new:
+        New:                                    "Neuer Plannung"
+        # Field names
+        Code:                                   "Kennung"
+        Name:                                   "Name"
+        Description:                            "Beschreibung"
+        Mode:                                   "Modus"
+        ActiveFrom:                             "Gültig von"
+        ActiveTo:                               "bis"
+        Environment:                            "Umgebung"
+        RunOnce:                                "Fehlersuche"
+        RepeatValue:                            "Wiederholungen"
+        RepeatCounter:                          "Aktuelle Werte"
+        RepeatInterval:                         "Intervall"
+        RepeatUnit:                             "Einheit"
+        QueueExchange:                          "Betreff"
+        QueueName:                              "Nachrichtendatei"
+        QueueKey:                               "Routing-Schlüssel"
+        QueuePayload:                           "Nachricht"
+      edit:
+        Edit:                                   "Plannung bearbeiten"
+        # Field names
+        Code:                                   "Kennung"
+        Name:                                   "Name"
+        Description:                            "Beschreibung"
+        Mode:                                    "Modus"
+        ActiveFrom:                             "Gültig von"
+        ActiveTo:                               "bis"
+        Environment:                            "Umgebung"
+        RunOnce:                                "Fehlersuche"
+        RepeatValue:                            "Wiederholungen"
+        RepeatCounter:                          "Aktuelle Werte"
+        RepeatInterval:                         "Intervall"
+        RepeatUnit:                             "Einheit"
+        QueueExchange:                          "Betreff"
+        QueueName:                              "Nachrichtendatei"
+        QueueKey:                               "Routing-Schlüssel"
+        QueuePayload:                           "Nachricht"
+      create:
+        Success:                             	  "erfolgreich erstellt Plannung"
+        Failure:                                "Plannung konnte nicht erstellt werden"
+      update:
+        Success:                             	  "erfolgreich aktualisierter Plannung"
+        Failure:                                "Plannung konnte nicht aktualisierter werden"
+      activate:
+        Success:                             	  "Plannung erfolgreich wiederhergestellt"
+        Failure:                                "Plannung konnte nicht abgerufen werden"
+      destroy:
+        Success:                             	  "Plannung erfolgreich gelöscht"
+        Failure:                                "Plannung konnte nicht gelöscht werden"

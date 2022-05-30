@@ -1,0 +1,40 @@
+<% provide(:title, t('ManagingUsers')) %>
+<% provide(:page_class, 'page-view-details') %>
+
+<% provide :page_heading do %>
+  <%= @user.user_name %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  <ol id="breadcrumbs" class="breadcrumbs">
+    <li>
+      <a href="/" title="<%= t("Display") %>" class="fa fa-home"></a>
+    </li>
+    <li>
+      <%= link_to @user.name %>
+    </li>
+  </ol>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_actions", locals: {this_object: @user } %>
+<% end %>
+
+<% provide :technical_details do %>
+  <%= render partial: "shared/object_ownership",
+      locals: {this_object: @user} %>
+<% end %>
+
+<% provide :information do %>
+  <%= render partial: "user_information" %>
+<% end %>
+
+<% provide :access do %>
+  <%= render partial: "user_access" %>
+<% end %>
+
+<%= render layout: "layouts/collapsible_details",
+    locals: {tabs_content: [ :information, :access ],
+    title: t('User')}  do %>
+
+<% end %>

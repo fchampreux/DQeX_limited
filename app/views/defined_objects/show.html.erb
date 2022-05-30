@@ -1,0 +1,169 @@
+<% provide(:title, (t('ManagingBOs'))) %>
+<% provide(:page_class, 'page-view-details') %>
+
+<% provide :page_heading do %>
+  <%= render partial: "shared/heading", locals: {this_object: @business_object} %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  <%= render partial: "shared/breadcrumbs" %>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/show_view_navigation", locals: {this_object_parent: @business_object.parent, this_object_index: defined_objects_path} %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_version_actions", locals: {this_object: @business_object } %>
+<% end %>
+
+<% provide :technical_details do %>
+  <%= render partial: "shared/object_ownership", locals: {this_object: @business_object} %>
+<% end %>
+
+<% provide :information do %>
+  <div class="row">
+    <div class="col-md-6">
+      <%= render partial: "shared/object_definition",
+          locals: {this_object: @business_object,
+                  smallTextarea: true,
+                  isTechnical: true} %>
+    </div>
+    <div class="col-md-6">
+      <%= render partial: "shared/object_responsibilities",
+          locals: {this_object: @business_object,
+                  showStatus: false} %>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-12" title="<%= t('defined_objects.show.SDMXResourceDefinition') %>" >
+          <label for="bo-sdmx-resource" class="mat-form-field-label">
+            <%= t('resource') %>
+          </label>
+          <input id="bo-sdmx-resource" class="mat-input-element" readonly
+            value="<%= @business_object.resource_name %>" />
+        </div>
+      </div>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-12" title="<%= t('defined_objects.show.SDMXResourceDefinition') %>" >
+          <label for="bo-resource-list" class="mat-form-field-label">
+            <%= t('Variables') %>
+          </label>
+          <input id="bo-resource-list" class="mat-input-element" readonly
+            value="<%= @business_object.resource_list %>" />
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% provide :versions do %>
+  <%= render partial: "shared/object_versions", locals: { this_object: @cloned_business_objects } %>
+<% end %>
+
+<%= render layout: "layouts/collapsible_details",
+    locals: {tabs_content: [ :information, :versions ],
+    title: t('DefinedObject')}  do %>
+
+<% end %>
+
+<hr />
+
+<section class="tabbable">
+
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#children" data-toggle="tab"><%= t('Skills') %></a></li>
+  </ul>
+
+  <div class="tab-content">
+
+    <div class="tab-pane active" id="children">
+       <!-- Only Defined Business Objects benefit from import/export methods -->
+      <% if @business_object.is_template %>
+        <div class="mat-button-group">
+          <%= link_to read_SDMX_defined_object_path, class: "mat-flat-button mat-button-base mat-primary" do %>
+            <span class="fa fa-file-code"></span>
+            <%= t('ImportSkills') %>
+          <% end %>
+          <% if can? :create, DefinedSkill %>
+            <%= link_to new_defined_object_defined_skill_path(@business_object), class: "mat-flat-button mat-button-base mat-primary" do %>
+              <span class="fa fa-file-code"></span>
+              <%= t('NewSkill') %>
+            <% end %>
+          <% end %>
+          <!-- In some cases, the Business will be forced to create new information rather than importing existing data structures,
+        thus access to this feature shall be controlled at controller level -->
+        <% ignore do 'not used for defined skills'%>
+          <% if current_user.is_admin %>
+            <%= link_to new_defined_object_skills_import_path(@business_object), class: "mat-flat-button mat-button-base mat-primary" do %>
+              <span class="fa fa-file-alt" %></span>
+              <%= t('ImportSkills') %>
+            <% end %>
+          <% end %>
+        <% ignore end %>
+        </div>
+      <% end %>
+
+      <%= will_paginate @child_skills %>
+
+      <table class="table table-hover table-clickable">
+        <thead>
+          <tr>
+            <% if @business_object.is_template and not session[:cart_id].nil? %>
+              <th class="col-min-nw"><%=t('InstancesCountToBeAdded')%></th>
+            <% end %>
+            <th class="col-min-nw"><%= t('Code') %></th>
+            <th class="col-1-4"><%= t('Name') %></th>
+            <th class="col-min"><%= t('Type') %></th>
+            <th class="col-min"><%= t('Size') %></th>
+            <th class="col-min"><%= t('Precision') %> </th>
+            <th class="col-min"><%= t('Codelist') %></th>
+            <th class="col-min"><%= t('KeyCols') %></th>
+            <th class="col-min-nw"><%= t('Linkable') %></th>
+            <% if !@business_object.is_template %>
+              <th class="col-min-nw"></th>
+            <% end %>
+          </tr>
+        </thead>
+
+        <tbody>
+        <% @child_skills.order(:sort_code).each do |skill| %>
+          <tr data-href="<%= url_for skill %>">
+            <% if skill.is_template and not session[:cart_id].nil? %>
+              <td>
+                <%= render partial: "shared/add_to_cart", locals: { isCompact: true, model: @skill, item: skill } %>
+              </td>
+            <% end %>
+            <td> <%= link_to skill.code, defined_skill_path(skill) %> </td>
+            <td class="col_narrow">
+              <% skill.name_translations.order(:language).each_with_index do |tr_name, i| %>
+                <% if i > 0 %>
+                  <br/>
+                <% end %>
+                <strong><%= tr_name.language[0,2] %>:</strong>
+                <%= tr_name.translation %>
+              <% end %>
+            </td>
+            <td> <%= translation_for(skill.skill_type.name_translations) %> </td>
+            <td> <%= skill.skill_size %> </td>
+            <td> <%= skill.skill_precision %> </td>
+            <td> <%= skill.values_list&.code %> </td>
+            <td> <%= skill.is_pk %> </td>
+            <td> <%= skill.is_pairing_key %> </td>
+            <% if !@business_object.is_template %>
+              <td class="cell-with-button cell-nw">
+                <%= link_to skill_path(skill), title: t('Delete'), data: { confirm: t("Sure") }, method: :delete, remote: true, class: "mat-icon-button mat-button-base mat-warn" do%>
+                  <span class="fa fa-trash"></span>
+                <% end %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+
+      <%= will_paginate @child_skills %>
+
+    </div> <!-- closes children pane -->
+
+  </div>
+
+</section>

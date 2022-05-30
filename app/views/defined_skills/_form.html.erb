@@ -1,0 +1,83 @@
+<% provide(:page_class, 'page-view-details') %>
+
+<%= form_for [@business_object, @skill], html: {id: "edit_form"} do |f| %>
+
+  <%= render partial: "shared/error_list", locals: { errors: @skill.errors } %>
+
+  <% provide :information do %>
+    <div class="row">
+      <div class="col-md-6">
+
+        <div id="skills-autocomplete" data-search-url="<%= defined_skills_path(:criteria => '') %>" data-item-url="<%= defined_skills_path %>">
+          <%= render partial: "shared/object_definition_form",
+                      locals: { this_object: @skill,
+                                f: f,
+                                smallTextarea: true,
+                                isTechnical: !@skill.is_template} %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <%= render partial: "shared/object_responsibilities_form",
+                    locals: {this_object: @skill, f: f} %>
+
+        <%= render partial: "shared/translated_field_form", locals: {
+          f: f,
+          field: "external_description",
+          fields: :external_description_translations,
+          translations: @skill.external_description_translations,
+          isTextarea: true,
+          smallTextarea: true,
+          label: t('External_Description') } %>
+      </div>
+    </div>
+  <% end %>
+
+  <% provide :specifications do %>
+    <%= render partial: "defined_skill_specifications_form", locals: {f: f} %>
+  <% end %>
+
+  <% tabs_content = [ :information,
+                      :specifications ] %>
+
+  <section class="tabbable">
+
+    <ul class="nav nav-tabs" role="tablist">
+      <% tabs_content.each_with_index do |tab, index| %>
+        <li class="<%= index == 0 ? 'active' : nil %>">
+          <a href="#<%= tab.to_s %>" data-toggle="tab">
+            <%= t(tab.capitalize) %>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+
+    <div class="tab-content">
+      <% tabs_content.each_with_index do |tab, index| %>
+        <div class="tab-pane <%= index == 0 ? 'active' : nil %>" id="<%= tab %>">
+        <%= yield tabs_content[index] %>
+        </div>
+      <% end %>
+    </div>
+
+  </section>
+
+<section class="tabbable">
+
+  <div class="tabbable">
+
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="active"><a href="#annotations" data-toggle="tab"><%= t('.Annotations') %></a></li>
+    </ul>
+
+    <div class="tab-content">
+
+      <div class="tab-pane active" id="annotations">
+        <%= render partial: "shared/annotations_form", locals: { annotations: @skill.annotations, f: f} %>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+<% end %>

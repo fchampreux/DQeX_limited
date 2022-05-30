@@ -1,0 +1,53 @@
+
+<table class="child-object-table table table-hover table-clickable">
+
+  <thead>
+    <tr>
+      <!--
+      <% if show_status_for_col(this_child_index) %>
+        <th scope="col" class="col-min"><%= t('Status') %></th>
+      <% end %>
+      -->
+      <th scope="col" class="col-min-nw"><%= t('Code') %></th>
+      <th scope="col"><%= t('Name') %></th>
+      <th scope="col"><%= t('Description') %></th>
+      <th scope="col" class="col-min-nw"><%= t('UpdatedBy') %></th>
+      <th scope="col" class="col-min-nw text-right"><%= t('UpdatedAt') %></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% this_child_index.order(:sort_code).each do |child_object| %>
+      <tr data-href="<%= url_for [namespace, child_object] %>">
+        <!--
+        <% if show_status_for_col(this_child_index) %>
+          <td class="text-center">
+            <%= render "shared/status-icon", this_object: child_object %>
+            <%= child_object.status.name %>
+          </td>
+        <% end %>
+        -->
+        <td class="no-wrap">
+          <%= link_to [namespace, child_object] do %>
+            <%=h truncate(child_object.code, :length => 15) %>
+          <% end %>
+        </td>
+        <td><%= translation_for(child_object.name_translations) %></td>
+        <td><%=h truncate(translation_for(child_object.description_translations), :length => 200) %></td>
+        <td><%= child_object.updated_by %></td>
+        <td class="text-right"><%= format_date(child_object.updated_at) %></td>
+      </tr>
+    <% end%>
+
+    <% if this_child_index.empty? %>
+      <tr>
+        <td class="cell-empty" colspan="<%= show_status_for_col(this_child_index) ? 6 : 5 %>">
+          <p class="alert alert-info">
+            <%= t('NoChildren') %>
+          </p>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+
+</table>

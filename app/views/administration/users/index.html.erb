@@ -1,0 +1,26 @@
+<% provide(:title, t('ManagingUsers')) %>
+
+<% provide(:page_heading, t('Users')) %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/index_view_navigation", locals: {this_object: User} %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_index_actions", locals: {this_object: User } %>
+<% end %>
+
+<div class="control-block">
+  <div class="mat-button-group">
+    <%= link_to export_administration_users_path(@users, format: "xlsx"), class: "mat-flat-button mat-button-base mat-primary" do %>
+      <span class="fa fa-file-excel"></span>
+      Export to Excel
+    <% end %>
+    <%= link_to new_administration_data_import_path, class: "mat-flat-button mat-button-base mat-primary" do %>
+      <span class="fa fa-file-alt" %></span>
+      <%= t('.ImportUsers') %>
+    <% end %>
+  </div>
+</div>
+
+<%= render partial: "users_index", locals: {this_index: @users} %>

@@ -1,0 +1,65 @@
+de_OFS:
+  helpers:
+    submit:
+      business_area:
+        create: "Infofeld erfassen" #Infofeld
+        update: "Infofeld ändern"
+      business_flow:
+        create: "Statistische Aktivität erfassen"
+        update: "Statistische Aktivität ändern"
+      business_process:
+        create: "Dataset erfassen"
+        update: "Dataset ändern"
+      business_rule:
+        create: "Business rule erfassen"
+        update: "Business rule ändern"
+      business_object:
+        create: "Datenstruktur erfassen"
+        update: "Datenstruktur ändern"
+
+      playground:
+        create: "Themenfeld erfassen" #Themenfeld
+        update: "Themenfeld ändern"
+      landscape:
+        create: "Teilprojekt erfassen"
+        update: "Teilprojekt ändern"
+      scope:
+        create: "Kontext erfassen"
+        update: "Kontext ändern"
+
+      organisation:
+        create: "Organisation erfassen"
+        update: "Organisation ändern"
+      territory:
+        create: "Gebiet erfassen"
+        update: "Gebiet ändern"
+
+      breach:
+        create: "Incident erfassen"
+        update: "Incident ändern"
+      notification:
+        create: "Meldung erfassen"
+        update: "Meldung ändern"
+
+      mappings_list:
+        create: "Liste erfassen"
+        update: "Liste ändern"
+      mapping:
+        create: "Mapping erfassen"
+        update: "Mapping ändern"
+      values_list:
+        create: "Codeliste erfassen"
+        update: "Codeliste ändern"
+      value:
+        create: "Wert erfassen"
+        update: "Wert ändern"
+      parameter:
+        create: "Parameter erfassen"
+        update: "Parameter ändern"
+      parameters_list:
+        create: "Liste erfassen"
+        update: "Liste ändern"
+
+      user:
+        create: "Benutzer erfassen"
+        update: "Benutzer ändern"

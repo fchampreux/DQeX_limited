@@ -1,0 +1,82 @@
+# Code for language as declared in i18n configuration
+de:
+  # Considered object from a global view
+  Activities:                              "Aktivitäten"
+  Activity:                               "Aktivität"
+  ManagingActivities:                      "Aktivitäten verwalten"
+  NewActivity:                            "Neuer Aktivität"
+  ActivityRejected:                       "Aktivität wurde abgelehnt"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageActivity )
+  activities:
+    index:
+      # Columns titles
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      Owner:                                  "Eigentümer"
+      UpdatedBy:                              "Aktualisiert von"
+      UpdatedAt:                              "Aktualisiert am"
+    index_short:
+      # Columns titles
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      Owner:                                  "Eigentümer"
+      UpdatedBy:                              "Aktualisiert von"
+      UpdatedAt:                              "Aktualisiert am"
+    show:
+      Manage:                                 "Aktivität verwalten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      IsSynchronus:                           "Synchronisation"
+      IsTemplate:                             "Ist eine Vorlage"
+      Template:                               "Zur Verwendung als Vorlage"
+      NoTemplate:                             "Keine Vorlage"
+      TemplateOn:                             "Ausgewählte Vorlage"
+      TemplateDefinition:                     "Eine Verarbeitungsvorlage kann auf verschiedene Strukturen angewendet werden, um die gleiche Verarbeitung durchzuführen."
+      OrderingSequence:                       "Sequence"
+      Synchronus:                             "Synchronous"
+      Asynchronus:                            "Asynchronous"
+      SynchronicityOn:                        "Wartet auf den Beginn der übergeordneten Aktivitäten"
+      SynchronicityOff:                       "Startet, sobald sie durch eine übergeordnete Aktivität aktiviert wird"
+      NextSuccess:                            "Weiter, wenn erfolgreich"
+      NextFailure:                            "Weiter, wenn gescheitert"
+      Parameters:                             "Einstellungen"
+      Technology:                             "Technologie"
+      TargetObject:                           "Verarbeitete Struktur"
+      SourceObject:                           "Ressource"
+      NodeType:                               "Knoten Typ"
+      New:                                    "Neue Aufgabe"
+      UpdatedBy:                              "Aktualisiert von"
+      UpdatedAt:                              "Aktualisiert am"
+      GSBPM:                                  "GSBPM Subprozess"
+      Show:                                   "Anzeigen"
+      Edit:                                   "Bearbeiten"
+      Delete:                                 "Löschen"
+    new:
+      New:                                    "Neuer Aktivität"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    edit:
+      Edit:                                   "Aktivität bearbeiten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    create:
+      Success:                             	  "erfolgreich erstellt Aktivität"
+      Failure:                                "Aktivität konnte nicht erstellt werden"
+    update:
+      Success:                             	  "erfolgreich aktualisierter Aktivität"
+      Failure:                                "Aktivität konnte nicht aktualisierter werden"
+    activate:
+      Success:                             	  "Aktivität erfolgreich wiederhergestellt"
+      Failure:                                "Aktivität konnte nicht abgerufen werden"
+    destroy:
+      Success:                             	  "Aktivität erfolgreich gelöscht"
+      Failure:                                "Aktivität konnte nicht gelöscht werden"

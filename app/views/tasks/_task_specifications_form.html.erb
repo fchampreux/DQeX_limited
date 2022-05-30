@@ -1,0 +1,70 @@
+
+  <div class="row mat-form-row">
+    <div class="mat-form-field col-md-4">
+      <%= f.label :source_object, t('tasks.show.SourceObject'), class: "mat-form-field-label" %>
+      <%= f.collection_select :source_object_id, @task.parent.parent.deployed_objects, :id, :code, {:include_blank => true}, { class: "mat-input-element select2-candidate" } %>
+    </div>
+    <div class="col-md-4">
+      <svg  height="50" width="100%">
+        <g fill="none" stroke="black">
+          <path stroke-width="2" d="M5 40 l215 0" />
+        </g>
+      </svg>
+    </div>
+    <div class="mat-form-field col-md-4">
+      <%= f.label :business_object, t('tasks.show.TargetObject'), class: "mat-form-field-label" %>
+      <%= f.collection_select :target_object_id, @task.parent.parent.deployed_objects, :id, :code, {:include_blank => true}, { class: "mat-input-element select2-candidate" } %>
+    </div>
+  </div>
+  <div class="row mat-form-row">
+    <div class="mat-form-field mat-form-field col-md-4">
+      <%= f.label :node_type, t('tasks.show.NodeType'), class: "mat-form-field-label" %>
+      <%= f.collection_select :node_type_id, options_for('node_types', 'Scheduler'), :id, :code, {:include_blank => false}, { class: "mat-input-element select2-candidate" } %>
+    </div>
+    <div class="mat-form-field col-md-4">
+      <%# Next activity in case of failure or success %>
+      <%= f.label :next_success_id, t('tasks.show.NextSuccess'), class: "mat-form-field-label" %>
+      <%= f.collection_select :success_next_id, tasks_of(@task.parent.id, @task.id), :id, :code, {:include_blank => true}, { class: "mat-input-element select2-candidate" } %>
+    </div>
+    <div class="mat-form-field col-md-4">
+      <%= f.label :next_failure_id, t('tasks.show.NextFailure'), class: "mat-form-field-label" %>
+      <%= f.collection_select :failure_next_id, tasks_of(@task.parent.id, @task.id), :id, :code, {:include_blank => true}, { class: "mat-input-element select2-candidate" } %>
+    </div>
+  </div>
+  <div class="row mat-form-row">
+    <div class="mat-form-field col-md-4">
+      <%= f.label :script_language, t('tasks.show.Language'), class: "mat-form-field-label" %>
+      <%= f.collection_select :script_language_id, options_for('IT_LANGUAGES', 'Scripting'), :id, :code, {:include_blank => true}, { class: "mat-input-element select2-candidate" } %>
+    </div>
+    <div class="mat-form-field col-md-4">
+      <%= f.label :technology_id, t('tasks.show.Technology'), class: "mat-form-field-label" %>
+      <%# f.collection_select :technology_id, values_options_for('Technologies', 1), :id, :code, {:include_blank => false}, { class: "mat-input-element select2-candidate" } %>
+      <%= f.grouped_collection_select :technology_id,
+          values_options_for('Technologies', 1, @task.parent.technology_id), # group
+          :subs,                                 # descendants
+          :code,                                 # group label
+          :id, :code,                            # option key & label
+          {:include_blank => false},
+          { class: "mat-input-element select2-candidate" } %>
+    </div>
+    <!-- <div class="mat-form-field col-md-4">
+      <%= f.label :return_value_pattern, t('tasks.show.ReturnValuePattern'), class: "mat-form-field-label" %>
+      <%= f.text_field :return_value_pattern, class: "mat-input-element" %>
+    </div> -->
+  </div>
+  <div class="row mat-form-row">
+    <div class="mat-form-field col-md-8">
+      <%= f.label :statement, t('tasks.show.Script'), class: "mat-form-field-label" %>
+      <%= f.text_area :statement, class: "mat-input-element mat-textarea-md" %>
+    </div>
+    <div class="mat-form-field col-md-4">
+      <%= f.label :statement_language, t('tasks.show.OperatingLanguage'), class: "mat-form-field-label" %>
+      <%= f.collection_select :statement_language_id, options_for('IT_LANGUAGES', 'Operating'), :id, :code, {:include_blank => true}, { class: "mat-input-element select2-candidate" } %>
+    </div>
+  </div>
+  <div class="row mat-form-row">
+    <div class="mat-form-field col-md-12">
+      <%= f.label :git_hash, t('tasks.show.GitHash'), class: "mat-form-field-label" %>
+      <%= f.text_field :git_hash, class: "mat-input-element" %>
+    </div>
+  </div>

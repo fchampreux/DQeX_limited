@@ -1,0 +1,38 @@
+<% provide(:title, (t('ExportBHs'))) %>
+
+<% provide :page_heading do %>
+    <%= t('BHsExpReport') %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th width="200px"> <%= t('Object') %> </th>
+      <th width="100px"> <%= t('Tries') %> </th>
+      <th width="100px"> <%= t('Inserts') %> </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @counter.each do |monitor| %>
+      <tr>
+        <td><%= monitor[:object] %></td>
+        <td><%= monitor[:tries] %></td>
+        <td><%= monitor[:inserts] %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td></td>
+      <td align="left"> <%= t('TotalCount') %>: </td>
+      <td align="left"><b><%= @lignes %></b></td>
+    </tr>
+  </tbody>
+</table>
+<br/>
+
+<p>
+  <%= link_to t('ExportSuccess'), "/dqmBusinessHierarchy.xlsx" %>
+</p>
+
+<br>
+<p><%= t('CheckAudit') %>/p>

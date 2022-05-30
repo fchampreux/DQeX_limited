@@ -1,0 +1,151 @@
+<% provide(:title, (t('ManagingActivities'))) %>
+<% provide(:page_class, 'page-view-details') %>
+
+<% provide :page_heading do %>
+  <%= "#{t('Activity')}: #{@activity.parent.code} / #{@activity.code}" %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  <%= render partial: "shared/breadcrumbs" %>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/show_view_navigation",
+      locals: {this_object_parent: @activity.parent,
+      this_object_index: activities_path} %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_actions",
+      locals: {this_object: @activity } %>
+<% end %>
+
+<% provide :technical_details do %>
+  <%= render partial: "shared/object_ownership",
+      locals: {this_object: @activity} %>
+<% end %>
+
+<% provide :information do %>
+  <section id="activity-information">
+    <% provide :extra_attribute do %>
+      <label for="definition-gsbpm-id" class="mat-form-field-label">
+        <%= t('activity.show.GSBPM') %>
+      </label>
+      <input id="definition-gsbpm-id" class="mat-input-element" readonly
+        value="<%= @activity.gsbpm&.alternate_code %>" />
+    <% end %>
+
+    <div class="row">
+      <div class="col-md-6">
+        <%= render partial: "shared/object_definition", locals: {
+            this_object: @activity,
+            smallTextarea: true,
+            isTechnical: true} %>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+          <%= render partial: "shared/object_responsibilities", locals: {
+              this_object: @activity,
+              showStatus: false} %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<% end %>
+
+<% provide :schema do %>
+  <%= render partial: "shared/static_schema",
+      locals: {this_object: @activity} %>
+<% end %>
+
+<% provide :specifications do %>
+  <%= render partial: "activity_specifications" %>
+<% end %>
+
+<%= render layout: "layouts/collapsible_details",
+    locals: {tabs_content: [ :specifications, :schema, :information ],
+    title: t('Activity')}  do %>
+
+<% end %>
+
+<section class="tabbable">
+
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="active"><a href="#tasks" data-toggle="tab"> <%= t('Tasks') %> </a></li>
+  </ul>
+
+    <div class="tab-content">
+
+      <div class="tab-pane active" id="tasks">
+
+        <table class="child-object-table table table-hover table-clickable">
+
+          <thead>
+            <tr>
+              <th scope="col"><%= t('tasks.show.GitVersion') %></th>
+              <th scope="col" class="col-min-nw"><%= t('activities.show.Code') %></th>
+              <th scope="col"><%= t('activities.show.Name') %></th>
+              <th scope="col"><%= t('activities.show.NodeType') %></th>
+              <th scope="col"><%= t('activities.show.NextSuccess') %></th>
+              <th scope="col"><%= t('activities.show.NextFailure') %></th>
+              <th scope="col"><%= t('activities.show.Technology') %></th>
+              <th scope="col"><%= t('tasks.show.ScriptLanguage') %></th>
+              <th scope="col" class="col-min-nw"><%= t('activities.show.UpdatedBy') %></th>
+              <th scope="col" class="col-min-nw text-right"><%= t('activities.show.UpdatedAt') %></th>
+              <th class="col-min-nw">
+                <%= link_to new_activity_task_path(@activity, parent_id: @activity.id, parent_class: @activity.class.name), title: t('.New'), data: { toggle: "modal", target: "#childModal" }, class: "mat-flat-button mat-button-base mat-primary" do %>
+                  <span class="fa fa-plus-square" %></span>
+                  <%= t("New") %>
+              <% end %>
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @activity.tasks.order(task_type_id: :asc, sort_code: :asc).each do |task| %>
+
+              <tr>
+                <td> <div title="<%= task.git_hash %>" class="truncate-git-hash"><%= task.git_hash %> </div> </td>
+                <td class="no-wrap"> <%= task.code %> </td>
+                <td class="no-wrap"> <%= translation_for(task.name_translations) %> </td>
+                <td class="no-wrap"> <%= task.node_type&.code %></td>
+                <td class="no-wrap"> <%= task.success_next&.code %></td>
+                <td class="no-wrap"> <%= task.failure_next&.code %></td>
+                <td class="col_narrow"> <%=task.technology&.code %> </td>
+                <td class="col_narrow"> <%=task.script_language&.code %> </td>
+                <td><%= task.updated_by %></td>
+                <td class="text-right"><%= format_date(task.updated_at) %></td>
+                <td class="cell-with-button cell-nw">
+                  <%= link_to activity_task_path(@activity, task), title: t('.Show'), data: { toggle: "modal", target: "#childModal" }, class: "mat-icon-button mat-button-base mat-secondary" do %>
+                    <span class="fa fa-eye"></span>
+                  <% end %>
+                  <%= link_to edit_activity_task_path(@activity, task), title: t('.Edit'), data: { toggle: "modal", target: "#childModal" }, class: "mat-icon-button mat-button-base mat-secondary" do %>
+                    <span class="fa fa-edit"></span>
+                  <% end %>
+                  <%= link_to task, title: t('Delete'), data: { confirm: t(".Sure")  }, method: :delete, class: "mat-icon-button mat-button-base mat-warn" do %>
+                    <span class="fa fa-trash"></span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end%>
+
+            <% if @activity.tasks.empty? %>
+              <tr>
+                <td class="cell-empty" colspan=11">
+                  <p class="alert alert-info">
+                    <%= t('NoChildren') %>
+                  </p>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+
+        </table>
+      </div>
+
+<!-- Tab content -->
+    </div>
+
+  </section>

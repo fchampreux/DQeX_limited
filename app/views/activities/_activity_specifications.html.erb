@@ -1,0 +1,85 @@
+<section id="activity-specifications">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-12">
+          <label for="definition-gsbpm-id" class="mat-form-field-label">
+            <%= t('business_processes.show.GSBPM') %>
+          </label>
+          <input id="definition-gsbpm-id" class="mat-input-element" readonly
+            value="<%= @activity.gsbpm&.alternate_code %>" />
+        </div>
+      </div>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-4">
+          <label for="structure_from_id" class="mat-form-field-label">
+            <%= t('activity.show.Source') %>
+          </label>
+          <input id="structure_from_id" class="mat-input-element" readonly
+            value="<%= @activity.source_object&.code %>" />
+        </div>
+        <div class="col-md-4">
+          <svg  height="50" width="100%">
+            <g fill="none" stroke="black">
+              <path stroke-width="2" d="M5 40 l215 0" />
+            </g>
+          </svg>
+        </div>
+        <div class="mat-form-field col-md-4">
+          <label for="structure_to_id" class="mat-form-field-label">
+            <%= t('activity.show.Target') %>
+          </label>
+          <input id="structure_to_id" class="mat-input-element" readonly
+            value="<%= @activity.target_object&.code %>" />
+        </div>
+      </div>
+      <div class="row mat-form-row">
+        <%# Node type Next activity %>
+        <div class="mat-form-field col-md-4">
+        </div>
+        <div class="mat-form-field col-md-4"> <!--
+          <label for="activity-synchronicity" class="mat-form-field-label">
+            <%= t('activities.show.Synchronicity') %>
+          </label>
+          <input id="activity-synchronicity" class="mat-input-element" readonly
+            value="<%= @activity.is_synchro %>" /> -->
+        </div>
+        <div class="mat-form-field col-md-4">
+          <label for="activity-technology" class="mat-form-field-label">
+            <%= t('activities.show.Technology') %>
+          </label>
+          <input id="activity-technology" class="mat-input-element" readonly
+            value="<%= @activity.technology&.code %>" />
+        </div>
+      </div>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-4">
+          <label for="activity-node-type" class="mat-form-field-label">
+            <%= t('activities.show.NodeType') %>
+          </label>
+          <input id="activity-node-type" class="mat-input-element" readonly
+            value="<%= @activity.node_type.code %>" />
+        </div>
+        <div class="mat-form-field col-md-4">
+          <label for="activity-next-success" class="mat-form-field-label">
+            <%= t('activities.show.NextSuccess') %>
+          </label>
+          <input id="activity-next-success" class="mat-input-element" readonly
+            value="<%= @activity.success_next&.code %>" />
+        </div>
+        <div class="mat-form-field col-md-4">
+          <label for="activity-next-failure" class="mat-form-field-label">
+            <%= t('activities.show.NextFailure') %>
+          </label>
+          <input id="activity-next-failure" class="mat-input-element" readonly
+            value="<%= @activity.failure_next&.code %>" />
+        </div>
+      </div>
+    </div>
+    <%# Parameters %>
+    <div class="col-md-6">
+      <%= render partial: "shared/json_parameters",
+                  locals: { this_object: @activity } %>
+    </div>
+  </div>
+</section>

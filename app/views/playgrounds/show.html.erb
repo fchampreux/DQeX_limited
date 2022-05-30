@@ -1,0 +1,77 @@
+<% provide(:title, (t('ManagingPgs'))) %>
+<% provide(:page_class, 'page-view-details') %>
+
+<% provide :page_heading do %>
+  <%= render partial: "shared/heading", locals: {this_object: @playground} %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  <%= render partial: "shared/breadcrumbs" %>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/show_view_navigation", locals: {this_object_parent: @playground.parent, this_object_index: playgrounds_path} %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_actions", locals: {this_object: @playground } %>
+<% end %>
+
+<% provide :technical_details do %>
+  <%= render partial: "shared/object_ownership", locals: {this_object: @playground} %>
+<% end %>
+
+<% provide :information do %>
+  <div class="row">
+    <div class="col-md-6">
+      <%= render partial: "shared/object_definition",
+          locals: {this_object: @playground,
+                  smallTextarea: true,
+                  isTechnical: true} %>
+    </div>
+    <div class="col-md-6">
+      <%= render partial: "shared/object_responsibilities",
+          locals: {this_object: @playground,
+                  showStatus: false} %>
+    </div>
+  </div>
+<% end %>
+
+<%= render layout: "layouts/collapsible_details",
+    locals: {tabs_content: [ :information ],
+    title: t('Playground')}  do %>
+
+<% end %>
+<hr />
+
+<section class="tabbable">
+
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="active"><a href="#business_areas" data-toggle="tab"><%= t('BAs') %></a></li>
+    <% if $Project %>
+      <li><a href="#landscapes" data-toggle="tab"><%= t('Landscapes') %></a></li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+
+    <div class="tab-pane active" id="business_areas">
+      <%= link_to new_playground_business_area_path(@playground), class: 'mat-flat-button mat-button-base mat-primary' do %>
+        <span class="fa fa-file-alt" %></span>
+        <%= t('NewBA') %>
+      <% end %>
+
+      <%= render partial: "shared/child_object_index", locals: {this_child_index: @playground.business_areas.pgnd(current_playground)} %>
+    </div>
+
+    <div class="tab-pane" id="landscapes">
+      <%= link_to new_playground_landscape_path(@playground), class: 'mat-flat-button mat-button-base mat-primary' do %>
+        <span class="fa fa-file-alt" %></span>
+        <%= t('NewLS') %>
+      <% end %>
+
+      <%= render partial: "shared/child_object_index", locals: {this_child_index: @playground.landscapes.pgnd(current_playground)} %>
+    </div>
+
+  </div>
+</section>

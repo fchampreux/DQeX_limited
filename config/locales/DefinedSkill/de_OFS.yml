@@ -1,0 +1,32 @@
+# Translations related to Skill object
+de_OFS:
+  defined_skills:
+    create:
+      Success:                        "Variabel wurde erstellt"
+      Failure:                        "Variabel wurde nicht erstellt"
+    update:
+      Success:                        "Variabel wurde aktualisiert"
+      Failure:                        "Variabel wurde nicht aktualisiert"
+    destroy:
+      Success:                        "Variabel wurde gelöscht"
+      Failure:                        "Variabel wurde nicht gelöscht"
+    activate:
+      Success:                        "Variabel wurde abgerufen"
+      Failure:                        "Variabel wurde nicht abgerufen"
+    edit:
+      Failure:                        "Abgeschlossene Variable kann nicht geändert werden"
+    propose:
+      Success:                        "Die Variable wurde übergeben"
+      Failure:                        "Die Variable wurde nicht übergeben"
+    accept:
+      Success:                        "Die Variable wurde validiert"
+      Failure:                        "Die Variable wurde nicht validiert"
+    add_to_cart:
+      Success:                        "Die Variable wurde in die Struktur"
+      Failure:                        "Die Variable kann nicht in die Struktur eingefügt werden, sie existiert wahrscheinlich bereits mit dem gleichen Namen"
+    create_values_list:
+      Success:                        "Die Variable kann jetzt Referenzwerte empfangen"
+      Failure:                        "Die Variable kann keine Werte empfangen"
+    upload_values_list:
+      Success:                        "Die Variable hat jetzt importierte Werte"
+      Failure:                        "Die Variable kann keine Werte empfangen"

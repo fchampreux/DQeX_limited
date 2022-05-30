@@ -1,0 +1,42 @@
+# PostGre databases
+
+default: &default
+  host : localhost
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: <%= Rails.application.credentials.databases[:username] %>
+  password: <%= Rails.application.credentials.databases[:password] %>
+  schema_search_path: "dqm_app"
+
+development:
+  <<: *default
+  database: dqm_dev
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: dqm_test
+  # Remember to use distinct password for each environment to avoid connecting to the wrong environment
+
+validation:
+  <<: *default
+  database: dqm_val
+  # Remember to use distinct password for each environment to avoid connecting to the wrong environment
+
+production:
+  <<: *default
+  database: dqm_prod
+  # Remember to use distinct password for each environment to avoid connecting to the wrong environment
+
+docker:
+  <<: *default
+  host : db
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  database: dqm_db
+  schema_search_path: "dqm_app"
+

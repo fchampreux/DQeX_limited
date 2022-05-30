@@ -1,0 +1,10 @@
+<% provide :childModalTitle do %>
+  <%= t('.Edit') %>
+<% end %>
+
+<% provide :task_details do %>
+  <%= render partial: "shared/object_ownership",
+              locals: {this_object: @task} %>
+<% end %>
+
+<%= render 'form' %>

@@ -1,0 +1,29 @@
+
+        <% if not this_object.values_lists_classifications.empty? %>
+          <% display_filter ||= "'1'='1'" %>
+          <!-- Linked Values -->
+          <ul class="nav-tree nav-indent nav-toggle expanded nav-bordered nav-hover">
+            <% this_object.values_lists.where("values_lists_classifications.level in (?,?)",0,1).order(:code).each do |values_list| %>
+              <li role="presentation" id="ui-nav-values_list-<%= values_list.id %>">
+                <span class="nav-link-container">
+                  <%# link to values_list %>
+                  <%= link_to values_list, class: "nav-link nav-item", role: "treeitem", "data-nav-level": 0 do %>
+                    <strong><%= values_list.code %></strong>
+                    <%= translation_for(values_list.name_translations) || t('.MissingTranslation') %>
+                  <% end %>
+                  <% if !values_list.values.empty? %>
+                    <%# children toggle control %>
+                    <a class="nav-link nav-link-toggler has-child collapsed" data-toggle="collapse" aria-controls="<%= "ui-nav-values_list-#{values_list.id}-children" %>" href="#<%= "ui-nav-values_list-#{values_list.id}-children" %>"></a>
+                    <%# children load control %>
+                    <%= link_to '', get_children_values_list_path(id: values_list.id,
+                                                                  classification_id: this_object.id,
+                                                                  filter: display_filter),
+                                                                  class: 'nav-link-loader', method: 'get', remote: true, format: "js" %>
+                  <% end %>
+                </span>
+
+                <div id="<%= "ui-nav-values_list-#{values_list.id}-children" %>" class="collapse show"></div>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>

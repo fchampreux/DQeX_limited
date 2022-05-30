@@ -1,0 +1,37 @@
+[
+	{"name":"script_path",
+	 "dataType":"BIGINT",
+	 "value":"test_scripts",
+	 "isMandatory":false
+	},
+	{"name":"script_name",
+	 "dataType":"BIGINT",
+	 "value":"test.sh",
+	 "isMandatory":false
+	 },
+	{"name":"log_file_path",
+	 "dataType":"BIGINT",
+	 "value":"test_scripts",
+	 "isMandatory":false
+	 },
+	{"name":"log_file_name",
+	 "dataType":"BIGINT",
+	 "value":"log.txt",
+	 "isMandatory":false
+	},
+	{"name":"object_id",
+	 "dataType":"BIGINT",
+	 "value":"",
+	 "isMandatory":true
+	 },
+	{"name":"month",
+	 "dataType":"BIGINT",
+	 "value":"",
+	 "isMandatory":true
+	},
+	{"name":"provider",
+	 "dataType":"BIGINT",
+	 "value":"",
+	 "isMandatory":true
+	}
+]

@@ -1,0 +1,48 @@
+<% provide(:title, (t('ManagingActs'))) %>
+
+<% provide :page_heading do %>
+    <%= t('Audit') %>
+<% end %>
+
+
+<%= will_paginate %>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th> <%= t('When') %> </th>
+      <th> <%= t('Object') %> </th>
+      <th> <%= t('Object id') %> </th>
+      <th> <%= t('Associated object') %> </th>
+      <th> <%= t('Associated id') %> </th>
+      <th> <%= t('User name') %> </th>
+      <th> <%= t('User id') %> </th>
+      <th> <%= t('Action') %> </th>
+      <th> <%= t('Changes') %> </th>
+      <th> <%= t('Version') %> </th>
+      <th> <%= t('Comment') %> </th>
+      <th> <%= t('Remote Address') %> </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @audit_trails.each do |trail| %>
+      <tr>
+        <td><%= format_datetime(trail.created_at) %></td>
+        <td><%= trail.auditable_type %></td>
+        <td><%= trail.auditable_id %></td>
+        <td><%= trail.associated_type %></td>
+        <td><%= trail.associated_id %></td>
+        <td><%= trail.username %></td>
+        <td><%= trail.user_id %></td>
+        <td><%= trail.action %></td>
+        <td><%= ap(trail.audited_changes, color: {string: :yellow, hash: :gray, date: :green}).html_safe %></td>
+        <td><%= trail.version %></td>
+        <td><%= trail.comment %></td>
+        <td><%= trail.remote_address %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= will_paginate %>

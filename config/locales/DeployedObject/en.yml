@@ -1,0 +1,77 @@
+# Code for language as declared in i18n configuration
+en:
+  DeployedObjects:                            "Deployed objects"
+  DeployedObject:                             "Deployed object"
+  ManagingDeployedObjects:                    "Manage deployed objects"
+  NewDeployedObject:                          "New deployed object"
+  DeployedObjectRejected:                     "Deployed object wurde abgelehnt"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  deployed_objects:
+    index:
+      # Columns titles
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      Parent:                                 "Business area"
+      Owner:                                  "Owner"
+      UpdatedBy:                              "Updated by"
+      UpdatedAt:                              "Updated at"
+    index_short:
+      # Columns titles
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      Parent:                                 "Business area"
+      Owner:                                  "Owner"
+      UpdatedBy:                              "Updated by"
+      UpdatedAt:                              "Updated at"
+    show:
+      Manage:                                 "Manage deployed object"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+      Export:                                 "Export"
+      TranslateInExcel:                       "Translate in Excel"
+      ImportTranslations:                     "Import transaltions"
+    new:
+      New:                                    "New deployed object"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+    edit:
+      Failure:                                "Finalised structure can't be modified"
+      Edit:                                   "Edit deployed object"
+      # Field names
+      Code:                                   "Identifier"
+      Name:                                   "Name"
+      Description:                            "Description"
+    new_version:
+      Success:                                "New version created"
+      Failure:                                "A new version cannot be created"
+    make_current:
+      Success:                                "Current version is selected"
+      Failure:                                "This version cannot be selected"
+    finalise:
+      Success:                                "Deployed object has been finalised"
+      Failure:                                "Deployed object cannot be finalised"
+    create:
+      Success:                             	  "Deployed object was created"
+      Failure:                                "Deployed object cannot be created"
+    update:
+      Success:                             	  "Deployed object was updated"
+      Failure:                                "Deployed object cannot be updated"
+    activate:
+      Success:                             	  "Deployed object was recovered"
+      Failure:                                "Deployed object cannot be recovered"
+    destroy:
+      Success:                             	  "Deployed object was deleted"
+      Failure:                                "Deployed object cannot be deleted"
+    propose:
+      Success:                                "Deployed object is waiting for approval"
+      Failure:                                "Deployed object cannot be submitted"
+    accept:
+      Success:                                "Deployed object has been accepted"
+      Failure:                                "Deployed object cannot change status"

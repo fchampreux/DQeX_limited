@@ -1,0 +1,57 @@
+# Code for language as declared in i18n configuration
+fr_OFS:
+  # Considered object from a global view
+  BusinessAreas:                              "Domaines d'information"
+  BusinessArea:                               "Domaine d'information"
+  ManagingBusinessAreas:                      "Gérer les domaines d'informations"
+  NewBusinessArea:                            "Nouveau domaine d'information"
+  BusinessAreaRejected:                       "Le domaine d'information a été rejeté"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  business_areas:
+    index:
+      # Columns titles
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+      Owner:                                  "Responsable"
+      UpdatedBy:                              "Mis à jour par"
+      UpdatedAt:                              "Mis à jour le"
+    index_short:
+      # Columns titles
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+      Owner:                                  "Responsable"
+      UpdatedBy:                              "Mis à jour par"
+      UpdatedAt:                              "Mis à jour le"
+    show:
+      Manage:                                 "Gérer les domaines d'information"
+      # Field names
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+    new:
+      New:                                    "Nouveau domaine d'information"
+      # Field names
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+    edit:
+      Edit:                                   "Modifier le domaine d'information"
+      # Field names
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+    create:
+      Success:                             	  "Domaine d'information créé avec succès"
+      Failure:                             	  "Domaine d'information ne peut pas être créé"
+    update:
+      Success:                             	  "Domaine d'information mis à jour avec succès"
+      Failure:                             	  "Domaine d'information ne peut pas être modifié"
+    activate:
+      Success:                             	  "Domaine d'information récupéré"
+      Failure:                             	  "Domaine d'information ne peut pas être récupéré"
+    destroy:
+      Success:                             	  "Domaine d'information supprimé"
+      Failure:                             	  "Domaine d'information ne peut pas être supprimé"

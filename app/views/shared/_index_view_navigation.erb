@@ -1,0 +1,12 @@
+<%# The parent module defines the Namespace. If not (Object) then display default link %>
+<% if request.query_parameters().has_key?('owner') %>
+  <%= link_to [namespace, this_object], method: :get, class: "mat-stroked-button mat-button-base" do %>
+    <span class="fa fa-eye"></span>
+    <%= t("FullIndex") %>
+  <% end %>
+<% else %>
+  <%= link_to [namespace, this_object, {"owner": current_user.id}], method: :get, class: "mat-stroked-button mat-button-base" do %>
+    <span class="fa fa-eye"></span>
+    <%= t("ShortIndex") %>
+  <% end %>
+<% end %>

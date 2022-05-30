@@ -1,0 +1,40 @@
+<% provide(:title, (t('Search'))) %>
+
+<% provide :page_heading do %>
+    <%= t('Search') %>
+<% end %>
+
+<% provide :navigation do %>
+  <!-- no action is available at this level for this object -->
+<% end %>
+
+<div class="row">
+  <div class="col-md-4">
+    <%= render partial: "shared/simple_search", locals: { path: translations_path } %>
+  </div>
+</div>
+
+<%= will_paginate %>
+
+<table class="table table-hover">
+  <tr>
+    <th><%= t('Code') %></th>
+    <th><!-- Language --></th>
+    <th><%= t('Class') %></th>
+    <th><%= t('Title') %></th>
+    <!-- <th><%= t('Translation') %></th> -->
+  </tr>
+
+  <% @translations.each do |expression| %>
+    <% if @target_object = expression.document_type.classify.constantize.where(id: expression.document_id).take %>
+      <tr>
+        <td> <%= link_to expression.document.code, @target_object %></td>
+        <td><%= expression.language[0,2] %></td>
+        <td><%= t(expression.document_type) %></td>
+        <td><%= expression.title %></td>
+      </tr>
+    <% end %>
+  <% end %>
+</table>
+
+<%= will_paginate %>

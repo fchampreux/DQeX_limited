@@ -1,0 +1,249 @@
+<% provide(:title, (t('ManagingBusinessProcesses'))) %>
+<% provide(:page_class, 'page-view-details') %>
+
+<% provide :page_heading do %>
+  <%= "#{t('BusinessProcess')}: #{@business_process.code}" %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  <%= render partial: "shared/breadcrumbs" %>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/show_view_navigation",
+      locals: {this_object_parent: @business_process.parent,
+              this_object_index: business_processes_path} %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_actions",
+      locals: {this_object: @business_process } %>
+<% end %>
+
+<% provide :technical_details do %>
+  <%= render partial: "shared/object_ownership",
+      locals: {this_object: @business_process} %>
+<% end %>
+
+<% provide :information do %>
+  <section id="business-process-information">
+    <% provide :extra_attribute do %>
+      <label for="definition-gsbpm-id" class="mat-form-field-label">
+        <%= t('business_processes.show.GSBPM') %>
+      </label>
+      <input id="definition-gsbpm-id" class="mat-input-element" readonly
+        value="<%= @business_process.gsbpm&.alternate_code %>" />
+    <% end %>
+    <div class="row">
+      <div class="col-md-6">
+        <%= render partial: "shared/object_definition",
+            locals: {this_object: @business_process,
+                    smallTextarea: true,
+                    isTechnical: true} %>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+          <%= render partial: "shared/object_responsibilities",
+              locals: {this_object: @business_process,
+                      showStatus: false} %>
+          </div>
+        </div>
+        <div class="row mat-form-row">
+          <div class="mat-form-field col-md-12">
+            <label for="bp-data-providers" class="mat-form-field-label">
+              <%= t('Providers') %>
+            </label>
+            <%= select_tag 'bp-data-providers',
+                options_for_select_from_list(list_of_organisations,
+                  @business_process.data_provider_ids),
+                  { multiple: true,
+                    disabled: true,
+                    class: 'mat-input-element select2-candidate' } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<% end %>
+
+<% provide :schema do %>
+  <%= render partial: "shared/static_schema",
+      locals: {this_object: @business_process} %>
+<% end %>
+
+<% provide :specifications do %>
+  <%= render partial: "business_process_specifications" %>
+<% end %>
+
+<%= render layout: "layouts/collapsible_details",
+    locals: {tabs_content: [ :specifications, :information, :schema ],
+    title: t('BusinessProcess')}  do %>
+
+<% end %>
+
+<hr />
+
+<section class="tabbable">
+
+  <ul class="nav nav-tabs" role="tablist">
+    <li><a href="#business_objects" data-toggle="tab"> <%= t('UsedBOs') %> </a></li>
+    <!-- <li><a href="#business_rules" data-toggle="tab"> <%= t('BRs') %> </a></li> -->
+    <li class="active"><a href="#activities" data-toggle="tab"> <%= t('.Steps') %> </a></li>
+    <li><a href="#schedules" data-toggle="tab"> <%= t('.Schedules') %> </a></li>
+  </ul>
+
+  <div class="tab-content">
+
+    <div class="tab-pane" id="business_objects">
+      <div class="mat-button-group">
+        <%= link_to new_business_process_deployed_object_path(@business_process, parent_id: @business_process.id, parent_type: @business_process.class.name), class: 'mat-flat-button mat-button-base mat-primary' do %>
+          <span class="fa fa-file-alt" %></span>
+          <%= t('NewUsedBO') %>
+        <% end %>
+      </div>
+    <% ignore do "There's a bug here - move it to index/child_index/show of collections" %>
+      <%= form_with url: derive_business_process_deployed_object_path(@business_process), method: "post", class: "mat-control-group" do |f| %>
+        <div class="mat-button-group">
+          <%= link_to new_business_process_deployed_object_path(@business_process, parent_id: @business_process.id, parent_class: @business_process.class.name), class: 'mat-flat-button mat-button-base mat-primary' do %>
+            <span class="fa fa-file-alt" %></span>
+            <%= t('NewUsedBO') %>
+          <% end %>
+        </div>
+
+        <div class="mat-button-group">
+          <%= select_tag(:template_id, options_from_collection_for_select(list_of_defined_metadata(@business_process), :id, :code), { prompt: t('SelectDefinedMetadata'), class: "mat-input-element inline", required: true }) %>
+          <%= f.submit "Generate", class: "mat-flat-button mat-button-base mat-primary" %>
+        </div>
+
+        <%= hidden_field_tag(:parent_id, @business_process.id) %>
+        <%= hidden_field_tag(:parent_class, @business_process.class.name) %>
+      <% end %>
+    <% ignore end %>
+
+    <%= render partial: "shared/child_object_index", locals: {this_child_index: @business_process.deployed_objects.visible} %>
+    </div>
+
+    <div class="tab-pane" id="business_rules">
+      <% ignore do "Relation Business Rule changed from Business Object" %>
+        <%= link_to new_business_process_business_rule_path(@business_process), class: 'mat-flat-button mat-button-base mat-primary' do %>
+          <span class="fa fa-file-alt" %></span>
+          <%= t('NewBR') %>
+        <% end %>
+
+      <%= render partial: "shared/child_object_index2", locals: {this_class: "BusinessRule",
+                                                                this_path: business_rules_path,
+                                                                this_parent: @business_process.deployed_objects.map { |bo| bo.id}.join(','),
+                                                                showOrder: true,
+                                                                isTechnical: true,
+                                                                showType: true } %>
+
+      <% ignore end %>
+    </div>
+
+    <div class="tab-pane active" id="activities">
+      <%= link_to new_business_process_activity_path(@business_process), class: 'mat-flat-button mat-button-base mat-primary' do %>
+        <span class="fa fa-file-alt" %></span>
+        <%= t('.NewActivity') %>
+      <% end %>
+
+        <table class="child-object-table table table-hover table-clickable">
+
+          <thead>
+            <tr>
+              <th scope="col" class="col-min-nw"><%= t('activities.show.Code') %></th>
+              <th scope="col"><%= t('activities.show.Name') %></th>
+              <th scope="col"><%= t('activities.show.Type') %></th>
+              <th scope="col"><%= t('activities.show.NextSuccess') %></th>
+              <th scope="col"><%= t('activities.show.NextFailure') %></th>
+              <th scope="col"><%= t('activities.show.Technology') %></th>
+              <th scope="col" class="col-min-nw"><%= t('activities.show.UpdatedBy') %></th>
+              <th scope="col" class="col-min-nw text-right"><%= t('activities.show.UpdatedAt') %></th>
+
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @business_process.activities.visible.order(sort_code: :asc, code: :asc).each do |activity| %>
+              <tr data-href="<%= url_for activity %>">
+                <td class="no-wrap"> <%= activity.code %> </td>
+                <td class="no-wrap"> <%= translation_for(activity.name_translations) %> </td>
+                <td class="no-wrap"> <%= activity.node_type.code %></td>
+                <td class="no-wrap"> <%= activity.success_next&.code %></td>
+                <td class="no-wrap"> <%= activity.failure_next&.code %></td>
+                <td class="col_narrow"> <%= activity.technology&.code %> </td>
+                <td><%= activity.updated_by %></td>
+                <td class="text-right"><%= format_date(activity.updated_at) %></td>
+              </tr>
+            <% end%>
+
+            <% if @business_process.activities.empty? %>
+              <tr>
+                <td class="cell-empty" colspan=9">
+                  <p class="alert alert-info">
+                    <%= t('NoChildren') %>
+                  </p>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+
+        </table>
+
+      <%# render partial: "shared/child_object_index2", locals: {this_class: "Activity",
+                                                                this_path: activities_path,
+                                                                this_parent: @business_process.id,
+                                                                showOrder: false,
+                                                                isTechnical: true,
+                                                                showType: true } %>
+    </div>
+
+    <div class="tab-pane" id="schedules">
+      <div class="mat-button-group">
+        <%= link_to scheduler_production_jobs_path(filter: @business_process.id), method: :get, class: "mat-flat-button mat-button-base mat-primary" do %>
+          <span class="fa fa fa-eye"></span>
+          <%= t('business_processes.show.ShowSchedule') %>
+        <% end %>
+        <%= link_to [:schedule, @business_process], method: :get, class: "mat-flat-button mat-button-base mat-primary" do %>
+          <span class="fa fa fa-bolt"></span>
+          <%= t('business_processes.show.NewSchedule') %>
+        <% end %>
+      </div>
+
+      <table class="table table-hover table-clickable">
+        <thead>
+          <tr>
+            <th><%= t('Job') %></th>
+            <th><%= t('Environment') %></th>
+            <th><%= t('ActiveFrom') %></th>
+            <th><%= t('ActiveTo') %></th>
+            <th><%= t('Owner') %></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @business_process.production_jobs.each do |job| %>
+            <% if job.production_schedules.any? %>
+              <% job.production_schedules.each do |schedule| %>
+                <tr data-href="<%= url_for [:scheduler, job] %>">
+                  <td><%= job.code %></td>
+                  <td><%= schedule.environment.code %></td>
+                  <td><%= format_date(schedule.active_from) %></td>
+                  <td><%= format_date(schedule.active_to) %></td>
+                  <td><%= schedule.owner.name %></td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr data-href="<%= url_for [:scheduler, job] %>">
+                <td><%= job.code %></td>
+                <td colspan="4"><%= t('NoChildren') %></td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</section>

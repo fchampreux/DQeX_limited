@@ -1,0 +1,28 @@
+
+  <% listOwnedOrganisation ||= true %>
+  <% listed_organisations = (listOwnedOrganisation ? list_of_owned_organisations : list_of_organisations) %>
+  <div class="row mat-form-row">
+    <% if this_object.has_attribute? :organisation_id %>
+      <div class="mat-form-field col-md-6">
+        <%= f.label :organisation, t('OwningOrganisation'), class: "mat-form-field-label" %>
+        <%= f.collection_select :organisation_id, listed_organisations, :id, :name, {}, { class: "mat-input-element select2-candidate" } %>
+      </div>
+    <% else %>
+      <div class="mat-form-field col-md-6">
+      </div>
+    <% end %>
+      <div class="mat-form-field col-md-6">
+        <%= f.label :status, t('Status'), class: "mat-form-field-label" %>
+        <%= f.collection_select :status_id, options_for('Statuses', 'PCF'), :id, :name, {}, { class: "mat-input-element select2-candidate" } %>
+      </div>
+  </div>
+  <div class="row mat-form-row">
+    <div class="mat-form-field col-md-6">
+      <%= f.label :responsible_id, t('Responsible'), class: "mat-form-field-label" %>
+      <%= f.collection_select :responsible_id, list_of_users, :id, :name, {selected: current_user.id}, { class: "mat-input-element select2-candidate" } %>
+    </div>
+    <div class="mat-form-field col-md-6">
+      <%= f.label :deputy_id, t('Deputy'), class: "mat-form-field-label" %>
+      <%= f.collection_select :deputy_id, list_of_users, :id, :name, {}, { class: "mat-input-element select2-candidate" } %>
+    </div>
+  </div>

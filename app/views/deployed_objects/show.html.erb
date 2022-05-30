@@ -1,0 +1,316 @@
+<% provide(:title, (t('ManagingBOs'))) %>
+<% provide(:page_class, 'page-view-details') %>
+
+<% provide :page_heading do %>
+<%= render partial: "shared/heading", locals: {this_object: @business_object} %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  <%= render partial: "shared/breadcrumbs" %>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/show_view_navigation", locals: {this_object_parent: @business_object.parent, this_object_index: deployed_objects_path} %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_version_actions", locals: {this_object: @business_object } %>
+<% end %>
+
+<% provide :technical_details do %>
+  <%= render partial: "shared/object_ownership", locals: {this_object: @business_object} %>
+<% end %>
+
+<div id="business-object-workflow">
+  <%= render partial: "shared/workflow_buttons", locals: {this_object: @business_object } %>
+</div>
+
+<% if !@business_object.uuid.blank? %>
+  <%= link_to "View in SIS Portal", "#{$MigrationClient}kd/#{@business_object.uuid}", :target => "_blank"  %>
+<% end %>
+
+<% provide :information do %>
+  <div class="row">
+    <div class="col-md-6">
+      <%= render partial: "shared/object_definition",
+          locals: {this_object: @business_object,
+                  smallTextarea: true,
+                  isTechnical: true} %>
+    </div>
+    <div class="col-md-6">
+      <%= render partial: "shared/object_responsibilities",
+          locals: {this_object: @business_object,
+                  showStatus: false} %>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-6">
+          <label for="bo-period" class="mat-form-field-label">
+            <%= t('Period') %>
+          </label>
+          <input id="bo-period" class="mat-input-element" readonly
+            value="<%= @business_object.period %>" />
+        </div>
+        <div class="mat-form-field col-md-6">
+          <label for="bo-granularity" class="mat-form-field-label">
+            <%= t('Granularity') %>
+          </label>
+          <input id="bo-granularity" class="mat-input-element" readonly
+            value="<%= translation_for(@business_object.granularity.name_translations) if @business_object.granularity  %>" />
+        </div>
+      </div>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-6">
+          <label for="bo-ogd" class="mat-form-field-label">
+            <%= t('Ogd_options') %>
+          </label>
+          <input id="bo-ogd" class="mat-input-element" readonly
+            value="<%= translation_for(@business_object.ogd.name_translations) %>" />
+        </div>
+        <div class="mat-form-field col-md-6">
+          <label for="bo-lifecycle-zone" class="mat-form-field-label">
+            <%= t('HostingServer') %>
+          </label>
+          <input id="bo-lifecycle-zone" class="mat-input-element" readonly
+            value="<%= @business_object.connection&.code %>" />
+        </div>
+      </div>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-12">
+          <label for="bo-participants" class="mat-form-field-label">
+            <%= t('Participants') %>
+          </label>
+          <%= select_tag 'bo-participants', options_for_select_from_list(list_of_organisations, @business_object.participant_ids), { multiple: true, disabled: true, class: 'mat-input-element select2-candidate' } %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% provide :versions do %>
+  <%= render partial: "shared/object_versions", locals: { this_object: @cloned_business_objects } %>
+<% end %>
+
+<%= render layout: "layouts/collapsible_details",
+    locals: {tabs_content: [ :information, :versions ],
+    title: t('DeployedObject')}  do %>
+
+<% end %>
+
+<%= render layout: "layouts/collapsible_annotations" do %>
+  <%= render partial: "shared/annotations_show", locals: { annotated_object: @business_object } %>
+<% end %>
+
+<hr />
+
+<section class="tabbable">
+
+  <ul class="nav nav-tabs">
+    <% if @business_object.is_template %>
+      <li class="active"><a href="#children" data-toggle="tab"><%= t('Skills') %></a></li>
+    <% else %>
+      <li class="active"><a href="#children" data-toggle="tab"><%= t('UsedSkills') %></a></li>
+      <% if can? :manage, BusinessRule %>
+        <li><a href="#plausibilisation" data-toggle="tab"><%= t('Plausibilisation') %></a></li>
+      <% end %>
+      <li><a href="#create-script-oracle" data-toggle="tab"><%= t('TableCreationOracle') %></a></li>
+      <li><a href="#load-script-oracle" data-toggle="tab"><%= t('TableLoadOracle') %></a></li>
+      <% ignore do 'Hidden for demo' %>
+        <li><a href="#create-script-sas" data-toggle="tab"><%= t('TableCreationSAS') %></a></li>
+        <li><a href="#load-script-sas-to-oracle" data-toggle="tab"><%= t('LoadSASToOracle') %></a></li>
+      <% ignore end %>
+      <li><a href="#validate-script" data-toggle="tab"><%= t('TableValidation') %></a></li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+
+    <div class="tab-pane active" id="children">
+       <!-- Only Defined Business Objects benefit from import/export methods -->
+      <% if @business_object.is_template %>
+        <div class="mat-button-group">
+          <%= link_to business_object_path(@business_object, format: "csv"), class: "mat-flat-button mat-button-base mat-primary" do %>
+            <span class="fa fa-file-excel"></span>
+            Export to CSV
+          <% end %>
+          <% if can? :create, Skill %>
+            <%= link_to new_business_object_skill_path(@business_object), class: "mat-flat-button mat-button-base mat-primary" do %>
+              <span class="fa fa-file-code"></span>
+              <%= t('NewSkill') %>
+            <% end %>
+          <% end %>
+          <!-- In some cases, the Business will be forced to create new information rather than importing existing data structures,
+        thus access to this feature shall be controlled at controller level -->
+          <% if current_user.is_admin %>
+            <%= link_to new_business_object_skills_import_path(@business_object), class: "mat-flat-button mat-button-base mat-primary" do %>
+              <span class="fa fa-file-alt" %></span>
+              <%= t('ImportSkills') %>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="mat-button-group">
+          <%= link_to export_deployed_object_path(@business_object, format: "xlsx"), class: "mat-flat-button mat-button-base mat-primary" do %>
+            <span class="fa fa-file-excel"></span>
+            <%= t('.Export') %>
+          <% end %>
+          <%= link_to deployed_object_path(@business_object, format: "xlsx"), class: "mat-flat-button mat-button-base mat-primary" do %>
+            <span class="fa fa-file-excel"></span>
+            <%= t('.TranslateInExcel') %>
+          <% end %>
+          <% if can? :translate, current_user %>
+            <%= link_to data_imports_path, class: "mat-flat-button mat-button-base mat-primary" do %>
+              <span class="fa fa-file-alt" %></span>
+              <%= t('.ImportTranslations') %>
+            <% end %>
+          <% end %>
+          <% if current_user.is_admin %>
+            <%= link_to new_deployed_object_skills_import_path(@business_object), class: "mat-flat-button mat-button-base mat-primary" do %>
+              <span class="fa fa-file-alt" %></span>
+              <%= t('ImportSkills') %>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <%= will_paginate @child_skills %>
+
+      <table class="table table-hover table-clickable">
+        <thead>
+          <tr>
+            <% if @business_object.is_template and not session[:cart_id].nil? %>
+              <th class="col-min-nw"><%=t('InstancesCountToBeAdded')%></th>
+            <% end %>
+            <th class="col-min-nw"><%= @business_object.is_template ? t('Code') : t('TechCode') %></th>
+            <th class="col-1-4"><%= t('Name') %></th>
+            <th class="col-min"><%= t('Type') %></th>
+            <th class="col-min"><%= t('Size') %></th>
+            <th class="col-min"><%= t('Precision') %> </th>
+            <th class="col-min"><%= t('Codelist') %></th>
+            <th class="col-min"><%= t('KeyCols') %></th>
+            <th class="col-min-nw"><%= t('Linkable') %></th>
+            <% if !@business_object.is_template %>
+              <th class="col-min-nw"></th>
+            <% end %>
+          </tr>
+        </thead>
+
+        <tbody>
+        <% @child_skills.order(:sort_code).each do |skill| %>
+          <!-- <tr data-href="<%= url_for skill %>"> Should link to DeployedSkill if @child_skills was generated for this class -->
+          <tr>
+            <% if skill.is_template and not session[:cart_id].nil? %>
+              <td>
+                <%= render partial: "shared/add_to_cart", locals: { isCompact: true, model: @skill, item: skill } %>
+              </td>
+            <% end %>
+            <td> <%= link_to skill.code, deployed_skill_path(skill) %> </td>
+            <td class="col_narrow">
+              <% skill.name_translations.order(:language).each_with_index do |tr_name, i| %>
+                <% if i > 0 %>
+                  <br/>
+                <% end %>
+                <strong><%= tr_name.language[0,2] %>:</strong>
+                <%= tr_name.translation %>
+              <% end %>
+            </td>
+            <td> <%= translation_for(skill.skill_type.name_translations) %> </td>
+            <td> <%= skill.skill_size %> </td>
+            <td> <%= skill.skill_precision %> </td>
+            <td> <%= skill.values_list&.code %> </td>
+            <td> <%= skill.is_pk %> </td>
+            <td> <%= skill.is_pairing_key %> </td>
+            <% if !@business_object.is_template %>
+              <td class="cell-with-button cell-nw">
+                <%= link_to deployed_skill_path(skill), title: t('Delete'), data: { confirm: t("Sure") }, method: :delete, class: "mat-icon-button mat-button-base mat-warn" do %>
+                  <span class="fa fa-trash"></span>
+                <% end %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+
+      <%= will_paginate @child_skills %>
+
+    </div> <!-- closes children pane -->
+
+    <div class="tab-pane" id="create-script-oracle">
+
+      <%= render partial: "shared/sql_script_show", locals: {query: @create_table_ORACLE, action: 'create'} %>
+
+    </div>
+
+    <div class="tab-pane" id="load-script-oracle">
+
+      <%= render partial: "shared/sql_script_show", locals: {query: @load_table_ORACLE, action: 'load'} %>
+
+    </div>
+
+    <div class="tab-pane" id="create-script-sas">
+
+      <%= render partial: "shared/sql_script_show", locals: {query: @create_table_SAS, action: 'create_SAS'} %>
+
+    </div>
+
+    <div class="tab-pane" id="load-script-sas-to-oracle">
+
+      <%= render partial: "shared/sql_script_show", locals: {query: @load_SAS_to_ORACLE, action: 'load_SAS_to_ORACLE'} %>
+
+    </div>
+
+    <div class="tab-pane" id="validate-script">
+
+      <%= render partial: "shared/sql_script_show", locals: {query: @validate_table_ORACLE, action: 'validate'} %>
+
+    </div>
+
+    <div class="tab-pane" id="plausibilisation">
+
+      <%= link_to new_deployed_object_business_rule_path(@business_object), class: "mat-flat-button mat-button-base mat-primary" do %>
+        <span class="fa fa-file-alt" %></span>
+        <%= t('NewRule') %>
+      <% end %>
+      <div class="sticky-main default-layout">
+        <%= render partial: "shared/child_object_index2", locals: {this_path: business_rules_path, this_parent: @business_object.id, this_class: "BusinessObject", showOrder: true, isTechnical: true, showType: true } %>
+      </div>
+
+    </div>  <!-- closes plausibilisation pane -->
+
+<!-- How to display document versions ? -->
+    <div class="tab-pane" id="versions">
+
+      <table class="table table-striped table-condensed">
+        <tr>
+          <th><%= t('Version') %></th>
+          <th><%= t('CreatedBy') %></th>
+          <th><%= t('UpdatedBy') %></th>
+          <th><%= t('UpdatedAt')%></th>
+          <th><%= t('IsActive') %></th>
+          <th><%= t('IsCurrent') %></th>
+          <th><%= t('IsFinal') %></th>
+        </tr>
+        <%@cloned_business_objects.order("major_version, minor_version").each do |version| %>
+          <tr class="<%= 'selected' if version.is_current%>">
+            <td class="col_narrow"><%=link_to version.full_version, deployed_object_path(version) %></td>
+            <td class="col_narrow"><%=version.created_by %></td>
+            <td class="col_narrow"><%=version.updated_by %></td>
+            <td class="col_narrow"><%=version.updated_at %></td>
+            <td class="col_narrow"><%=version.is_active %></td>
+            <td class="col_narrow"><%=version.is_current %></td>
+            <td class="col_narrow"><%=version.is_finalised %></td>
+          </tr>
+        <% end%>
+      </table>
+
+    </div>  <!-- closes versions pane -->
+
+  </div>
+
+</section>
+
+<!-- Notification Modal -->
+<aside class="modal fade modal-remote" id="editNotificationModal" tabindex="-1" role="dialog" aria-labelledby="editNotificationModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content"></div>
+  </div>
+</aside>

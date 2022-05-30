@@ -1,0 +1,27 @@
+<% isTextarea ||= false %>
+<% smallTextarea ||= false %>
+<% fieldClass = "translated-" + field %>
+<% fieldRowClass = fieldClass + "-row" %>
+<% fieldInputClass = fieldClass + "-input" %>
+<div class="translation-block">
+  <% translations.sort_by { |e| [ e.language == current_language.to_s ? 0 : 1, e.language ] }.each_with_index do |locution,idx| %>
+    <div class="row mat-form-row <%= fieldRowClass %>">
+      <div class="mat-form-field col-md-12  <%= idx == 0 ? "current-language" : "" %>">
+        <% if idx == 0 %>
+          <label for="<%= id %>-<%= locution.language %>" class="mat-form-field-label">
+            <%= label %>
+          </label>
+        <% end %>
+        <label for="<%= id %>-<%= locution.language %>" class="translation-label">
+          <%= locution.language[0,2] %>
+        </label>
+        <% if !isTextarea %>
+          <input id="<%= id %>-<%= locution.language %>" class="mat-input-element <%= fieldInputClass %>" readonly
+            value="<%= locution.translation %>" />
+        <% else %>
+          <textarea id="<%= id %>-<%= locution.language %>" class="mat-input-element <%= smallTextarea ? "mat-textarea-md" : "" %> <%= fieldInputClass %>" readonly><%= locution.translation %></textarea>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

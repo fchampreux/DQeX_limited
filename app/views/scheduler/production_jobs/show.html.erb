@@ -1,0 +1,298 @@
+<% provide(:title, (t('ProductionJob'))) %>
+<% provide(:page_class, 'page-view-details') %>
+
+<% provide :page_heading do %>
+  <%= @production_job.statistical_activity %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+<ol id="breadcrumbs" class="breadcrumbs <%= @breadcrumbs.length < 2 ? 'sr-only' : '' %>">
+  <li>
+    <a href="/" title="<%= t("Display") %>" class="fa fa-home"></a>
+  </li>
+  <% @breadcrumbs.each_with_index do |crumb, idx| %>
+    <li>
+      <%# Here, crumbs do not belong to Scheduler namespace, the shared partial cannot be used %>
+      <%= link_to crumb, title: translation_for(crumb.name_translations) do %>
+        <%= translation_for(crumb.name_translations) %>
+      <% end %>
+    </li>
+  <% end %>
+</ol>
+<% end %>
+
+  <div class="row mat-form-row">
+    <div class="mat-card-subtitle col-md-1">
+      <%= translation_for(@production_job.status.name_translations) %>
+    </div>
+    <div class="mat-card-title col-md-5">
+      <%= @production_job.job_code %>
+    </div>
+    <div class="mat-card-subtitle col-md-6">
+      <%= link_to business_process_path(@production_job.business_process_id), title: t('.Show') do %>
+        <span class="fa fa-eye"></span>
+      <% end %>
+      &nbsp;
+      <%= format_datetime(@production_job.created_at) %> - <%= @production_job.owner_name %>
+    </div>
+  </div>
+
+  <section class="tabbable">
+
+    <ul class="nav nav-tabs" role="tablist">
+      <li><a href="#details" data-toggle="tab"> <%= t('.TasksDetails') %> </a></li>
+      <li class="active"><a href="#schedules" data-toggle="tab"> <%= t('.Schedules') %> </a></li>
+      <li><a href="#executions" data-toggle="tab"> <%= t('.Executions') %> </a></li>
+    </ul>
+
+    <div class="tab-content">
+
+      <div class="tab-pane inactive" id="details">
+
+        <%# Afficher les paramètres dans une fenêtre modale %>
+        <div class="row mat-form-row">
+          <div class="mat-form-field col-md-6">
+            <label for="process-overview" class="mat-form-field-label">
+              <%= t('production_jobs.show.Details') %>
+            </label>
+          </div>
+          <div class="mat-form-field col-md-6">
+            <label for="process-overview" class="mat-form-field-label">
+              <%= t('production_jobs.show.Parameters') %>
+            </label>
+          </div>
+        </div>
+        <div class="row mat-form-row">
+          <div class="mat-form-field col-md-12">
+            <% if not @production_job.production_groups.empty? %>
+              <a id="collapsible-tree-toggler"
+                 class="collapse-toggle mat-form-field-label collapsed"
+                 data-toggle="collapse"
+                 href="#collapsible-tree">
+                <%= @production_job.parent.code %>
+              </a>
+              <br/>
+              <div class="collapse collapsed" id="collapsible-tree">
+                <ul class="nav-tree nav-indent nav-toggle expanded nav-bordered nav-hover">
+                  <% @production_job.production_groups.where(production_execution_id: nil).order(:sort_code).each do |group| %>
+                    <li role="presentation" id="ui-nav-group-<%= group.id %>">
+                      <span class="nav-link-container">
+                        <%# link to child production_group %>
+                        <%= link_to [namespace, group], data: { toggle: "modal", target: "#childModal" }, class: "nav-link nav-item", role: "treeitem", "data-nav-level": 0 do %>
+                          <strong><%= group.activity.code %></strong>
+                          <%= translation_for(group.activity.name_translations) || t('.MissingTranslation') %>
+                        <% end %>
+                        <% if !group.production_events.empty? %>
+                          <%# children toggle control %>
+                          <a class="nav-link nav-link-toggler has-child collapsed" data-toggle="collapse" aria-controls="<%= "ui-nav-group-#{group.id}-children" %>" href="#<%= "ui-nav-group-#{group.id}-children" %>"></a>
+                          <%# children load control %>
+                          <%= link_to '', get_children_scheduler_production_group_path(id: group.id), class: 'nav-link-loader', method: 'get', remote: true, format: "js" %>
+                        <% end %>
+                      </span>
+
+                      <div id="<%= "ui-nav-group-#{group.id}-children" %>" class="collapse show">
+                        <%# List events within a group of a production event and allow the user to see the details %>
+                        <table id="<%= "tb-group-#{group.id}-children" %>" class="table table-hover table-clickable" style="width:100%">
+                        </table>
+                      </div>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="tab-pane active" id="schedules">
+
+        <% will_paginate @production_schedules %>
+
+        <table class="table table-align-top table-hover">
+          <tr>
+            <th> <%= t('scheduler.production_schedules.index.Status') %> </th>
+            <th> <%= t('scheduler.production_schedules.index.Code') %> </th>
+            <th> <%= t('scheduler.production_schedules.index.ActiveFrom') %> </th>
+            <th> <%= t('scheduler.production_schedules.index.ActiveTo') %> </th>
+            <th> <%= t('scheduler.production_schedules.index.Environment') %> </th>
+            <th> <%= t('scheduler.production_schedules.index.Mode') %> </th>
+            <th> <%= t('scheduler.production_schedules.index.AverageDuration') %> </th>
+            <th> <%= t('scheduler.production_schedules.index.LastRun') %> </th>
+            <th> <%= t('scheduler.production_schedules.index.NextRun') %> </th>
+            <th class="col-min-nw">
+              <%= link_to new_scheduler_production_job_production_schedule_path(@production_job), data: { toggle: "modal", target: "#childModal" }, class: "mat-flat-button mat-button-base mat-primary" do %>
+                <span class="fa fa-clock"></span>
+                <%= t('NewProductionSchedule') %>
+              <% end %>
+            </th>
+          </tr>
+
+          <tbody>
+            <% @production_schedules.each do |schedule| %>
+              <tr>
+                <td> <%= schedule.status.code %> </td>
+                <td> <%= schedule.code %> </td>
+                <td> <%= format_date(schedule.active_from) %> </td>
+                <td> <%= format_date(schedule.active_to) %> </td>
+                <td> <%= schedule.environment.code %> </td>
+                <td> <%= translation_for(schedule.mode.name_translations) %> </td>
+                <td> <%= schedule.average_duration %> </td>
+                <td> <%= schedule.last_run %> </td>
+                <td> <%= schedule.next_run %> </td>
+                <td class="cell-with-button cell-nw">
+                  <%= link_to edit_scheduler_production_schedule_path(schedule), title: t('.Edit'), data: { toggle: "modal", target: "#childModal" }, class: "mat-icon-button mat-button-base mat-secondary" do %>
+                    <span class="fa fa-edit"></span>
+                  <% end %>
+                  <% if schedule.mode.code == "TEST" %>
+                    <%= link_to run_once_scheduler_production_schedule_path(schedule), title: t('.RunOnce'), method: :post, class: "mat-icon-button mat-button-base mat-secondary " do %>
+                      <span class="fa fa-bolt"></span>
+                    <% end %>
+                  <% else %>
+                    <% if schedule.status.code == "ACTIVE" %>
+                      <%= link_to suspend_scheduler_production_schedule_path(schedule), title: t('.Suspend'), class: "mat-icon-button mat-button-base mat-secondary" do %>
+                        <span class="fa fa-pause-circle failed"></span>
+                      <% end %>
+                    <% else %>
+                      <%= link_to release_scheduler_production_schedule_path(schedule), title: t('.Release'), class: "mat-icon-button mat-button-base mat-secondary" do %>
+                        <span class="fa fa-play-circle success"></span>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                  <%= link_to scheduler_production_schedule_path(schedule), title: t('.Delete'), data: { confirm: t("Sure")  }, method: :delete, class: "mat-icon-button mat-button-base mat-warn" do %>
+                    <span class="fa fa-trash"></span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <% will_paginate @production_schedules %>
+
+      </div>
+
+      <div class="tab-pane inactive" id="executions">
+
+        <div class="row mat-form-row">
+          <div class="mat-card-title col-md-1">
+            <%= t('Executions') %>
+          </div>
+        </div>
+
+        <div class="row mat-form-row" title="Execution results">
+          <div class="mat-form-field-label col-md-1">
+            <%= t('Status') %>
+          </div>
+          <div class="mat-form-field-label col-md-2">
+            <%= t('StartedAt') %>
+          </div>
+          <div class="mat-form-field-label col-md-1">
+            <%= t('EndedAt') %>
+          </div>
+          <div class="mat-form-field-label col-md-1">
+            <%= t('Duration') %>
+          </div>
+          <div class="mat-form-field-label col-md-1">
+            <%= t('Environment') %>
+          </div>
+          <div class="mat-form-field-label col-md-1">
+            <%= t('SourceRows') %>
+          </div>
+          <div class="mat-form-field-label col-md-1">
+            <%= t('ProcessedRows') %>
+          </div>
+          <div class="mat-form-field-label col-md-2">
+            <%= t('Parameters') %>
+          </div>
+          <div class="mat-form-field-label col-md-1">
+            <%= t('Actions') %>
+          </div>
+        </div>
+
+        <% if @production_job.production_executions.empty? %>
+          <p class="alert alert-info">
+            <%= t('NoChildren') %>
+          </p>
+        <% else %>
+          <ul class="nav-tree nav-indent nav-toggle expanded nav-bordered nav-hover">
+            <% @production_job.production_executions.order(id: :desc).each do |execution| %>
+              <li role="presentation">
+                <div class="row mat-form-row" title="Execution results">
+                  <div class="mat-form-field-label col-md-1">
+                    <a id="collapsible-tree-toggler"
+                       class="collapse-toggle mat-form-field-label collapsed"
+                       data-toggle="collapse"
+                       href="#collapsible-tree-<%= execution.id %>">
+                      <strong> <%= execution.id %> </strong>
+                      <span class="status-icon <%= status_icons[execution.status.code.to_sym][:icon] %>"
+                        title="<%= translation_for(execution.status.name_translations) %>">&nbsp;</span>
+                    </a>
+                  </div>
+                  <div class="mat-form-field-label col-md-2">
+                    <%= format_datetime(execution.started_at) %>
+                  </div>
+                  <div class="mat-form-field-label col-md-1">
+                    <%= format_time(execution.ended_at) %>
+                  </div>
+                  <div class="mat-form-field-label col-md-1">
+                    <%= "#{(number_with_precision(execution.ended_at - execution.started_at, precision: 2))} s." unless execution.ended_at.blank?   %>
+                  </div>
+                  <div class="mat-form-field-label col-md-1">
+                    <%= execution.environment&.code %>
+                  </div>
+                  <div class="mat-form-field-label col-md-1">
+                    <%= execution.source_records_count %>
+                  </div>
+                  <div class="mat-form-field-label col-md-1">
+                    <%= execution.processed_count %>
+                  </div>
+                  <div class="mat-form-field-label col-md-2">
+                    <%= render partial: "shared/json_parameters_mandatory",
+                                locals: { this_object: execution } if execution.parameters %>
+                  </div>
+                  <div class="mat-form-field-label col-md-1">
+                    <%= link_to execute_scheduler_production_execution_path(execution), title: t('.Execute'), method: :post, class: "mat-icon-button mat-button-base mat-secondary" do %>
+                      <span class="fa fa-bolt"></span>
+                    <% end %>
+                    <%= link_to scheduler_production_execution_path(execution), title: t('.Delete'), data: { confirm: t(".Sure")  }, method: :delete, class: "mat-icon-button mat-button-base mat-warn" do %>
+                      <span class="fa fa-trash"></span>
+                    <% end %>
+                  </div>
+                </div>
+
+                <div class="collapse collapsed" id="collapsible-tree-<%= execution.id %>">
+                  <ul class="nav-tree nav-indent nav-toggle expanded nav-bordered nav-hover">
+                    <% execution.production_groups.order(:execution_sequence).each do |group| %>
+                      <li role="presentation" id="ui-nav-group-<%= group.id %>">
+                        <span class="nav-link-container">
+                          <%# link to child production_group %>
+                          <%= link_to [namespace, group], data: { toggle: "modal", target: "#childModal" }, class: "nav-link nav-item", role: "treeitem", "data-nav-level": 0 do %>
+                            <strong><%= group.activity.code %></strong>
+                            <%= translation_for(group.activity.name_translations) || t('.MissingTranslation') %>
+                          <% end %>
+                          <% if !group.production_events.empty? %>
+                            <%# children toggle control %>
+                            <a class="nav-link nav-link-toggler has-child collapsed" data-toggle="collapse" aria-controls="<%= "ui-nav-group-#{group.id}-children" %>" href="#<%= "ui-nav-group-#{group.id}-children" %>"></a>
+                            <%# children load control %>
+                            <%= link_to '', get_children_scheduler_production_group_path(id: group.id), class: 'nav-link-loader', method: 'get', remote: true, format: "js" %>
+                          <% end %>
+                        </span>
+
+                        <div id="<%= "ui-nav-group-#{group.id}-children" %>" class="collapse show">
+                          <%# List events within a group of a production event and allow the user to see the details %>
+                          <table id="<%= "tb-group-#{group.id}-children" %>" class="table table-hover table-clickable" style="width:100%">
+                          </table>
+                        </div>
+                      </li>
+                    <% end %>
+                  </ul>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+      </div>
+
+    </div>
+  </section>

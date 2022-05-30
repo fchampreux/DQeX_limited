@@ -1,0 +1,38 @@
+@import "../variables";
+
+*::-ms-clear {
+	display: none;
+}
+
+.text-control {
+	display: flex !important;
+
+	.text-control-clear {
+		z-index: 3;
+		background-color: transparent;
+		border: none;
+		padding: 0;
+		opacity: 0;
+		transition: opacity $duration-fast;
+
+		.fa {
+			color: $gray;
+			transition: color $duration-fast;
+		}
+
+		&:hover .fa {
+			color: $gray-darker;
+		}
+	}
+
+	&:hover .text-control-clear,
+	input:focus + .text-control-clear,
+	.text-control-clear:focus {
+		opacity: 1;
+	}
+
+	input[disabled] + .text-control-clear,
+	input[readonly] + .text-control-clear {
+		display: none;
+	}
+}

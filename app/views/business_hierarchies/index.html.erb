@@ -1,0 +1,59 @@
+<% provide(:title, (t('ManagingBHs'))) %>
+
+<% provide :page_heading do %>
+    <%= t('BHs') %> (TOP 20)
+<% end %>
+
+<p>Business Hierarchies will be imported for selected language.</p>
+
+<%= form_tag(method: "post", action: "load") do %>
+<div class="row">
+  <div class="col-md-2">
+    <div class="field">
+      <%= hidden_field_tag :target_playground_id, @target_playground_id %>
+      <%= label_tag( :target_language, t('SelectLanguage')) %>
+      <%= select_tag( :target_language, options_from_collection_for_select(list_of_languages, :property, :name)) %>
+    </div>
+  </div>
+  <div class="col-md-2">
+    <%= submit_tag(t('Import'), :onclick => "afficherLoading();") %> <!-- Clock display does not work here -->
+  </div>
+</div>
+
+<% end %>
+<br/>
+
+<hr/>
+<table>
+  <tr>
+    <td colspan="3" align="right">Total count: </td>
+    <td colspan="1" align="left"><b><%= @lignes %></b></td>
+  </tr>
+</table>
+<hr/>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= t('Playground')%></th>
+      <th><%= t('PCF index')%></th>
+      <th><%= t('PCF reference')%></th>
+      <th><%= t('Level')%></th>
+      <th><%= t('Hierarchy')%></th>
+      <th><%= t('Name')%></th>
+      <th width="50%"><%= t('Description')%></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @business_hierarchies.each do |business_hierarchy| %>
+      <tr>
+        <td><%= business_hierarchy.playground_id %></td>
+        <td><%= business_hierarchy.pcf_index %></td>
+        <td><%= business_hierarchy.pcf_reference %></td>
+        <td><%= business_hierarchy.hierarchical_level %></td>
+        <td><%= business_hierarchy.hierarchy %></td>
+        <td><%= business_hierarchy.name %></td>
+        <td><%= business_hierarchy.description %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

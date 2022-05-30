@@ -1,0 +1,7 @@
+fr:
+  NoticeBHs:    "Le fichier d'importation de la hiérarchie métier est organisé selon la description de APQC. La meilleure façon de concevoir un jeu de données correct pour l'import est de se baser sur un fichier d'export du même objet."
+  NoticeBOs:    "Les Objets Métiers peuvent être chargés à partir d'un fichier au format .xlsx. La meilleure façon de concevoir un jeu de données correct pour l'import est de se baser sur un fichier d'export du même objet."
+  NoticeBRs:    "Les Règles Métiers peuvent être chargées à partir d'un fichier au format .xlsx. La meilleure façon de concevoir un jeu de données correct pour l'import est de se baser sur un fichier d'export du même objet."
+  NoticeOrganisations:    "Les Organisations peuvent être chargées à partir d'un fichier au format .xlsx. La meilleure façon de concevoir un jeu de données correct pour l'import est de se baser sur un fichier d'export du même objet."
+  NoticeTerritories:    "Les Territoires peuvent être chargés à partir d'un fichier au format .xlsx. La meilleure façon de concevoir un jeu de données correct pour l'import est de se baser sur un fichier d'export du même objet."
+  ImportFailure: "L'importation de vos données a échoué. Assurez vous de corriger les erreurs listées ci-dessous."

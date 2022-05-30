@@ -1,0 +1,16 @@
+
+#notifications {
+  position: fixed;
+  left: 10px;
+  bottom: 44px;
+  width: calc(20% - 35px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#notifications li {
+  display: block;
+  margin: 0;
+  border: 5px solid white;
+}

@@ -1,0 +1,22 @@
+$(function () {
+  var itemId = '<%= @activity.id %>',
+      ctId = 'ui-nav-activity-' + itemId + '-tasks',
+      // create children array (code generated server side)
+      children = [
+        <% @child_tasks.each do |child| %>
+          {
+            id: '<%= child.id %>',
+            code: '<%= child.code %>',
+            name: '<%= j(translation_for(child.name_translations)) %>',
+            url: '<%= url_for(child) %>',
+            loadUrl: '<%= url_for(get_children_activity_path(child)) %>'
+          },
+        <% end %>
+      ];
+
+  $('#' + ctId).sisNavigation({
+    children: children,
+    childLevelId: 'task',
+    modal: '#childModal'
+  });
+});

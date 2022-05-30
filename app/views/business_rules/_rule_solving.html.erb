@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="mat-form-field col-md-6">
+   <%= render partial: "shared/translated_field", locals: {
+     id: 'br-rule-correction-method',
+     field: "correction_method",
+     isTextarea: true,
+     translations: @business_rule.correction_method_translations,
+     label: t('CorMethod') } %>
+  </div>
+  <div class="mat-form-field col-md-6">
+    <label for="br-rule-correction-language" class="mat-form-field-label">
+    <%= t('CorScript') %> : <%= translation_for(@business_rule.correction_language.name_translations) %>
+    </label>
+    <textarea id="br-rule-correction-script" class="mat-input-element mat-textarea-md-6" readonly > <%= @business_rule.correction_script %></textarea>
+  </div>
+</div>

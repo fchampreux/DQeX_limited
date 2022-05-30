@@ -1,0 +1,9 @@
+<% provide(:title, t('ManagingDeployedObjects')) %>
+
+<% provide(:page_heading, t('DeployedObjects')) %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/index_view_navigation", locals: {this_object: DeployedObject} %>
+<% end %>
+
+<%= render partial: "shared/object_index", locals: {this_index: @business_objects, isTechnical: true} %>

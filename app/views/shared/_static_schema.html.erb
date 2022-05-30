@@ -1,0 +1,20 @@
+<section id="static-schema">
+  <div class="row">
+    <div align="center" class="col-md-12">
+      <% if FileTest.exist?("app/assets/images/temporary_images/#{this_object.class.name}_title#{this_object.id}.svg") %>
+        <%= image_tag("temporary_images/#{this_object.class.name}_title#{this_object.id}.svg") %>
+        <hr/>
+      <% else %>
+        <h3> <%= t('ProcessGraph') %> </h3>
+        <br/>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div align="center" class="col-md-12">
+      <object type="image/svg+xml"
+              data="<%= "/assets/temporary_images/#{this_object.class.name}_flow#{this_object.id}.svg" %>" >
+      </object>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,11 @@
+de:
+  values:
+    create:
+      Success:                        "Wert wurde erstellt"
+      Failure:                        "Wert wurde nicht erstellt"
+    update:
+      Success:                        "Wert wurde aktualisiert"
+      Failure:                        "Wert wurde nicht aktualisiert"
+    destroy:
+      Success:                        "Wert wurde gelöscht"
+      Failure:                        "Wert wurde nicht gelöscht"

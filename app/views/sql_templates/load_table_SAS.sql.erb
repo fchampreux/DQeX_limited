@@ -1,0 +1,11 @@
+/* Table loading SQL script */
+<br/>proc sql;
+<br/>
+<b>CREATE TABLE</b> SAS_<%= @target.code %> </b>TABLESPACE DWHWA2_DATA NOLOGGING AS</b> <br/>
+<b>SELECT</b> <%= @target.getColList('SAS', 'simple') %> <br/>
+<b>FROM</b> SAS_TABLE ;<br/>
+<br/>
+<b>INSERT /*+ APPEND */ INTO</b> <%= @target.code %> (<br/><%= @target.getColList('SAS', 'simple') %><br/>) <br/>
+<b>SELECT</b> <%= @target.getColList('SAS', 'simple') %><br/>
+<b>FROM</b> SAS_<%= @target.code %> ;
+<br/>quit;

@@ -1,0 +1,86 @@
+<section id="business-process-specifications">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-12">
+          <label for="definition-gsbpm-id" class="mat-form-field-label">
+            <%= t('business_processes.show.GSBPM') %>
+          </label>
+          <input id="definition-gsbpm-id" class="mat-input-element" readonly
+            value="<%= @business_process.gsbpm&.alternate_code %>" />
+        </div>
+      </div>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-4">
+          <label for="zone_from_id" class="mat-form-field-label">
+            <%= t('business_processes.show.Source') %>
+          </label>
+          <input id="zone_from_id" class="mat-input-element" readonly
+            value="<%= @business_process.zone_from&.property %>" />
+        </div>
+        <div class="col-md-4">
+          <svg  height="50" width="100%">
+            <g fill="none" stroke="black">
+              <path stroke-width="2" d="M5 40 l215 0" />
+            </g>
+          </svg>
+        </div>
+        <div class="mat-form-field col-md-4">
+          <label for="zone_to_id" class="mat-form-field-label">
+            <%= t('business_processes.show.Target') %>
+          </label>
+          <input id="zone_to_id" class="mat-input-element" readonly
+            value="<%= raw @business_process.zone_to&.property %>" />
+        </div>
+      </div>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-12">
+          <label for="process-overview" class="mat-form-field-label">
+            <%= t('business_processes.show.Overview') %>
+          </label>
+        </div>
+      </div>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-12">
+          <% if not @child_activities.empty? %>
+            <a id="collapsible-tree-toggler"
+               class="collapse-toggle mat-form-field-label collapsed"
+               data-toggle="collapse"
+               href="#collapsible-tree">
+              <%= @business_process.code %>
+            </a>
+            <br/>
+            <div class="collapse collapsed" id="collapsible-tree">
+              <ul class="nav-tree nav-indent nav-toggle expanded nav-bordered nav-hover">
+                <% @child_activities.order(:sort_code).each do |activity| %>
+                  <li role="presentation" id="ui-nav-activity-<%= activity.id %>">
+                    <span class="nav-link-container">
+                      <%# link to child activity %>
+                      <%= link_to activity, class: "nav-link nav-item", role: "treeitem", "data-nav-level": 0 do %>
+                        <strong><%= activity.code %></strong>
+                        <%= translation_for(activity.name_translations) || t('.MissingTranslation') %>
+                      <% end %>
+                      <% if !activity.tasks.empty? %>
+                        <%# children toggle control %>
+                        <a class="nav-link nav-link-toggler has-child collapsed" data-toggle="collapse" aria-controls="<%= "ui-nav-activity-#{activity.id}-tasks" %>" href="#<%= "ui-nav-activity-#{activity.id}-tasks" %>"></a>
+                        <%# children load control %>
+                        <%= link_to '', get_children_activity_path(id: activity.id), class: 'nav-link-loader', method: 'get', remote: true, format: "js" %>
+                      <% end %>
+                    </span>
+
+                    <div id="<%= "ui-nav-activity-#{activity.id}-tasks" %>" class="collapse show"></div>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <%= render partial: "shared/json_parameters",
+                  locals: { this_object: @business_process } %>
+    </div>
+  </div>
+
+</section>

@@ -1,0 +1,6 @@
+# OFS Business specific vocabulary translations to Italian
+
+it_OFS:
+
+# Messages
+NoChildren:         "Questo elemento non ha per il momento alcun sottoelemento di questo tipo."

@@ -1,0 +1,75 @@
+# Code for language as declared in i18n configuration
+de:
+  DefinedObjects:                            "Defined Objekten"
+  DefinedObject:                             "Defined Objekt"
+  ManagingDefinedObjects:                    "Defined Objekten verwalten"
+  NewDefinedObject:                          "Neuer Defined Objekt"
+  DefinedObjectRejected:                     "Defined Objekt wurde abgelehnt"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  defined_objects:
+    index:
+      # Columns titles
+      Code:                                    "Kennung"
+      Name:                                    "Name"
+      Description:                             "Beschreibung"
+      Parent:                                  "Informationfeld"
+      Owner:                                   "Eigentümer"
+      UpdatedBy:                               "Aktualisiert von"
+      UpdatedAt:                               "Aktualisiert am"
+    index_short:
+      # Columns titles
+      Code:                                    "Kennung"
+      Name:                                    "Name"
+      Description:                             "Beschreibung"
+      Parent:                                  "Informationfeld"
+      Owner:                                   "Eigentümer"
+      UpdatedBy:                               "Aktualisiert von"
+      UpdatedAt:                               "Aktualisiert am"
+    show:
+      Manage:                                 "Defined Objekt verwalten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      SDMXResource:                           "SDMX-Ressourcen-URL"
+      SDMXResourceDefinition:                 "Diese Ressource definiert eine URL zu einem SDMX-Webdienst, von dem definierte Variablen (Konzepte) auf der Grundlage der Bezeichnerliste importiert oder aktualisiert werden. Wenn die Liste leer ist, werden alle Ressourcenvariablen berücksichtigt."
+    new:
+      New:                                    "Neuer Defined Objekt"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    edit:
+      Edit:                                   "Defined Objekt bearbeiten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    new_version:
+      Success:                                "Erfolgreich erstellte Defined Objekt"
+      Failure:                                "Die hierarchische Liste konnte nicht erstellt werden"
+    make_current:
+      Success:                                "Defined Objekt erfolgreich ausgewählt"
+      Failure:                                "Defined Objekt konnte nicht ausgewählt werden"
+    finalise:
+      Success:                                "Defined Objekt-Version erfolgreich abgeschlossen"
+      Failure:                                 "Die Version der hierarchischen Codeliste konnte nicht fertiggestellt werden"
+    create:
+      Success:                             	  "erfolgreich erstellt Defined Objekt"
+      Failure:                                "Defined Objekt konnte nicht erstellt werden"
+    update:
+      Success:                             	  "erfolgreich aktualisierter InformDefined Objektationfeld"
+      Failure:                                "Defined Objekt konnte nicht aktualisierter werden"
+    activate:
+      Success:                             	  "Defined Objekt erfolgreich wiederhergestellt"
+      Failure:                                "Defined Objekt konnte nicht abgerufen werden"
+    destroy:
+      Success:                             	  "Defined Objekt erfolgreich gelöscht"
+      Failure:                                "Defined Objekt konnte nicht gelöscht werden"
+    propose:
+      Success:                                "Die Defined Objekt wurde vorgeschlagen."
+      Failure:                                "Defined Objekt"
+    accept:
+      Success:                                "Die Defined Objekt wurde angenommen."
+      Failure:                                "Defined Objekt"

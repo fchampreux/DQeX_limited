@@ -1,0 +1,24 @@
+    <div class="row mat-form-row">
+      <div class="mat-form-field mat-form-field col-md-4">
+        <%= f.label :repeat_value, t('.RepeatValue'), class: "mat-form-field-label" %>
+        <%= f.number_field :repeat_value, class: "mat-input-element" %>
+      </div>
+      <div class="mat-form-field mat-form-field col-md-4">
+        <%= f.label :repeat_counter, t('.RepeatCounter'), class: "mat-form-field-label" %>
+        <%= f.number_field :repeat_counter, readonly: true, class: "mat-input-element"  %>
+      </div>
+    </div>
+    <div class="row mat-form-row">
+      <div class="mat-form-field mat-form-field col-md-4">
+        <%= f.label :repeat_interval, t('.RepeatInterval'), class: "mat-form-field-label" %>
+        <%= f.number_field :repeat_interval, class: "mat-input-element" %>
+      </div>
+      <div class="mat-form-field mat-form-field col-md-4">
+        <%= f.label :repeat_interval_unit, t('.RepeatUnit'), class: "mat-form-field-label" %>
+        <%= f.collection_select :repeat_interval_unit_id, options_for('data_units', 'Scheduler'), :id, :property, { }, class: "mat-input-element select2-candidate" %>
+      </div>
+      <div class="mat-form-field mat-form-field col-md-4">
+        <%= f.label :next_run, t('.StartAt'), class: "mat-form-field-label" %>
+        <%= f.time_select :next_run, default: Time.now + 1.hour, class: "mat-input-element" %>
+      </div>
+    </div>

@@ -1,0 +1,51 @@
+# Code for language as declared in i18n configuration
+fr_OFS:
+  # Considered object from a global view
+  ProductionJobs:                          "Flux de production"
+  ProductionJob:                           "Flux de production"
+  ManagingProductionJobs:                  "Gérer les flux de production"
+  NewProductionJob:                        "Nouveau flux de production"
+  ProductionJobRejected:                   "Echec de création du flux de production"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageActivity )
+  scheduler:
+    production_jobs:
+      index:
+        # Columns titles
+        Code:                                   "Identifiant"
+        Name:                                   "Nom"
+        Description:                            "Description"
+        Owner:                                  "Responsable"
+        Version:                                "Mis à jour le"
+        Status:                                 "Statut"
+      show:
+        Manage:                                 "Gérer les sous-processus"
+        Status:                                 "Statut"
+        # Field names
+        Code:                                   "Identifiant"
+        Name:                                   "Nom"
+        Description:                            "Description"
+      new:
+        New:                                    "Nouveau sous-processus"
+        # Field names
+        Code:                                   "Identifiant"
+        Name:                                   "Nom"
+        Description:                            "Description"
+      edit:
+        Edit:                                   "Modifier le sous-processus"
+        # Field names
+        Code:                                   "Identifiant"
+        Name:                                   "Nom"
+        Description:                            "Description"
+      create:
+        Success:                             	  "Sous-processus créé avec succès"
+        Failure:                             	  "Le sous-processus ne peut pas être créé"
+      update:
+        Success:                             	  "Sous-processus mis à jour avec succès"
+        Failure:                             	  "Le sous-processus ne peut pas être modifié"
+      activate:
+        Success:                             	  "Sous-processus récupéré"
+        Failure:                             	  "Le sous-processus ne peut pas être récupéré"
+      destroy:
+        Success:                             	  "Sous-processus supprimé"
+        Failure:                             	  "Le sous-processus ne peut pas être supprimé"

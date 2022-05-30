@@ -1,0 +1,65 @@
+<% provide(:title, (t('ManagingScs'))) %>
+<% provide(:page_class, 'page-view-details') %>
+
+<% provide :page_heading do %>
+  <%= render partial: "shared/heading", locals: {this_object: @scope} %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  <%= render partial: "shared/breadcrumbs" %>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/show_view_navigation", locals: {this_object_parent: @scope.parent, this_object_index: scopes_path} %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_version_actions", locals: {this_object: @scope } %>
+<% end %>
+
+<% provide :technical_details do %>
+  <%= render partial: "shared/object_ownership", locals: {this_object: @scope} %>
+<% end %>
+
+<% provide :information do %>
+  <div class="row">
+    <div class="col-md-6">
+      <%= render partial: "shared/object_definition",
+          locals: {this_object: @scope,
+                  smallTextarea: true,
+                  isTechnical: true} %>
+    </div>
+    <div class="col-md-6">
+      <%= render partial: "shared/object_responsibilities",
+          locals: {this_object: @scope,
+                  showStatus: false} %>
+    </div>
+  </div>
+<% end %>
+
+<% provide :versions do %>
+  <%= render partial: "shared/object_versions", locals: { this_object: @cloned_scopes } %>
+<% end %>
+
+<% provide :specifications do %>
+  <%= render partial: "scope_specifications" %>
+<% end %>
+
+<%= render layout: "layouts/collapsible_details",
+    locals: {tabs_content: [:information, :specifications, :versions ],
+    title: t('Scope')}  do %>
+
+<% end %>
+
+<hr/>
+
+<section class="tabbable">
+  <ul class="nav nav-tabs">
+
+  </ul>
+
+  <div class="tab-pane" id="implementation">
+
+  </div>
+
+</section>

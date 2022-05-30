@@ -1,0 +1,77 @@
+# Code for language as declared in i18n configuration
+de:
+  ParametersLists:                                "Parameterlisten"
+  ParametersList:                                 "Parameterliste"
+  ManagingParametersLists:                        "Parameterlisten verwalten"
+  NewParametersList:                              "Neuer Parameterliste"
+  ParametersListRejected:                         "Parameterliste wurde abgelehnt"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  administration:
+    parameters_lists:
+      index:
+        # Columns titles
+        Code:                                    "Kennung"
+        Name:                                    "Name"
+        Description:                             "Beschreibung"
+        Parent:                                  "Informationfeld"
+        Owner:                                   "Eigentümer"
+        UpdatedBy:                               "Aktualisiert von"
+        UpdatedAt:                               "Aktualisiert am"
+      index_short:
+        # Columns titles
+        Code:                                    "Kennung"
+        Name:                                    "Name"
+        Description:                             "Beschreibung"
+        Parent:                                  "Informationfeld"
+        Owner:                                   "Eigentümer"
+        UpdatedBy:                               "Aktualisiert von"
+        UpdatedAt:                               "Aktualisiert am"
+      show:
+        ParametersList:                          "Parameterliste"
+        Parameters:                              "Parameter"
+        ImportParameters:                        "Importieren"
+        # Field names
+        Code:                                    "Kennung"
+        Name:                                    "Name"
+        Description:                             "Beschreibung"
+        Property:                                "Eigentum"
+        TaskScope:                               "Anwendbarkeit"
+        ValidFrom:                               "Gültig von"
+        ValidTo:                                 "bis"
+        Sure:                                    "Bestätigen Sie?"
+      new:
+        ParametersList:                          "Parameterliste"
+        Parameters:                              "Parameter"
+        ImportParameters:                        "Importieren"
+        New:                                     "Neuer Parameterliste"
+        # Field names
+        Code:                                    "Kennung"
+        Name:                                    "Name"
+        Description:                             "Beschreibung"
+        Property:                                "Eigentum"
+        TaskScope:                               "Anwendbarkeit"
+        ValidFrom:                               "Gültig von"
+        ValidTo:                                 "bis"
+      edit:
+        ParametersList:                          "Parameterliste"
+        Parameters:                              "Parameter"
+        ImportParameters:                        "Importieren"
+        Edit:                                    "Parameterliste bearbeiten"
+        # Field names
+        Code:                                    "Kennung"
+        Name:                                    "Name"
+        Description:                             "Beschreibung"
+        Property:                                "Eigentum"
+        TaskScope:                               "Anwendbarkeit"
+        ValidFrom:                               "Gültig von"
+        ValidTo:                                 "bis"
+      create:
+        Success:                              	  "erfolgreich erstellt Parameterliste"
+        Failure:                                 "Parameterliste konnte nicht erstellt werden"
+      update:
+        Success:                              	  "erfolgreich aktualisierter Parameterliste"
+        Failure:                                 "Parameterliste konnte nicht aktualisierter werden"
+      destroy:
+        Success:                              	  "Parameterliste erfolgreich gelöscht"
+        Failure:                                 "Parameterliste konnte nicht gelöscht werden"

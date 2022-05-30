@@ -1,0 +1,73 @@
+# Code for language as declared in i18n configuration
+fr:
+  ValuesLists:                                "Values lists"
+  ValuesList:                                 "Values list"
+  ManagingValuesLists:                        "Gérer les values lists"
+  NewValuesList:                              "Nouvelle values list"
+  ValuesListRejected:                         "La values list a été rejetée"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  values_lists:
+    index:
+      # Columns titles
+      Code:                                    "Identifiant"
+      Name:                                    "Nom"
+      Description:                             "Description"
+      Parent:                                  "Business area"
+      Owner:                                   "Responsable"
+      UpdatedBy:                               "Mis à jour par"
+      UpdatedAt:                               "Mis à jour le"
+    index_short:
+      # Columns titles
+      Code:                                    "Identifiant"
+      Name:                                    "Nom"
+      Description:                             "Description"
+      Parent:                                  "Business area"
+      Owner:                                   "Responsable"
+      UpdatedBy:                               "Mis à jour par"
+      UpdatedAt:                               "Mis à jour le"
+    show:
+      Manage:                                  "Gérer les values lists"
+      # Field names
+      Code:                                    "Identifiant"
+      Name:                                    "Nom"
+      Description:                             "Description"
+    new:
+      New:                                     "Nouvelle values list"
+      # Field names
+      Code:                                    "Identifiant"
+      Name:                                    "Nom"
+      Description:                             "Description"
+    edit:
+      Edit:                                    "Modifier la values list"
+      # Field names
+      Code:                                    "Identifiant"
+      Name:                                    "Nom"
+      Description:                             "Description"
+    new_version:
+      Success:                                "Nouvelle version créée"
+      Failure:                                "La nouvelle version ne peut pas être crée"
+    make_current:
+      Success:                                "La version est sélectionnée"
+      Failure:                                "Cette version ne peut pas être sélectionnée"
+    finalise:
+      Success:                                "Values list finalisée"
+      Failure:                                "La values list ne peut pas être finalisée"
+    create:
+      Success:                             	  "Nouvelle values list créée"
+      Failure:                                "La nouvelle values list ne peut pas être créée"
+    update:
+      Success:                             	  "Values list modifiée"
+      Failure:                                "La values list ne peut pas être modifiée"
+    activate:
+      Success:                             	  "Values list récupérée"
+      Failure:                                "La values list ne peut pas être récupérée"
+    destroy:
+      Success:                             	  "Values list supprimée"
+      Failure:                                "La values list ne peut pas être supprimée"
+    propose:
+      Success:                                "Values list a été soumise à validation"
+      Failure:                                "La values list ne peut pas être soumise à validation"
+    accept:
+      Success:                                "Values list a été validée"
+      Failure:                                "La values list ne peut pas être validée"

@@ -1,0 +1,72 @@
+# Code for language as declared in i18n configuration
+de:
+  # Considered object from a global view
+  BusinessProcesses:                             "Business processes"
+  BusinessProcess:                               "Business process"
+  ManagingBusinessProcesses:                     "Business processes verwalten"
+  NewBusinessProcess:                            "Neuer Business process"
+  BusinessProcessRejected:                       "Business process wurde abgelehnt"
+  AddParameter:                                  "Neuer Parameter"
+  AddFile:                                       "Neue Datei"
+  Edit:                                          "Bearbeiten"
+  Delete:                                        "Löschen"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessProcess )
+  business_processes:
+    index:
+      # Columns titles
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      Owner:                                  "Eigentümer"
+      UpdatedBy:                              "Aktualisiert von"
+      UpdatedAt:                              "Aktualisiert am"
+    index_short:
+      # Columns titles
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      Owner:                                  "Eigentümer"
+      UpdatedBy:                              "Aktualisiert von"
+      UpdatedAt:                              "Aktualisiert am"
+    show:
+      Manage:                                 "Business process verwalten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      Steps:                                  "Teilprozesse"
+      NewActivity:                            "Neue Aktivität"
+      NewBusinessObject:                      "Neue Struktur"
+      NewBusinessRules:                       "Neue Regel"
+      GSBPM:                                  "GSBPM Prozess"
+      Source:                                 "Quelle"
+      Target:                                 "Zielscheibe"
+      Overview:                               "Übersicht"
+      Schedules:                              "Planung"
+      NewSchedule:                            "Neue Instanz einplanen"
+      HelpSchedule:                           "Diese Aktion erzeugt ein komplett neues Skript im Scheduler. Um einen neuen Zeitplan zu erstellen, gehen Sie zum Modul Zeitplaner."
+    new:
+      New:                                    "Neuer Business process"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    edit:
+      Edit:                                   "Business process bearbeiten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    create:
+      Success:                             	  "erfolgreich erstellt Business process"
+      Failure:                                "Business process konnte nicht erstellt werden"
+    update:
+      Success:                             	  "erfolgreich aktualisierter Business process"
+      Failure:                                "Business process konnte nicht aktualisierter werden"
+    activate:
+      Success:                             	  "Business process erfolgreich wiederhergestellt"
+      Failure:                                "Business process konnte nicht abgerufen werden"
+    destroy:
+      Success:                             	  "Business process erfolgreich gelöscht"
+      Failure:                                "Business process konnte nicht gelöscht werden"

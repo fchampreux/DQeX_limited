@@ -1,0 +1,6 @@
+-- Table creation SQL script
+<br/>
+<b>CREATE TABLE</b> <%= @target.code %> ( <br/>
+    <%= @target.getColList('ORACLE', 'typed') %> <br/>
+) <br/>
+<b>TABLESPACE DWHWA2_DATA NOLOGGING</b> ;

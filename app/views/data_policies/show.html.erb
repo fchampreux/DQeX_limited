@@ -1,0 +1,90 @@
+<% provide(:title, (t('ManagingDataPolicies'))) %>
+<% provide(:page_class, 'page-view-details') %>
+
+<% provide :page_heading do %>
+  <%= translation_for(@data_policy.name_translations) %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  > <%= translation_for(@data_policy.name_translations) %>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/show_view_navigation", locals: {this_object_parent: @data_policy.parent, this_object_index: data_policies_path} %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_actions", locals: {this_object: @data_policy } %>
+<% end %>
+
+<% provide :technical_details do %>
+  <%= render partial: "shared/object_ownership", locals: {this_object: @data_policy} %>
+<% end %>
+
+<% provide :information do %>
+  <div class="row">
+    <div class="col-md-6">
+      <%= render partial: "shared/object_definition",
+          locals: {this_object: @data_policy,
+                  smallTextarea: true,
+                  isTechnical: true} %>
+    </div>
+    <div class="col-md-6">
+      <%= render partial: "shared/object_responsibilities",
+          locals: {this_object: @data_policy,
+                  showStatus: false} %>
+
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-12">
+          <label for="policy-business-area" class="mat-form-field-label">
+            <%= t('BusinessArea') %>
+          </label>
+          <input id="policy-business-area" class="mat-input-element" readonly
+            value="<%= @data_policy.translated_business_area %>" />
+        </div>
+      </div>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-12">
+          <label for="policy-territory" class="mat-form-field-label">
+            <%= t('Territory') %>
+          </label>
+          <input id="policy-territory" class="mat-input-element" readonly
+            value="<%= @data_policy.translated_territory %>" />
+        </div>
+      </div>
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-12">
+          <label for="policy-organisation" class="mat-form-field-label">
+            <%= t('Organisation') %>
+          </label>
+          <input id="policy-organisation" class="mat-input-element" readonly
+            value="<%= @data_policy.translated_organisation %>" />
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% provide :versions do %>
+  <%= render partial: "shared/object_versions", locals: { this_object: @cloned_data_policies } %>
+<% end %>
+
+<%= render layout: "layouts/collapsible_details",
+    locals: {tabs_content: [ :information, :versions ],
+    title: t('DataPolicy')}  do %>
+
+<% end %>
+
+  <div class="tabbable">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#business_rules" data-toggle="tab"> <%= t('BRs') %> </a></li>
+    </ul>
+
+    <div class="tab-pane active" id="business_rules">
+
+      <%= render partial: "shared/child_object_index", locals: {this_child_index: @data_policy.business_rules} %>
+      <%= link_to t('NewBR'), "#" %>
+
+    </div>
+
+  </div>

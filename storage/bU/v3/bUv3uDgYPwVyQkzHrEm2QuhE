@@ -1,0 +1,1733 @@
+1                                                          The SAS System                             15:48 Friday, October 29, 2021
+
+NOTE: Copyright (c) 2016 by SAS Institute Inc., Cary, NC, USA. 
+NOTE: SAS (r) Proprietary Software 9.4 (TS1M6) 
+      Licensed to BUNDESAMT FUER STATISTIK, Site 50701487.
+NOTE: This session is executing on the Linux 4.12.14-122.91-default (LIN X64) platform.
+
+
+
+NOTE: Analytical products:
+      
+      SAS/STAT 15.1
+      SAS/ETS 15.1
+      SAS/IML 15.1
+
+NOTE: Additional host information:
+
+ Linux LIN X64 4.12.14-122.91-default #1 SMP Tue Oct 5 07:08:31 UTC 2021 (d50b9e8) x86_64 SUSE Linux Enterprise Server 12 (x86_64) 
+      VERSION = 12 PATCHLEVEL = 5 
+
+You are running SAS 9. Some SAS 8 files will be automatically converted 
+by the V9 engine; others are incompatible.  Please see 
+http://support.sas.com/rnd/migration/planning/platform/64bit.html
+
+PROC MIGRATE will preserve current SAS file attributes and is 
+recommended for converting all your SAS libraries from any 
+SAS 8 release to SAS 9.  For details and examples, please see
+http://support.sas.com/rnd/migration/index.html
+
+
+This message is contained in the SAS news file, and is presented upon
+initialization.  Edit the file "news" in the "misc/base" directory to
+display site-specific news and information in the program log.
+The command line option "-nonews" will prevent this display.
+
+---------------------------------------------------------------------------
+SAS Version 9.4 / Bundesamt für Statistik
+SAS Version 9.4 / Office fédéral de la statistique
+Umgebung / Environnement: DEV
+---------------------------------------------------------------------------
+
+
+NOTE: SAS initialization used:
+      real time           0.04 seconds
+      cpu time            0.01 seconds
+      
+1          /*-------------------------------------------------------------------------------*
+2          Titel:	 			Einlesen und Operationalisierung
+3          
+4          Sektion:			SHS/DaDa
+5          Projekt:			
+6          
+7          Autor:				Gerhard Gillmann
+8          Datum erstellt:		20.10.2021
+9          
+10         ----HISTORY-----------------------------------------------------------------------*
+11         Datum letzte Änderung:		geändert durch:		Kommentar:
+12         20.10.2021					GGI  				Erstellung Code für Daten in IDP1 (R1)									
+13         ----------------------------------------------------------------------------------*/
+14         *LIBNAME homeLIB '/project/acp/SHS/SHS_MOD/99_Sandbox/F30379';
+2                                                          The SAS System                             15:48 Friday, October 29, 2021
+
+15         LIBNAME IDP1_R1 ORACLE user=M_IDP1_SHS_MOD pw=XXXXXXXXXXXX path='AXPDBDWHPD.bfi.admin.ch';
+NOTE: Libref IDP1_R1 was successfully assigned as follows: 
+      Engine:        ORACLE 
+      Physical Name: AXPDBDWHPD.bfi.admin.ch
+16         *LIBNAME oraLIB2 ORACLE user=M_IDP1_SHS_MOD_R2 pw=PSW_62156675 path='AXPDBDWHPD.bfi.admin.ch';
+17         
+18         /***************************************************************************/
+19         /*                                                                         */
+20         /* LIBNAME für IDP1_R2                                                     */
+21         /*                                                                         */
+22         /***************************************************************************/
+23         LIBNAME w_idp1r2 ORACLE
+24         	SCHEMA=M_IDP1_SHS_MOD_R2
+25         	USER=M_IDP1_SHS_MOD_R2
+26         	PASSWORD=XXXXXXXXXXXX
+27         	PATH=AXPDBDWHPD
+28         	OR_BINARY_DOUBLE=NO
+29         	ADJUST_NCHAR_COLUMN_LENGTHS=YES
+30         	DBSERVER_MAX_BYTES=1;
+NOTE: Libref W_IDP1R2 was successfully assigned as follows: 
+      Engine:        ORACLE 
+      Physical Name: AXPDBDWHPD
+31         
+32         
+33         /***************************************************************************/
+34         /*                                                                         */
+35         /* Einlesen TBLBUCHUNG                                                     */
+36         /*                                                                         */
+37         /***************************************************************************/
+38         data D1;
+39          set IDP1_R1.TBLBUCHUNG;
+40         RUN;
+
+NOTE: There were 1002944 observations read from the data set IDP1_R1.TBLBUCHUNG.
+NOTE: The data set WORK.D1 has 1002944 observations and 15 variables.
+NOTE: DATA statement used (Total process time):
+      real time           9.88 seconds
+      cpu time            7.71 seconds
+      
+
+41         proc contents data=D1; RUN;
+
+NOTE: PROCEDURE CONTENTS used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.02 seconds
+      
+NOTE: The PROCEDURE CONTENTS printed page 1.
+
+42         
+43         
+44         /***************************************************************************/
+45         /*                                                                         */
+46         /* SAS-Macro, das genau eine Tabelle löscht, falls sie existiert           */
+47         /*                                                                         */
+48         /***************************************************************************/
+49         %macro checktable;
+50         	%if %sysfunc(exist(w_idp1r2.D1)) %then %do;
+51         		proc delete data=w_idp1r2.D1; run;
+3                                                          The SAS System                             15:48 Friday, October 29, 2021
+
+52         	%end;
+53         %mend;
+54         %checktable;
+55         
+56         /***************************************************************************/
+57         /*                                                                         */
+58         /* Test Schreiben und Löschen auf IDP1_R2                                  */
+59         /*                                                                         */
+60         /***************************************************************************/
+61         /*
+62         data w_idp1r2.D1;
+63          set D1;
+64         RUN;
+65         */
+66         
+67         
+68         /***************************************************************************/
+69         /*                                                                         */
+70         /* Löschen manuell auf IDP1_R2                                             */
+71         /*                                                                         */
+72         /***************************************************************************/
+73         /*
+74         proc delete data=w_idp1r2.D1 (gennum=all);
+75         run;
+76         
+77         proc delete data=w_idp1r2.TBLBUCHUNG (gennum=all);
+78         run;
+79         */
+80         
+81         
+82         
+83         
+84         
+85         
+86         /*ZAL 21.05.2021: mise à jour par BGE au sujet du code 997: pas clairement attribué à une variable précise,
+87         peut être dépense ou revenu mais à prendre en compte pour la statistique*/
+88         
+89         /*ZAL 26.03.2021: création du programme pour mapper les codes comptables avec les variables SHS (selon la liste établie
+89       ! par le PT Buchhaltung)*/
+90         
+91         /*ZAL 27.09.2021: prise en compte des données du pilote de Bienne:
+92         ATTENTION: il faut copier la version la plus récente du fichier excel du mapping et le sauvegarder 2 fois dans le dossier
+92       !  Input.
+93         1) 23053_Biel_prov.xlsx: pour importer la première feuille avec les codes mappés
+94         2) 23053_Biel_prov2.xlsx: pour importer la 2e feuille: placer manuellement la 2e feuille en premier et renommer
+94       ! Nr.-->bfs_nr */
+95         
+96         
+97         /*ZAL 15.10.2021: prise en compte des données d'Uster*/
+98         
+99         /******************************************************************************/
+100        /* Attribution des Leistungsarten aux variables de la SHS (selon la liste de mapping)*/
+101        /******************************************************************************/
+102        
+103        
+104        
+105        %macro mapping (N,select);
+106        
+4                                                          The SAS System                             15:48 Friday, October 29, 2021
+
+107        data buchung&N.;
+108        set
+109        &select.
+110        ;
+111        
+112        format bez_code_bfs $char70.;
+113        DKEY=V101_FKeyDossier;
+114        
+115        /*Angerechnete Einnahmen*/
+116        
+117        if V31_FKeyBUCHUNGSCODE IN (
+118        850,
+119        851
+120        854,
+121        855
+122        )
+123        then do;
+124        code_bfs = 23;
+125        bez_code_bfs = 'Erwerbseinkommen (netto)';
+126        ausgaben=0;
+127        einnahmen=1;
+128        end;
+129        
+130        if V31_FKeyBUCHUNGSCODE IN (
+131        736
+132        )
+133        then do;
+134        code_bfs = 24;
+135        bez_code_bfs = 'ALV';
+136        ausgaben=0;
+137        einnahmen=1;
+138        end;
+139        
+140        if V31_FKeyBUCHUNGSCODE IN (
+141        730,
+142        731
+143        )
+144        then do;
+145        code_bfs = 25;
+146        bez_code_bfs = 'Altersrente';
+147        ausgaben=0;
+148        einnahmen=1;
+149        end;
+150        
+151        if V31_FKeyBUCHUNGSCODE IN (
+152        733,
+153        734
+154        )
+155        then do;
+156        code_bfs = 26;
+157        bez_code_bfs = 'Witwen-/Waisenrente';
+158        ausgaben=0;
+159        einnahmen=1;
+160        end;
+161        
+162        if V31_FKeyBUCHUNGSCODE IN (
+163        710,
+164        711,
+5                                                          The SAS System                             15:48 Friday, October 29, 2021
+
+165        712
+166        )
+167        then do;
+168        code_bfs = 27;
+169        bez_code_bfs = 'BVG-Rente';
+170        ausgaben=0;
+171        einnahmen=1;
+172        end;
+173        
+174        if V31_FKeyBUCHUNGSCODE IN (
+175        724,
+176        732
+177        )
+178        then do;
+179        code_bfs = 28;
+180        bez_code_bfs = 'Hilflosenentschädigung';
+181        ausgaben=0;
+182        einnahmen=1;
+183        end;
+184        
+185        if V31_FKeyBUCHUNGSCODE IN (
+186        720,
+187        721,
+188        722,
+189        725,
+190        726,
+191        798
+192        )
+193        then do;
+194        code_bfs = 29;
+195        bez_code_bfs = 'IV-Rente';
+196        ausgaben=0;
+197        einnahmen=1;
+198        end;
+199        
+200        if V31_FKeyBUCHUNGSCODE IN (
+201        755
+202        )
+203        then do;
+204        code_bfs = 30;
+205        bez_code_bfs = 'Rente Unfallversicherung';
+206        ausgaben=0;
+207        einnahmen=1;
+208        end;
+209        
+210        if V31_FKeyBUCHUNGSCODE IN (
+211        723
+212        )
+213        then do;
+214        code_bfs = 31;
+215        bez_code_bfs = 'Taggeld Invalidenversicherung';
+216        ausgaben=0;
+217        einnahmen=1;
+218        end;
+219        
+220        if V31_FKeyBUCHUNGSCODE IN (
+221        750,
+222        754
+6                                                          The SAS System                             15:48 Friday, October 29, 2021
+
+223        )
+224        then do;
+225        code_bfs = 32;
+226        bez_code_bfs = 'Taggeld Kranken- und Unfallversicherung';
+227        ausgaben=0;
+228        einnahmen=1;
+229        end;
+230        
+231        if V31_FKeyBUCHUNGSCODE IN (
+232        735,
+233        756,
+234        757
+235        )
+236        then do;
+237        code_bfs = 33;
+238        bez_code_bfs = 'Andere Sozialversicherungsleistungen (Rente / Taggelder)';
+239        ausgaben=0;
+240        einnahmen=1;
+241        end;
+242        
+243        if V31_FKeyBUCHUNGSCODE IN (
+244        763,
+245        764
+246        )
+247        then do;
+248        code_bfs = 35;
+249        bez_code_bfs = 'Ausbildungsbeiträge';
+250        ausgaben=0;
+251        einnahmen=1;
+252        end;
+253        
+254        if V31_FKeyBUCHUNGSCODE IN (
+255        762
+256        )
+257        then do;
+258        code_bfs = 36;
+259        bez_code_bfs = 'Alimentenbevorschussung';
+260        ausgaben=0;
+261        einnahmen=1;
+262        end;
+263        
+264        if V31_FKeyBUCHUNGSCODE IN (
+265        780,
+266        852,
+267        853
+268        )
+269        then do;
+270        code_bfs = 41;
+271        bez_code_bfs = 'Andere bedarfsabhängige Leistungen';
+272        ausgaben=0;
+273        einnahmen=1;
+274        end;
+275        
+276        if V31_FKeyBUCHUNGSCODE IN (
+277        810,
+278        811,
+279        820,
+280        821,
+7                                                          The SAS System                             15:48 Friday, October 29, 2021
+
+281        825,
+282        833
+283        )
+284        then do;
+285        code_bfs = 42;
+286        bez_code_bfs = 'Unterhaltsbeiträge';
+287        ausgaben=0;
+288        einnahmen=1;
+289        end;
+290        
+291        if V31_FKeyBUCHUNGSCODE IN (
+292        822
+293        )
+294        then do;
+295        code_bfs = 43;
+296        bez_code_bfs = 'Kinderzulage (wenn nicht im Lohn enthalten)';
+297        ausgaben=0;
+298        einnahmen=1;
+299        end;
+300        
+301        if V31_FKeyBUCHUNGSCODE IN (
+302        834
+303        )
+304        then do;
+305        code_bfs = 44;
+306        bez_code_bfs = 'Erhalt von Haushaltsentschädigung/Konkubinatsbeitrag';
+307        ausgaben=0;
+308        einnahmen=1;
+309        end;
+310        
+311        if V31_FKeyBUCHUNGSCODE IN (
+312        830,
+313        831
+314        
+315        )
+316        then do;
+317        code_bfs = 45;
+318        bez_code_bfs = 'Verwandtenunterstützung';
+319        ausgaben=0;
+320        einnahmen=1;
+321        end;
+322        
+323        /*Angerechnete Ausgaben*/
+324        
+325        if V31_FKeyBUCHUNGSCODE IN (
+326        110,
+327        121,
+328        125,
+329        126,
+330        127,
+331        128,
+332        242,
+333        863,
+334        864
+335        )
+336        then do;
+337        code_bfs = 47;
+338        bez_code_bfs = 'Grundbedarf für den Lebensunterhalt';
+8                                                          The SAS System                             15:48 Friday, October 29, 2021
+
+339        ausgaben=1;
+340        einnahmen=0;
+341        end;
+342        
+343        if V31_FKeyBUCHUNGSCODE IN (
+344        120
+345        )
+346        then do;
+347        code_bfs = 48;
+348        bez_code_bfs = 'Pauschale für Personen in stationären Einrichtungen (Sackgeld)';
+349        ausgaben=1;
+350        einnahmen=0;
+351        end;
+352        
+353        if V31_FKeyBUCHUNGSCODE IN (
+354        130,
+355        131,
+356        135,
+357        320,
+358        321,
+359        860,
+360        861,
+361        862
+362        )
+363        then do;
+364        code_bfs = 49;
+365        bez_code_bfs = 'Angerechnete Wohnkosten';
+366        ausgaben=1;
+367        einnahmen=0;
+368        end;
+369        
+370        if V31_FKeyBUCHUNGSCODE IN (
+371        141,
+372        142,
+373        143,
+374        150,
+375        151,
+376        170,
+377        751,
+378        752
+379        )
+380        then do;
+381        code_bfs = 50;
+382        bez_code_bfs = 'Medizinische Grundversorgung';
+383        ausgaben=1;
+384        einnahmen=0;
+385        end;
+386        
+387        
+388        /*Exception pour tout le canton de ZH: primes de caise maladie de font pas partie de l'aide sociale,
+389        donc pour la ville de Zurich on exclut le code 140, BGE 01.04.2021*/
+390        if V31_FKeyBUCHUNGSCODE IN (
+391        129,
+392        758,
+393        865
+394        )
+395        then do;
+396        code_bfs = 51;
+9                                                          The SAS System                             15:48 Friday, October 29, 2021
+
+397        bez_code_bfs = 'Prämien obligatorische Krankenversicherung';
+398        ausgaben=1;
+399        einnahmen=0;
+400        end;
+401        
+402        
+403        if V31_FKeyBUCHUNGSCODE IN (
+404        220,
+405        221,
+406        222
+407        )
+408        then do;
+409        code_bfs = 53;
+410        bez_code_bfs = 'Erwerbskosten und Auslagen für nicht lohnmässig honorierte Leistungen';
+411        ausgaben=1;
+412        einnahmen=0;
+413        end;
+414        
+415        
+416        
+417        if V31_FKeyBUCHUNGSCODE IN (
+418        230,
+419        231,
+420        232,
+421        233,
+422        235
+423        )
+424        then do;
+425        code_bfs = 54;
+426        bez_code_bfs = 'Kosten für familienergänzende Kinderbetreuung';
+427        ausgaben=1;
+428        einnahmen=0;
+429        end;
+430        
+431        if V31_FKeyBUCHUNGSCODE IN (
+432        334
+433        )
+434        then do;
+435        code_bfs = 55;
+436        bez_code_bfs = 'Kosten für Eltern mit Besuchsrecht';
+437        ausgaben=1;
+438        einnahmen=0;
+439        end;
+440        
+441        if V31_FKeyBUCHUNGSCODE IN (
+442        240,
+443        241,
+444        260,
+445        410,
+446        411
+447        )
+448        then do;
+449        code_bfs = 56;
+450        bez_code_bfs = 'Kosten für Bildung';
+451        ausgaben=1;
+452        einnahmen=0;
+453        end;
+454        
+10                                                         The SAS System                             15:48 Friday, October 29, 2021
+
+455        if V31_FKeyBUCHUNGSCODE IN (
+456        332,
+457        412,
+458        415,
+459        420,
+460        425,
+461        430,
+462        450,
+463        460,
+464        465,
+465        469
+466        )
+467        then do;
+468        code_bfs = 57;
+469        bez_code_bfs = 'Kosten für Integrationsmassnahmen';
+470        ausgaben=1;
+471        einnahmen=0;
+472        end;
+473        
+474        if V31_FKeyBUCHUNGSCODE IN (
+475        113,
+476        114,
+477        210,
+478        211,
+479        212,
+480        213,
+481        215,
+482        216,
+483        753
+484        )
+485        then do;
+486        code_bfs = 58;
+487        bez_code_bfs = 'Situationsbedingte Gesundheitskosten';
+488        ausgaben=1;
+489        einnahmen=0;
+490        end;
+491        
+492        if V31_FKeyBUCHUNGSCODE IN (
+493        350,
+494        352,
+495        475,
+496        476,
+497        480,
+498        510,
+499        511,
+500        512,
+501        513,
+502        515,
+503        516,
+504        520,
+505        521,
+506        522,
+507        523,
+508        530,
+509        532,
+510        540,
+511        550,
+512        560,
+11                                                         The SAS System                             15:48 Friday, October 29, 2021
+
+513        561,
+514        562,
+515        570,
+516        590,
+517        795
+518        )
+519        then do;
+520        code_bfs = 59;
+521        bez_code_bfs = 'Therapie-, Klinik- oder Heimkosten';
+522        ausgaben=1;
+523        einnahmen=0;
+524        end;
+525        
+526        if V31_FKeyBUCHUNGSCODE IN (
+527        351,
+528        359,
+529        817,
+530        819
+531        )
+532        then do;
+533        code_bfs = 60;
+534        bez_code_bfs = 'Weitere Kosten für Fremdplatzierungen';
+535        ausgaben=1;
+536        einnahmen=0;
+537        end;
+538        
+539        if V31_FKeyBUCHUNGSCODE IN (
+540        160,
+541        217
+542        )
+543        then do;
+544        code_bfs = 61;
+545        bez_code_bfs = 'Zahnarztkosten';
+546        ausgaben=1;
+547        einnahmen=0;
+548        end;
+549        
+550        if V31_FKeyBUCHUNGSCODE IN (
+551        310,
+552        311,
+553        313,
+554        314,
+555        315,
+556        360,
+557        362
+558        )
+559        then do;
+560        code_bfs = 62;
+561        bez_code_bfs = 'Weitere grundversorgende SIL';
+562        ausgaben=1;
+563        einnahmen=0;
+564        end;
+565        
+566        if V31_FKeyBUCHUNGSCODE IN (
+567        261,
+568        330,
+569        331,
+570        333,
+12                                                         The SAS System                             15:48 Friday, October 29, 2021
+
+571        335,
+572        470,
+573        471,
+574        473
+575        )
+576        then do;
+577        code_bfs = 63;
+578        bez_code_bfs = 'Weitere fördernde SIL';
+579        ausgaben=1;
+580        einnahmen=0;
+581        end;
+582        
+583        if V31_FKeyBUCHUNGSCODE IN (
+584        370,
+585        371
+586        )
+587        then do;
+588        code_bfs = 64;
+589        bez_code_bfs = 'Integrationszulage für Nichterwerbstätige (IZU)';
+590        ausgaben=1;
+591        einnahmen=0;
+592        end;
+593        
+594        if V31_FKeyBUCHUNGSCODE IN (
+595        390,
+596        391,
+597        392
+598        )
+599        then do;
+600        code_bfs = 65;
+601        bez_code_bfs = 'Einkommensfreibetrag für Erwerbstätige (EFB)';
+602        ausgaben=1;
+603        einnahmen=0;
+604        end;
+605        
+606        /*Nicht angerechnete Ausgaben/Einnahmen*/
+607        
+608        
+609        
+610        /*selon BGE 30.03.2021, ne font pas partie de l'aide sociale*/
+611        if V31_FKeyBUCHUNGSCODE IN (
+612        152
+613        )
+614        then do;
+615        code_bfs = 52;
+616        bez_code_bfs = 'Verlustscheine';
+617        ausgaben=0;
+618        einnahmen=0;
+619        end;
+620        
+621        if V31_FKeyBUCHUNGSCODE IN (
+622        361
+623        )
+624        then do;
+625        code_bfs = 66;
+626        bez_code_bfs = 'AHV-Mindestbeiträge';
+627        ausgaben=0;
+628        einnahmen=0;
+13                                                         The SAS System                             15:48 Friday, October 29, 2021
+
+629        end;
+630        
+631        
+632        if V31_FKeyBUCHUNGSCODE IN (
+633        870,
+634        871,
+635        872,
+636        873,
+637        874,
+638        875,
+639        876,
+640        877,
+641        880,
+642        881
+643        )
+644        then do;
+645        code_bfs = 67;
+646        bez_code_bfs = 'Rückerstattungen';
+647        ausgaben=0;
+648        einnahmen=0;
+649        end;
+650        
+651        if V31_FKeyBUCHUNGSCODE IN (
+652        340,
+653        341,
+654        740,
+655        741,
+656        742,
+657        743,
+658        744,
+659        745
+660        )
+661        then do;
+662        code_bfs = 997;
+663        bez_code_bfs = 'nicht eindeutig zuzuordnen';
+664        ausgaben=1; /*ZAL 21.05.2021 selon feedback de BGE, 0-->1*/
+665        einnahmen=1; /*ZAL 21.05.2021 selon feedback de BGE, 0-->1*/
+666        end;
+667        
+668        if V31_FKeyBUCHUNGSCODE IN (
+669        380,
+670        381,
+671        760,
+672        814
+673        )
+674        then do;
+675        code_bfs = 998;
+676        bez_code_bfs = 'nicht aktiver Code';
+677        ausgaben=0;
+678        einnahmen=0;
+679        end;
+680        
+681        
+682        
+683        if V31_FKeyBUCHUNGSCODE IN (
+684        140, /*Primes de caisse maladie, exception ville de Zurich, selon le feedback de BGE du 1.4.2021*/
+685        365,
+686        640,
+14                                                         The SAS System                             15:48 Friday, October 29, 2021
+
+687        989,
+688        990,
+689        991,
+690        994
+691        )
+692        then do;
+693        code_bfs = 999;
+694        bez_code_bfs = 'nicht relevant für die SHS';
+695        ausgaben=0;
+696        einnahmen=0;
+697        end;
+698        
+699        
+700        ;
+701        run;
+702        
+703        %mend mapping;
+704        
+705        
+706        %mapping(100, D1);
+
+NOTE: Character values have been converted to numeric values at the places given by: (Line):(Column).
+      732:96    706:2     706:114   706:2     706:135   706:11    706:147   706:36    706:169   706:69    706:222   706:146
+      706:24    706:156   706:74    706:226   706:124   706:36    706:176   706:105   706:24    706:191   706:111   706:25
+      706:215   706:135   706:24    706:171   706:103   706:36    706:74    706:235   706:109   706:24    706:189   706:102
+      706:16    706:139   706:25    706:195   706:114   706:8     
+NOTE: There were 1002944 observations read from the data set WORK.D1.
+NOTE: The data set WORK.BUCHUNG100 has 1002944 observations and 20 variables.
+NOTE: DATA statement used (Total process time):
+      real time           51.79 seconds
+      cpu time            51.79 seconds
+      
+
+707        
+708        
+709        
+710        
+711        
+712        
+713        /*********************************************************************************/
+714        /*ZAL 06.04.2021: création du programme pour opérationnaliser le LSTBZG selon le mois du versement (Valuta), VARIANTE 1*/
+715        
+716        
+717        
+718        
+719        /*******************IDENTIFIER LES DOSSIERS AVEC UNIQUEMENT LES PRIMES DE CAISSE MALADIE
+719      ! (BFS_CODE=51)*************************************************/
+720        
+721        /*filtrer uniquement les dossiers avec dépenses pertinentes (sans prise en compte d'éventuels codes de revenus) et
+722        trier par dossier et mois de versement(en cas de jeu de données avec plusieurs mois*/
+723        
+724        %macro valutamonat (m,mois);
+725        
+726        data buchung01; set buchung100; where V01_LIEFERUNG_MONAT in (&mois.); run;
+727        
+728        proc sort data=buchung01(where=(ausgaben=1 or einnahmen=1)) out=buchung_a; by V101_FKeyDossier V01_LIEFERUNG_MONAT; run;
+729        
+730        proc sql;
+15                                                         The SAS System                             15:48 Friday, October 29, 2021
+
+731        	create table count1 as
+732        	select (count(distinct(V101_FKeyDossier))) as dkey_unique
+733        	from buchung100
+734        where V01_LIEFERUNG_MONAT in (&mois.);
+735        run;
+736        
+737        proc sql;
+738        	create table count2 as
+739        	select (count(distinct(V101_FKeyDossier))) as dkey_unique
+740        	from buchung01
+741        ;
+742        run;
+743        
+744        /*on décompte le nombre de Leistungsarten pertinents et le nombre de bfs_code 51
+745        par mois et par dossier et on garde une ligne par mois et par dossier*/
+746        data buchung_b; set buchung_a; by V101_FKeyDossier V01_LIEFERUNG_MONAT;
+747        if first.V01_LIEFERUNG_MONAT then do;
+748        TotAusz = 0;
+749        TotKK   = 0;
+750        end;
+751        
+752        TotAusz + 1;
+753        if (code_bfs = 51) then TotKK + 1;
+754        if last.V01_LIEFERUNG_MONAT then output; /* Korrektur GGI 2021_08_23 : last.LIEFERUNG_MONAT_ID */
+755        run;
+756        
+757        /*
+758        proc freq data=buchung_b; tables TotAusz * TotKK / list missing;
+759        title "&m.: Nombre de dossiers selon le nombre total de codes comptables et le nombre de codes relatifs aux primes KK";
+760        RUN;
+761        */
+762        
+763        /*Les dossiers qui comptent uniquement les primes (code_bfs=51) comme dépenses pertinentes*/
+764        data buchung_c
+765        (KEEP = V01_LIEFERUNG_MONAT V101_FKeyDossier TotAusz TotKK only_kk_V1
+766         WHERE = (TotAusz = TotKK));
+767        set buchung_b;
+768        only_kk_V1 = 1;
+769        RUN;
+770        
+771        
+772        /*Ajouter l'information sur les dossiers avec primes KK uniquement au fichier mappé de Buchung01 du mois comptable*/
+773        proc sort data=buchung01;   by V101_FKeyDossier V01_LIEFERUNG_MONAT; run;
+774        proc sort data=buchung_c (KEEP = V01_LIEFERUNG_MONAT V101_FKeyDossier only_kk_V1); by V101_FKeyDossier
+774      ! V01_LIEFERUNG_MONAT; run;
+775        data buchung_0; merge buchung01 (in=_a) buchung_c (in=_b);  by V101_FKeyDossier V01_LIEFERUNG_MONAT; run;
+776        
+777        
+778        /*******************CREATION DES VARIABLES SUPPLEMENTAIRES**************************************************************/
+779        
+780        data buchung_2; set buchung_0;
+781        Monat_Valuta = month(V33_dat_Buchungsdatum);
+782        Monat_Betreff_a = month(V32_1_dat_Betreffmonat);
+783        Monat_Betreff_b = month(V32_2_dat_Betreffmonat_Bis);
+784        Jahr_Betreff_a = year(V32_1_dat_Betreffmonat);
+785        Jahr_Betreff_b = year(V32_2_dat_Betreffmonat_Bis);
+786        
+787        Nbr_Betreff=INTCK("month",V32_1_dat_Betreffmonat,V32_2_dat_Betreffmonat_Bis) + 1;
+16                                                         The SAS System                             15:48 Friday, October 29, 2021
+
+788        
+789        Betrag_betreff=V30_dbl_Betrag/Nbr_Betreff;
+790        pert=0;
+791        if einnahmen = 1 or ausgaben = 1 then pert = 1;
+792        run;
+793        
+794        
+795        /*********************VARIANTE 1: MOIS DE VERSEMENT (VALUTA)********************************************/
+796        
+797        proc sort data=buchung_2; by V101_FKeyDossier; run;
+798        
+799        data buchung_V1_1; set buchung_2;
+800        by V101_FKeyDossier;
+801        
+802        where /*Monat_Valuta=&Monat. and*/ only_kk_V1 = . and pert=1;
+803        
+804        if first.V101_FKeyDossier then do;
+805        tot = 0;
+806        end;
+807        tot+V30_dbl_Betrag;
+808        
+809        LSTBZG_V1=0;
+810        if tot <= - 1 then LSTBZG_V1 = 1;
+811        
+812        if last.V101_FKeyDossier then output;
+813        run;
+814        
+815        /*proc freq data= buchung_V1_1; tables bez_code_bfs LSTBZG_V1 / list missing ; run;*/
+816        
+817        
+818        proc tabulate data=buchung_2 (where=(pert=1));
+819        var V30_dbl_Betrag;
+820        CLASS V01_LIEFERUNG_MONAT /	ORDER=UNFORMATTED MISSING;
+821        CLASS bez_code_bfs /	ORDER=UNFORMATTED MISSING;
+822        table
+823        ALL={LABEL="Total"}
+824        bez_code_bfs,
+825        V01_LIEFERUNG_MONAT*
+826          V30_dbl_Betrag*(
+827            N
+828            Sum) 		;
+829        	;
+830        	title "&m.: Aperçu des codes comptables, point de vue OFS";
+831        	run;
+832        
+833        
+834        
+835        
+836        proc tabulate data=buchung_2 (where=(pert=1));
+837        var V30_dbl_Betrag;
+838        CLASS V01_LIEFERUNG_MONAT /	ORDER=UNFORMATTED MISSING;
+839        CLASS V31_1_txtBUCHUNGSCODE_BEZ /	ORDER=UNFORMATTED MISSING;
+840        table
+841        ALL={LABEL="Total"}
+842        V31_1_txtBUCHUNGSCODE_BEZ,
+843        V01_LIEFERUNG_MONAT*
+844          V30_dbl_Betrag*(
+845            N
+17                                                         The SAS System                             15:48 Friday, October 29, 2021
+
+846            Sum) 		;
+847        	;
+848        	title "&m.: Aperçu des codes comptables, point de vue écritures comptables du service";
+849        	run;
+850        
+851        
+852        
+853        /********************VARIANTE 1A: PRISE EN COMPTE DES DEPENSES UNIQUEMENT*******************************/
+854        proc sort data=buchung_2; by V101_FKeyDossier; run;
+855        
+856        data buchung_V1_A ; set buchung_2;
+857        by V101_FKeyDossier;
+858        where /*Monat_Valuta=&Monat. and*/ only_kk_V1 = . and pert=1 and V30_dbl_Betrag < 0;
+859        
+860        
+861        
+862        LSTBZG_V1_A=1;
+863        if last.V101_FKeyDossier then output;
+864        run;
+865        
+866        
+867        /*proc freq data= buchung_V1_A; tables LSTBZG_V1_A / list missing ; run;*/
+868        
+869        
+870        /********************VARIANTE 1B: SOMME DES DEPENSES ET REVENUS<0, SI LA SOMME>=0 MAIS GRUNDBEDARF/WOHNKOSTEN<0,
+870      ! LSTBZG=1************************/
+871        /*code_bfs = 47 Grundbedarf
+872        code_bfs = 49 Wohnkosten*/
+873        
+874        
+875        proc sort data=buchung_2; by V101_FKeyDossier; run;
+876        
+877        data buchung_V1_B; set buchung_2;
+878        by V101_FKeyDossier;
+879        
+880        where /*Monat_Valuta=&Monat. and*/ only_kk_V1 = . and (einnahmen=1 or ausgaben=1);
+881        
+882        if first.V101_FKeyDossier then do;
+883        tot = 0;
+884        tot_grund = 0;
+885        tot_wohn = 0;
+886        end;
+887        tot + V30_dbl_Betrag;
+888        
+889        if code_bfs = 47 then tot_grund +V30_dbl_Betrag;
+890        if code_bfs = 49 then tot_wohn + V30_dbl_Betrag;
+891        
+892        LSTBZG_V1=0;
+893        if tot <= - 1 then LSTBZG_V1 = 1;
+894        
+895        if last.V101_FKeyDossier then output;
+896        run;
+897        
+898        data buchung_V1_B1; set buchung_V1_B;
+899        LSTBZG_V1_B = 0;
+900        if LSTBZG_V1 = 1 then LSTBZG_V1_B = 1;
+901        else if LSTBZG_V1 = 0 and (tot_grund <= - 1 or tot_wohn <= - 1) then LSTBZG_V1_B = 1;
+902        run;
+18                                                         The SAS System                             15:48 Friday, October 29, 2021
+
+903        
+904        /*proc freq data= buchung_V1_B1; tables LSTBZG_V1 LSTBZG_V1_B/ list missing ; run;*/
+905        
+906        
+907        /**************rajouter l'info sur le LSTBZG de toutes les variantes dans la table initiale de
+907      ! Buchung*******************/
+908        
+909        data buchung_V1_B2 (keep=V101_FKeyDossier LSTBZG_V1 LSTBZG_V1_B) ; set buchung_V1_B1; run;
+910        data buchung_V1_A1 (keep=V101_FKeyDossier LSTBZG_V1_A); set buchung_V1_A; run;
+911        
+912        proc sort data=buchung_2; by V101_FKeyDossier; run;
+913        proc sort data=buchung_V1_B2; by V101_FKeyDossier; run;
+914        proc sort data=buchung_V1_A1; by V101_FKeyDossier; run;
+915        
+916        data buchung3; merge buchung_2 (in=_a) buchung_V1_B2 (in=_b) buchung_V1_A1 (in=c); by V101_FKeyDossier;
+917        if LSTBZG_V1=. then LSTBZG_V1=0;
+918        if LSTBZG_V1_A=. then LSTBZG_V1_A=0;
+919        if LSTBZG_V1_B=. then LSTBZG_V1_B=0;
+920        run;
+921        
+922        
+923        
+924        
+925        /*uniquement les dossiers avec LSTBZG de toutes les variantes*/
+926        proc sort data=buchung3; by V101_FKeyDossier; run;
+927        data buchung3_doss; set buchung3; by V101_FKeyDossier;
+928        
+929        
+930        if last.V101_FKeyDossier then output; run;
+931        
+932        proc means data=buchung3_doss noprint;
+933        var V101_FKeyDossier LSTBZG_V1 LSTBZG_V1_A LSTBZG_V1_B;
+934        output out=variante1_resume_&m. (drop=_TYPE_ rename=_FREQ_=ANZ_DOSS)
+935        sum (LSTBZG_V1) = LSTBZG_variante1
+936        sum (LSTBZG_V1_A) = LSTBZG_variante1A
+937        sum (LSTBZG_V1_B) = LSTBZG_variante1B
+938        
+939        ;
+940        run;
+941        
+942        
+943        
+944        /*Output excel*/
+945        
+946        /*
+947        ods excel file="&output.LSTBZG_Valutamonat_&name_slt._&ep.&mois..xlsx"
+948        options(sheet_interval="none" embedded_titles="yes" embedded_footnotes="yes");
+949        
+950        %newsheet; ods excel options(sheet_interval='none' sheet_name="Doss nur KK");
+951        Title1 "&m.: Nombre de dossiers exclus car primes KK";
+952        proc freq data=buchung_c; tables only_kk_V1 / list missing; run;
+953        
+954        
+955        %newsheet; ods excel options(sheet_interval='none' sheet_name="Buchungen_OFS");
+956        title1 "&m.: Aperçu des codes comptables, point de vue OFS";
+957        proc tabulate data=buchung_2 (where=(pert=1));
+958        var V30_dbl_Betrag;
+959        CLASS V01_LIEFERUNG_MONAT /	ORDER=UNFORMATTED MISSING;
+19                                                         The SAS System                             15:48 Friday, October 29, 2021
+
+960        CLASS bez_code_bfs /	ORDER=UNFORMATTED MISSING;
+961        table
+962        ALL={LABEL="Total"}
+963        bez_code_bfs,
+964        V01_LIEFERUNG_MONAT*
+965          V30_dbl_Betrag*(
+966            N
+967            Sum) 		;
+968        	;
+969        	run;
+970        
+971        
+972        %newsheet; ods excel options(sheet_interval='none' sheet_name="Buchungen_Dienst");
+973        title1 "&m.: Aperçu des codes comptables, point de vue écritures comptables du service";
+974        
+975        proc tabulate data=buchung_2 (where=(pert=1));
+976        var V30_dbl_Betrag;
+977        CLASS V01_LIEFERUNG_MONAT /	ORDER=UNFORMATTED MISSING;
+978        CLASS V31_1_txtBUCHUNGSCODE_BEZ /	ORDER=UNFORMATTED MISSING;
+979        table
+980        ALL={LABEL="Total"}
+981        V31_1_txtBUCHUNGSCODE_BEZ,
+982        V01_LIEFERUNG_MONAT*
+983          V30_dbl_Betrag*(
+984            N
+985            Sum) 		;
+986        	;
+987        	run;
+988        
+989        
+990        %newsheet; ods excel options(sheet_interval='none' sheet_name="Résumé");
+991        Title1 "&m.: Aperçu des dossiers selon le LSTBZG";
+992        proc print data=variante1_resume_&m.; run;
+993        
+994        ods excel close;
+995        */
+996        
+997        
+998        
+999        
+1000       
+1001       
+1002       /* Exporter les listes de dossiers pour la ville de ZH */
+1003       /*
+1004       data dossiers_lstbzg_valuta_&mois.
+1005       (keep=V01_LIEFERUNG_MONAT V101_FKeyDossier LSTBZG_V1 LSTBZG_V1_A LSTBZG_V1_B)
+1006       ;
+1007       set buchung3_doss; run;
+1008       
+1009       
+1010       proc export data = dossiers_lstbzg_valuta_&mois.
+1011       outfile = "&output.Dossiers_nach_LSTBZG_Valutamonat_StadtZuerich_&ep.&mois..xlsx"
+1012       dbms=xlsx
+1013       replace;
+1014       sheet = "&mois." ;
+1015       run;
+1016       
+1017       */
+20                                                         The SAS System                             15:48 Friday, October 29, 2021
+
+1018       
+1019       /*exporter la table Buchung avec l'information sur le LSTBZG de chaque dossier*/
+1020       
+1021       data /*IDP1_SHS.*/buchung_mit_LSTBZG_&mois.; set buchung3; run;
+1022       
+1023       
+1024       /*
+1025       data w_idp1r2.buchung_mit_LSTBZG_&mois.; set buchung3; run;
+1026       */
+1027       
+1028       
+1029       %macro checktable;
+1030       	%if %sysfunc(exist(w_idp1r2.TBLBUCHUNG)) %then %do;
+1031       		proc delete data=w_idp1r2.TBLBUCHUNG; run;
+1032       	%end;
+1033       %mend;
+1034       %checktable;
+1035       
+1036       
+1037       
+1038       data w_idp1r2.TBLBUCHUNG
+1039       (KEEP =
+1040       CREATED_AT
+1041       DOSSIERID
+1042       ID
+1043       MODIFIED_AT
+1044       V01_LIEFERUNG_MONAT
+1045       V100_FKEYSLT
+1046       V101_FKEYDOSSIER
+1047       V102_FKEYPERS
+1048       V107_PKEYBUCHUNG
+1049       V30_DBL_BETRAG
+1050       V31_1_TXTBUCHUNGSCODE_BEZ
+1051       V31_FKEYBUCHUNGSCODE
+1052       V32_1_DAT_BETREFFMONAT
+1053       V32_2_DAT_BETREFFMONAT_BIS
+1054       V33_DAT_BUCHUNGSDATUM
+1055       
+1056       AUSGABEN
+1057       /*BEZ_CODE_BFS*/
+1058       CODE_BFS
+1059       EINNAHMEN
+1060       LSTBZG_V1
+1061       LSTBZG_V1_A
+1062       LSTBZG_V1_B
+1063       );
+1064       set buchung3;
+1065       run;
+1066       
+1067       
+1068       
+1069       %mend valutamonat;
+1070       
+1071       
+1072       %valutamonat (JAN,202101);
+
+NOTE: There were 108866 observations read from the data set WORK.BUCHUNG100.
+      WHERE V01_LIEFERUNG_MONAT=202101;
+21                                                         The SAS System                             15:48 Friday, October 29, 2021
+
+NOTE: The data set WORK.BUCHUNG01 has 108866 observations and 20 variables.
+NOTE: DATA statement used (Total process time):
+      real time           1.12 seconds
+      cpu time            1.12 seconds
+      
+
+
+NOTE: There were 99285 observations read from the data set WORK.BUCHUNG01.
+      WHERE (ausgaben=1) or (einnahmen=1);
+NOTE: The data set WORK.BUCHUNG_A has 99285 observations and 20 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.79 seconds
+      cpu time            0.79 seconds
+      
+
+NOTE: Table WORK.COUNT1 created, with 1 rows and 1 columns.
+
+NOTE: PROC SQL statements are executed immediately; The RUN statement has no effect.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.90 seconds
+      cpu time            0.91 seconds
+      
+
+NOTE: Table WORK.COUNT2 created, with 1 rows and 1 columns.
+
+NOTE: PROC SQL statements are executed immediately; The RUN statement has no effect.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.11 seconds
+      cpu time            0.11 seconds
+      
+
+
+NOTE: There were 99285 observations read from the data set WORK.BUCHUNG_A.
+NOTE: The data set WORK.BUCHUNG_B has 9082 observations and 22 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.12 seconds
+      cpu time            0.13 seconds
+      
+
+
+NOTE: There were 9082 observations read from the data set WORK.BUCHUNG_B.
+NOTE: The data set WORK.BUCHUNG_C has 1 observations and 5 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+
+NOTE: There were 108866 observations read from the data set WORK.BUCHUNG01.
+NOTE: The data set WORK.BUCHUNG01 has 108866 observations and 20 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.92 seconds
+      cpu time            0.92 seconds
+      
+
+
+NOTE: There were 1 observations read from the data set WORK.BUCHUNG_C.
+NOTE: The data set WORK.BUCHUNG_C has 1 observations and 3 variables.
+22                                                         The SAS System                             15:48 Friday, October 29, 2021
+
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+NOTE: There were 108866 observations read from the data set WORK.BUCHUNG01.
+NOTE: There were 1 observations read from the data set WORK.BUCHUNG_C.
+NOTE: The data set WORK.BUCHUNG_0 has 108866 observations and 21 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.45 seconds
+      cpu time            0.45 seconds
+      
+
+
+NOTE: Invalid argument to function MONTH(1926720000) at line 1072 column 217.
+NOTE: Invalid argument to function MONTH(1926806400) at line 1072 column 20.
+NOTE: Invalid argument to function MONTH(1926806400) at line 1072 column 69.
+NOTE: Invalid argument to function YEAR(1926806400) at line 1072 column 121.
+NOTE: Invalid argument to function YEAR(1926806400) at line 1072 column 168.
+NOTE: Invalid argument to function INTCK('month',1926806400,1926806400) at line 1072 column 215.
+ID=8AFE9866719AA94284248EA75D6D2C91 DOSSIERID=53EFD63E8EDEF349A471BE0603062B75 V01_LIEFERUNG_MONAT=202101 V100_FKEYSLT=13084
+V101_FKEYDOSSIER=16641 V102_FKEYPERS=145464 V107_PKEYBUCHUNG=17621557 V30_DBL_BETRAG=-3
+V31_1_TXTBUCHUNGSCODE_BEZ=med. Spezialkosten Person V31_FKEYBUCHUNGSCODE=216 V32_1_DAT_BETREFFMONAT=21JAN2021:00:00:00.0000000
+V32_2_DAT_BETREFFMONAT_BIS=21JAN2021:00:00:00.0000000 V33_DAT_BUCHUNGSDATUM=20JAN2021:00:00:00.0000000
+CREATED_AT=26.07.21 14:19:29.2556294 +00:00 MODIFIED_AT=  bez_code_bfs=Situationsbedingte Gesundheitskosten DKEY=16641 code_bfs=58
+ausgaben=1 einnahmen=0 only_kk_V1=. Monat_Valuta=. Monat_Betreff_a=. Monat_Betreff_b=. Jahr_Betreff_a=. Jahr_Betreff_b=.
+Nbr_Betreff=. Betrag_betreff=. pert=1 _ERROR_=1 _N_=1
+NOTE: Invalid argument to function MONTH(1926720000) at line 1072 column 217.
+NOTE: Invalid argument to function MONTH(1926806400) at line 1072 column 20.
+NOTE: Invalid argument to function MONTH(1926806400) at line 1072 column 69.
+NOTE: Invalid argument to function YEAR(1926806400) at line 1072 column 121.
+NOTE: Invalid argument to function YEAR(1926806400) at line 1072 column 168.
+NOTE: Invalid argument to function INTCK('month',1926806400,1926806400) at line 1072 column 215.
+ID=5C34A917671A01459DEDA83845FFA835 DOSSIERID=53EFD63E8EDEF349A471BE0603062B75 V01_LIEFERUNG_MONAT=202101 V100_FKEYSLT=13084
+V101_FKEYDOSSIER=16641 V102_FKEYPERS=145464 V107_PKEYBUCHUNG=17621556 V30_DBL_BETRAG=-10
+V31_1_TXTBUCHUNGSCODE_BEZ=KVG Franchisen, Selbstbehalt V31_FKEYBUCHUNGSCODE=141 V32_1_DAT_BETREFFMONAT=21JAN2021:00:00:00.0000000
+V32_2_DAT_BETREFFMONAT_BIS=21JAN2021:00:00:00.0000000 V33_DAT_BUCHUNGSDATUM=20JAN2021:00:00:00.0000000
+CREATED_AT=26.07.21 14:19:29.2555976 +00:00 MODIFIED_AT=  bez_code_bfs=Medizinische Grundversorgung DKEY=16641 code_bfs=50
+ausgaben=1 einnahmen=0 only_kk_V1=. Monat_Valuta=. Monat_Betreff_a=. Monat_Betreff_b=. Jahr_Betreff_a=. Jahr_Betreff_b=.
+Nbr_Betreff=. Betrag_betreff=. pert=1 _ERROR_=1 _N_=2
+NOTE: Invalid argument to function MONTH(1926720000) at line 1072 column 217.
+NOTE: Invalid argument to function MONTH(1919808000) at line 1072 column 20.
+NOTE: Invalid argument to function MONTH(1922313600) at line 1072 column 69.
+NOTE: Invalid argument to function YEAR(1919808000) at line 1072 column 121.
+NOTE: Invalid argument to function YEAR(1922313600) at line 1072 column 168.
+NOTE: Invalid argument to function INTCK('month',1919808000,1922313600) at line 1072 column 215.
+ID=B29860036353074A8DDFBF6382BA8D41 DOSSIERID=53EFD63E8EDEF349A471BE0603062B75 V01_LIEFERUNG_MONAT=202101 V100_FKEYSLT=13084
+V101_FKEYDOSSIER=16641 V102_FKEYPERS=145464 V107_PKEYBUCHUNG=17621542 V30_DBL_BETRAG=-1772
+V31_1_TXTBUCHUNGSCODE_BEZ=Teillohnprogramm V31_FKEYBUCHUNGSCODE=465 V32_1_DAT_BETREFFMONAT=01NOV2020:00:00:00.0000000
+V32_2_DAT_BETREFFMONAT_BIS=30NOV2020:00:00:00.0000000 V33_DAT_BUCHUNGSDATUM=20JAN2021:00:00:00.0000000
+CREATED_AT=26.07.21 14:19:29.2555608 +00:00 MODIFIED_AT=  bez_code_bfs=Kosten für Integrationsmassnahmen DKEY=16641 code_bfs=57
+ausgaben=1 einnahmen=0 only_kk_V1=. Monat_Valuta=. Monat_Betreff_a=. Monat_Betreff_b=. Jahr_Betreff_a=. Jahr_Betreff_b=.
+Nbr_Betreff=. Betrag_betreff=. pert=1 _ERROR_=1 _N_=3
+NOTE: Invalid argument to function MONTH(1926028800) at line 1072 column 217.
+NOTE: Invalid argument to function MONTH(1922400000) at line 1072 column 20.
+NOTE: Invalid argument to function MONTH(1924992000) at line 1072 column 69.
+NOTE: Invalid argument to function YEAR(1922400000) at line 1072 column 121.
+23                                                         The SAS System                             15:48 Friday, October 29, 2021
+
+NOTE: Invalid argument to function YEAR(1924992000) at line 1072 column 168.
+NOTE: Invalid argument to function INTCK('month',1922400000,1924992000) at line 1072 column 215.
+ID=415221CA1C8B2E418F6AF230ADE9D4D5 DOSSIERID=53EFD63E8EDEF349A471BE0603062B75 V01_LIEFERUNG_MONAT=202101 V100_FKEYSLT=13084
+V101_FKEYDOSSIER=16641 V102_FKEYPERS=145464 V107_PKEYBUCHUNG=17578158 V30_DBL_BETRAG=35 V31_1_TXTBUCHUNGSCODE_BEZ=Teillohn
+V31_FKEYBUCHUNGSCODE=851 V32_1_DAT_BETREFFMONAT=01DEC2020:00:00:00.0000000 V32_2_DAT_BETREFFMONAT_BIS=31DEC2020:00:00:00.0000000
+V33_DAT_BUCHUNGSDATUM=12JAN2021:00:00:00.0000000 CREATED_AT=26.07.21 14:19:29.2555279 +00:00 MODIFIED_AT= 
+bez_code_bfs=Erwerbseinkommen (netto) DKEY=16641 code_bfs=23 ausgaben=0 einnahmen=1 only_kk_V1=. Monat_Valuta=. Monat_Betreff_a=.
+Monat_Betreff_b=. Jahr_Betreff_a=. Jahr_Betreff_b=. Nbr_Betreff=. Betrag_betreff=. pert=1 _ERROR_=1 _N_=4
+NOTE: Invalid argument to function MONTH(1925337600) at line 1072 column 217.
+NOTE: Invalid argument to function MONTH(1919808000) at line 1072 column 20.
+NOTE: Invalid argument to function MONTH(1922313600) at line 1072 column 69.
+NOTE: Invalid argument to function YEAR(1919808000) at line 1072 column 121.
+NOTE: Invalid argument to function YEAR(1922313600) at line 1072 column 168.
+NOTE: Invalid argument to function INTCK('month',1919808000,1922313600) at line 1072 column 215.
+ID=A25D25D7B3F06A4EB2765FCF15C445CA DOSSIERID=53EFD63E8EDEF349A471BE0603062B75 V01_LIEFERUNG_MONAT=202101 V100_FKEYSLT=13084
+V101_FKEYDOSSIER=16641 V102_FKEYPERS=145464 V107_PKEYBUCHUNG=17539305 V30_DBL_BETRAG=-3750
+V31_1_TXTBUCHUNGSCODE_BEZ=Aufenthalt stat. Erw/Fam V31_FKEYBUCHUNGSCODE=511 V32_1_DAT_BETREFFMONAT=01NOV2020:00:00:00.0000000
+V32_2_DAT_BETREFFMONAT_BIS=30NOV2020:00:00:00.0000000 V33_DAT_BUCHUNGSDATUM=04JAN2021:00:00:00.0000000
+CREATED_AT=26.07.21 14:19:29.2554602 +00:00 MODIFIED_AT=  bez_code_bfs=Therapie-, Klinik- oder Heimkosten DKEY=16641 code_bfs=59
+ausgaben=1 einnahmen=0 only_kk_V1=. Monat_Valuta=. Monat_Betreff_a=. Monat_Betreff_b=. Jahr_Betreff_a=. Jahr_Betreff_b=.
+Nbr_Betreff=. Betrag_betreff=. pert=1 _ERROR_=1 _N_=5
+NOTE: Invalid argument to function MONTH(1927324800) at line 1072 column 217.
+NOTE: Invalid argument to function MONTH(1926892800) at line 1072 column 20.
+NOTE: Invalid argument to function MONTH(1926892800) at line 1072 column 69.
+NOTE: Invalid argument to function YEAR(1926892800) at line 1072 column 121.
+NOTE: Invalid argument to function YEAR(1926892800) at line 1072 column 168.
+NOTE: Invalid argument to function INTCK('month',1926892800,1926892800) at line 1072 column 215.
+ID=CA1C7601750B954A8241007C7D90692C DOSSIERID=3D8E8380D7C49147BD19D9540448EB64 V01_LIEFERUNG_MONAT=202101 V100_FKEYSLT=13084
+V101_FKEYDOSSIER=17386 V102_FKEYPERS=146883 V107_PKEYBUCHUNG=17666581 V30_DBL_BETRAG=13850
+V31_1_TXTBUCHUNGSCODE_BEZ=RE § 28 SHG Person V31_FKEYBUCHUNGSCODE=876 V32_1_DAT_BETREFFMONAT=22JAN2021:00:00:00.0000000
+V32_2_DAT_BETREFFMONAT_BIS=22JAN2021:00:00:00.0000000 V33_DAT_BUCHUNGSDATUM=27JAN2021:00:00:00.0000000
+CREATED_AT=26.07.21 14:19:29.2558744 +00:00 MODIFIED_AT=  bez_code_bfs=Rückerstattungen DKEY=17386 code_bfs=67 ausgaben=0
+einnahmen=0 only_kk_V1=. Monat_Valuta=. Monat_Betreff_a=. Monat_Betreff_b=. Jahr_Betreff_a=. Jahr_Betreff_b=. Nbr_Betreff=.
+Betrag_betreff=. pert=0 _ERROR_=1 _N_=6
+NOTE: Invalid argument to function MONTH(1927324800) at line 1072 column 217.
+NOTE: Invalid argument to function MONTH(1925078400) at line 1072 column 20.
+NOTE: Invalid argument to function MONTH(1940630400) at line 1072 column 69.
+NOTE: Invalid argument to function YEAR(1925078400) at line 1072 column 121.
+NOTE: Invalid argument to function YEAR(1940630400) at line 1072 column 168.
+NOTE: Invalid argument to function INTCK('month',1925078400,1940630400) at line 1072 column 215.
+ID=389C713D0AC1C746B432562D1F510582 DOSSIERID=B6195C49795FE443BEAECA45B7AF7F29 V01_LIEFERUNG_MONAT=202101 V100_FKEYSLT=13084
+V101_FKEYDOSSIER=34703 V102_FKEYPERS=178571 V107_PKEYBUCHUNG=17660853 V30_DBL_BETRAG=-2012
+V31_1_TXTBUCHUNGSCODE_BEZ=KVG Prämie inkl. Spesen V31_FKEYBUCHUNGSCODE=140 V32_1_DAT_BETREFFMONAT=01JAN2021:00:00:00.0000000
+V32_2_DAT_BETREFFMONAT_BIS=30JUN2021:00:00:00.0000000 V33_DAT_BUCHUNGSDATUM=27JAN2021:00:00:00.0000000
+CREATED_AT=26.07.21 14:19:29.2570281 +00:00 MODIFIED_AT=  bez_code_bfs=nicht relevant für die SHS DKEY=34703 code_bfs=999 ausgaben=0
+einnahmen=0 only_kk_V1=. Monat_Valuta=. Monat_Betreff_a=. Monat_Betreff_b=. Jahr_Betreff_a=. Jahr_Betreff_b=. Nbr_Betreff=.
+Betrag_betreff=. pert=0 _ERROR_=1 _N_=7
+NOTE: Invalid argument to function MONTH(1926892800) at line 1072 column 217.
+NOTE: Invalid argument to function MONTH(1927756800) at line 1072 column 20.
+NOTE: Invalid argument to function MONTH(1930089600) at line 1072 column 69.
+NOTE: Invalid argument to function YEAR(1927756800) at line 1072 column 121.
+NOTE: Invalid argument to function YEAR(1930089600) at line 1072 column 168.
+NOTE: Invalid argument to function INTCK('month',1927756800,1930089600) at line 1072 column 215.
+ID=0E53CE4E0353154C8E749C9BCCC9BB36 DOSSIERID=B6195C49795FE443BEAECA45B7AF7F29 V01_LIEFERUNG_MONAT=202101 V100_FKEYSLT=13084
+V101_FKEYDOSSIER=34703 V102_FKEYPERS=178571 V107_PKEYBUCHUNG=17645686 V30_DBL_BETRAG=142
+V31_1_TXTBUCHUNGSCODE_BEZ=GBL Spezialsituation V31_FKEYBUCHUNGSCODE=121 V32_1_DAT_BETREFFMONAT=01FEB2021:00:00:00.0000000
+V32_2_DAT_BETREFFMONAT_BIS=28FEB2021:00:00:00.0000000 V33_DAT_BUCHUNGSDATUM=22JAN2021:00:00:00.0000000
+CREATED_AT=26.07.21 14:19:29.2569904 +00:00 MODIFIED_AT=  bez_code_bfs=Grundbedarf für den Lebensunterhalt DKEY=34703 code_bfs=47
+24                                                         The SAS System                             15:48 Friday, October 29, 2021
+
+ausgaben=1 einnahmen=0 only_kk_V1=. Monat_Valuta=. Monat_Betreff_a=. Monat_Betreff_b=. Jahr_Betreff_a=. Jahr_Betreff_b=.
+Nbr_Betreff=. Betrag_betreff=. pert=1 _ERROR_=1 _N_=8
+NOTE: Invalid argument to function MONTH(1926720000) at line 1072 column 217.
+NOTE: Invalid argument to function MONTH(1926806400) at line 1072 column 20.
+NOTE: Invalid argument to function MONTH(1926806400) at line 1072 column 69.
+NOTE: Invalid argument to function YEAR(1926806400) at line 1072 column 121.
+NOTE: Invalid argument to function YEAR(1926806400) at line 1072 column 168.
+NOTE: Invalid argument to function INTCK('month',1926806400,1926806400) at line 1072 column 215.
+ID=547375C17886EF47A69D278860DD59BE DOSSIERID=B6195C49795FE443BEAECA45B7AF7F29 V01_LIEFERUNG_MONAT=202101 V100_FKEYSLT=13084
+V101_FKEYDOSSIER=34703 V102_FKEYPERS=178571 V107_PKEYBUCHUNG=17623565 V30_DBL_BETRAG=-122
+V31_1_TXTBUCHUNGSCODE_BEZ=Hausrat-, Haftpflichtvers. V31_FKEYBUCHUNGSCODE=310 V32_1_DAT_BETREFFMONAT=21JAN2021:00:00:00.0000000
+V32_2_DAT_BETREFFMONAT_BIS=21JAN2021:00:00:00.0000000 V33_DAT_BUCHUNGSDATUM=20JAN2021:00:00:00.0000000
+CREATED_AT=26.07.21 14:19:29.2568814 +00:00 MODIFIED_AT=  bez_code_bfs=Weitere grundversorgende SIL DKEY=34703 code_bfs=62
+ausgaben=1 einnahmen=0 only_kk_V1=. Monat_Valuta=. Monat_Betreff_a=. Monat_Betreff_b=. Jahr_Betreff_a=. Jahr_Betreff_b=.
+Nbr_Betreff=. Betrag_betreff=. pert=1 _ERROR_=1 _N_=9
+NOTE: Invalid argument to function MONTH(1927324800) at line 1072 column 217.
+NOTE: Invalid argument to function MONTH(1927411200) at line 1072 column 20.
+NOTE: Invalid argument to function MONTH(1927411200) at line 1072 column 69.
+NOTE: Invalid argument to function YEAR(1927411200) at line 1072 column 121.
+NOTE: Invalid argument to function YEAR(1927411200) at line 1072 column 168.
+NOTE: Invalid argument to function INTCK('month',1927411200,1927411200) at line 1072 column 215.
+ID=BB74D7CB736BAF46A2E98BEE197ED1FF DOSSIERID=B6195C49795FE443BEAECA45B7AF7F29 V01_LIEFERUNG_MONAT=202101 V100_FKEYSLT=13084
+V101_FKEYDOSSIER=34703 V102_FKEYPERS=178571 V107_PKEYBUCHUNG=17665399 V30_DBL_BETRAG=36
+V31_1_TXTBUCHUNGSCODE_BEZ=KK-RE Behandlung gem. KVG V31_FKEYBUCHUNGSCODE=751 V32_1_DAT_BETREFFMONAT=28JAN2021:00:00:00.0000000
+V32_2_DAT_BETREFFMONAT_BIS=28JAN2021:00:00:00.0000000 V33_DAT_BUCHUNGSDATUM=27JAN2021:00:00:00.0000000
+CREATED_AT=26.07.21 14:19:29.2570415 +00:00 MODIFIED_AT=  bez_code_bfs=Medizinische Grundversorgung DKEY=34703 code_bfs=50
+ausgaben=1 einnahmen=0 only_kk_V1=. Monat_Valuta=. Monat_Betreff_a=. Monat_Betreff_b=. Jahr_Betreff_a=. Jahr_Betreff_b=.
+Nbr_Betreff=. Betrag_betreff=. pert=1 _ERROR_=1 _N_=10
+NOTE: Invalid argument to function MONTH(1927324800) at line 1072 column 217.
+NOTE: Invalid argument to function MONTH(1927411200) at line 1072 column 20.
+NOTE: Invalid argument to function MONTH(1927411200) at line 1072 column 69.
+NOTE: Invalid argument to function YEAR(1927411200) at line 1072 column 121.
+NOTE: Invalid argument to function YEAR(1927411200) at line 1072 column 168.
+NOTE: Invalid argument to function INTCK('month',1927411200,1927411200) at line 1072 column 215.
+ID=DA03D5F2FC686B488F7A3CE184334EBB DOSSIERID=B6195C49795FE443BEAECA45B7AF7F29 V01_LIEFERUNG_MONAT=202101 V100_FKEYSLT=13084
+V101_FKEYDOSSIER=34703 V102_FKEYPERS=178571 V107_PKEYBUCHUNG=17660852 V30_DBL_BETRAG=-36 V31_1_TXTBUCHUNGSCODE_BEZ=Rechnungen KVG
+V31_FKEYBUCHUNGSCODE=150 V32_1_DAT_BETREFFMONAT=28JAN2021:00:00:00.0000000 V32_2_DAT_BETREFFMONAT_BIS=28JAN2021:00:00:00.0000000
+V33_DAT_BUCHUNGSDATUM=27JAN2021:00:00:00.0000000 CREATED_AT=26.07.21 14:19:29.2570093 +00:00 MODIFIED_AT= 
+bez_code_bfs=Medizinische Grundversorgung DKEY=34703 code_bfs=50 ausgaben=1 einnahmen=0 only_kk_V1=. Monat_Valuta=.
+Monat_Betreff_a=. Monat_Betreff_b=. Jahr_Betreff_a=. Jahr_Betreff_b=. Nbr_Betreff=. Betrag_betreff=. pert=1 _ERROR_=1 _N_=11
+NOTE: Invalid argument to function MONTH(1926892800) at line 1072 column 217.
+NOTE: Invalid argument to function MONTH(1927756800) at line 1072 column 20.
+NOTE: Invalid argument to function MONTH(1930089600) at line 1072 column 69.
+NOTE: Invalid argument to function YEAR(1927756800) at line 1072 column 121.
+NOTE: Invalid argument to function YEAR(1930089600) at line 1072 column 168.
+NOTE: Invalid argument to function INTCK('month',1927756800,1930089600) at line 1072 column 215.
+ID=6808E486822BA84281AC747E6EBFFBEA DOSSIERID=B6195C49795FE443BEAECA45B7AF7F29 V01_LIEFERUNG_MONAT=202101 V100_FKEYSLT=13084
+V101_FKEYDOSSIER=34703 V102_FKEYPERS=178571 V107_PKEYBUCHUNG=17645685 V30_DBL_BETRAG=-1200
+V31_1_TXTBUCHUNGSCODE_BEZ=Miete inkl. Nebenkosten V31_FKEYBUCHUNGSCODE=130 V32_1_DAT_BETREFFMONAT=01FEB2021:00:00:00.0000000
+V32_2_DAT_BETREFFMONAT_BIS=28FEB2021:00:00:00.0000000 V33_DAT_BUCHUNGSDATUM=22JAN2021:00:00:00.0000000
+CREATED_AT=26.07.21 14:19:29.2569706 +00:00 MODIFIED_AT=  bez_code_bfs=Angerechnete Wohnkosten DKEY=34703 code_bfs=49 ausgaben=1
+einnahmen=0 only_kk_V1=. Monat_Valuta=. Monat_Betreff_a=. Monat_Betreff_b=. Jahr_Betreff_a=. Jahr_Betreff_b=. Nbr_Betreff=.
+Betrag_betreff=. pert=1 _ERROR_=1 _N_=12
+NOTE: Invalid argument to function MONTH(1926892800) at line 1072 column 217.
+NOTE: Invalid argument to function MONTH(1927756800) at line 1072 column 20.
+NOTE: Invalid argument to function MONTH(1930089600) at line 1072 column 69.
+NOTE: Invalid argument to function YEAR(1927756800) at line 1072 column 121.
+NOTE: Invalid argument to function YEAR(1930089600) at line 1072 column 168.
+25                                                         The SAS System                             15:48 Friday, October 29, 2021
+
+NOTE: Invalid argument to function INTCK('month',1927756800,1930089600) at line 1072 column 215.
+ID=0D32CCD364BF324B98A8E2CD8041DAB4 DOSSIERID=B6195C49795FE443BEAECA45B7AF7F29 V01_LIEFERUNG_MONAT=202101 V100_FKEYSLT=13084
+V101_FKEYDOSSIER=34703 V102_FKEYPERS=178571 V107_PKEYBUCHUNG=17645684 V30_DBL_BETRAG=-948
+V31_1_TXTBUCHUNGSCODE_BEZ=GBL Spezialsituation V31_FKEYBUCHUNGSCODE=121 V32_1_DAT_BETREFFMONAT=01FEB2021:00:00:00.0000000
+V32_2_DAT_BETREFFMONAT_BIS=28FEB2021:00:00:00.0000000 V33_DAT_BUCHUNGSDATUM=22JAN2021:00:00:00.0000000
+CREATED_AT=26.07.21 14:19:29.2569332 +00:00 MODIFIED_AT=  bez_code_bfs=Grundbedarf für den Lebensunterhalt DKEY=34703 code_bfs=47
+ausgaben=1 einnahmen=0 only_kk_V1=. Monat_Valuta=. Monat_Betreff_a=. Monat_Betreff_b=. Jahr_Betreff_a=. Jahr_Betreff_b=.
+Nbr_Betreff=. Betrag_betreff=. pert=1 _ERROR_=1 _N_=13
+NOTE: Invalid argument to function MONTH(1926201600) at line 1072 column 217.
+NOTE: Invalid argument to function MONTH(1919808000) at line 1072 column 20.
+NOTE: Invalid argument to function MONTH(1922313600) at line 1072 column 69.
+NOTE: Invalid argument to function YEAR(1919808000) at line 1072 column 121.
+NOTE: Invalid argument to function YEAR(1922313600) at line 1072 column 168.
+NOTE: Invalid argument to function INTCK('month',1919808000,1922313600) at line 1072 column 215.
+ID=9B761284EECAA54EAD1170DDB4FFE0D3 DOSSIERID=B6195C49795FE443BEAECA45B7AF7F29 V01_LIEFERUNG_MONAT=202101 V100_FKEYSLT=13084
+V101_FKEYDOSSIER=34703 V102_FKEYPERS=178571 V107_PKEYBUCHUNG=17583452 V30_DBL_BETRAG=-1890
+V31_1_TXTBUCHUNGSCODE_BEZ=Teillohnprogramm V31_FKEYBUCHUNGSCODE=465 V32_1_DAT_BETREFFMONAT=01NOV2020:00:00:00.0000000
+V32_2_DAT_BETREFFMONAT_BIS=30NOV2020:00:00:00.0000000 V33_DAT_BUCHUNGSDATUM=14JAN2021:00:00:00.0000000
+CREATED_AT=26.07.21 14:19:29.2568433 +00:00 MODIFIED_AT=  bez_code_bfs=Kosten für Integrationsmassnahmen DKEY=34703 code_bfs=57
+ausgaben=1 einnahmen=0 only_kk_V1=. Monat_Valuta=. Monat_Betreff_a=. Monat_Betreff_b=. Jahr_Betreff_a=. Jahr_Betreff_b=.
+Nbr_Betreff=. Betrag_betreff=. pert=1 _ERROR_=1 _N_=14
+NOTE: Invalid argument to function MONTH(1926720000) at line 1072 column 217.
+NOTE: Invalid argument to function MONTH(1919808000) at line 1072 column 20.
+NOTE: Invalid argument to function MONTH(1922313600) at line 1072 column 69.
+NOTE: Invalid argument to function YEAR(1919808000) at line 1072 column 121.
+NOTE: Invalid argument to function YEAR(1922313600) at line 1072 column 168.
+NOTE: Invalid argument to function INTCK('month',1919808000,1922313600) at line 1072 column 215.
+ID=ECC4260BC8A82343ABBC97C8A3A4A710 DOSSIERID=0F6F6B7EA252AB45A0776BE4D2A542A3 V01_LIEFERUNG_MONAT=202101 V100_FKEYSLT=13084
+V101_FKEYDOSSIER=45710 V102_FKEYPERS=196723 V107_PKEYBUCHUNG=17617391 V30_DBL_BETRAG=-235
+V31_1_TXTBUCHUNGSCODE_BEZ=GBL stationärer Aufenthalt V31_FKEYBUCHUNGSCODE=120 V32_1_DAT_BETREFFMONAT=01NOV2020:00:00:00.0000000
+V32_2_DAT_BETREFFMONAT_BIS=30NOV2020:00:00:00.0000000 V33_DAT_BUCHUNGSDATUM=20JAN2021:00:00:00.0000000
+CREATED_AT=26.07.21 14:19:29.2572545 +00:00 MODIFIED_AT= 
+bez_code_bfs=Pauschale für Personen in stationären Einrichtungen (Sackgeld) DKEY=45710 code_bfs=48 ausgaben=1 einnahmen=0
+only_kk_V1=. Monat_Valuta=. Monat_Betreff_a=. Monat_Betreff_b=. Jahr_Betreff_a=. Jahr_Betreff_b=. Nbr_Betreff=. Betrag_betreff=.
+pert=1 _ERROR_=1 _N_=15
+NOTE: Invalid argument to function MONTH(1926720000) at line 1072 column 217.
+NOTE: Invalid argument to function MONTH(1919808000) at line 1072 column 20.
+NOTE: Invalid argument to function MONTH(1922313600) at line 1072 column 69.
+NOTE: Invalid argument to function YEAR(1919808000) at line 1072 column 121.
+NOTE: Invalid argument to function YEAR(1922313600) at line 1072 column 168.
+NOTE: Invalid argument to function INTCK('month',1919808000,1922313600) at line 1072 column 215.
+ID=6420578A6162A249BB2F8D310BC4C844 DOSSIERID=0F6F6B7EA252AB45A0776BE4D2A542A3 V01_LIEFERUNG_MONAT=202101 V100_FKEYSLT=13084
+V101_FKEYDOSSIER=45710 V102_FKEYPERS=196723 V107_PKEYBUCHUNG=17617390 V30_DBL_BETRAG=-2280
+V31_1_TXTBUCHUNGSCODE_BEZ=Pflegefamilie über Org. V31_FKEYBUCHUNGSCODE=562 V32_1_DAT_BETREFFMONAT=01NOV2020:00:00:00.0000000
+V32_2_DAT_BETREFFMONAT_BIS=30NOV2020:00:00:00.0000000 V33_DAT_BUCHUNGSDATUM=20JAN2021:00:00:00.0000000
+CREATED_AT=26.07.21 14:19:29.2572207 +00:00 MODIFIED_AT=  bez_code_bfs=Therapie-, Klinik- oder Heimkosten DKEY=45710 code_bfs=59
+ausgaben=1 einnahmen=0 only_kk_V1=. Monat_Valuta=. Monat_Betreff_a=. Monat_Betreff_b=. Jahr_Betreff_a=. Jahr_Betreff_b=.
+Nbr_Betreff=. Betrag_betreff=. pert=1 _ERROR_=1 _N_=16
+NOTE: Invalid argument to function MONTH(1926720000) at line 1072 column 217.
+NOTE: Invalid argument to function MONTH(1919808000) at line 1072 column 20.
+NOTE: Invalid argument to function MONTH(1922313600) at line 1072 column 69.
+NOTE: Invalid argument to function YEAR(1919808000) at line 1072 column 121.
+NOTE: Over 100 NOTES, additional NOTES suppressed.
+NOTE: Invalid argument to function YEAR(1922313600) at line 1072 column 168.
+ID=F284335ED617784DACAC4E6FB888C8A4 DOSSIERID=0F6F6B7EA252AB45A0776BE4D2A542A3 V01_LIEFERUNG_MONAT=202101 V100_FKEYSLT=13084
+V101_FKEYDOSSIER=45710 V102_FKEYPERS=196723 V107_PKEYBUCHUNG=17617389 V30_DBL_BETRAG=-2040
+V31_1_TXTBUCHUNGSCODE_BEZ=Heim ohne interne Schule V31_FKEYBUCHUNGSCODE=520 V32_1_DAT_BETREFFMONAT=01NOV2020:00:00:00.0000000
+V32_2_DAT_BETREFFMONAT_BIS=30NOV2020:00:00:00.0000000 V33_DAT_BUCHUNGSDATUM=20JAN2021:00:00:00.0000000
+26                                                         The SAS System                             15:48 Friday, October 29, 2021
+
+CREATED_AT=26.07.21 14:19:29.2571752 +00:00 MODIFIED_AT=  bez_code_bfs=Therapie-, Klinik- oder Heimkosten DKEY=45710 code_bfs=59
+ausgaben=1 einnahmen=0 only_kk_V1=. Monat_Valuta=. Monat_Betreff_a=. Monat_Betreff_b=. Jahr_Betreff_a=. Jahr_Betreff_b=.
+Nbr_Betreff=. Betrag_betreff=. pert=1 _ERROR_=1 _N_=17
+ID=A426AEFBA6482A49851DED1B56D1C5B8 DOSSIERID=C832BCE394371948AB049D38B10D2B61 V01_LIEFERUNG_MONAT=202101 V100_FKEYSLT=13084
+V101_FKEYDOSSIER=49333 V102_FKEYPERS=202192 V107_PKEYBUCHUNG=17659230 V30_DBL_BETRAG=14
+V31_1_TXTBUCHUNGSCODE_BEZ=KK-RE Behandlung gem. KVG V31_FKEYBUCHUNGSCODE=751 V32_1_DAT_BETREFFMONAT=27JAN2021:00:00:00.0000000
+V32_2_DAT_BETREFFMONAT_BIS=27JAN2021:00:00:00.0000000 V33_DAT_BUCHUNGSDATUM=26JAN2021:00:00:00.0000000
+CREATED_AT=26.07.21 14:19:29.2579866 +00:00 MODIFIED_AT=  bez_code_bfs=Medizinische Grundversorgung DKEY=49333 code_bfs=50
+ausgaben=1 einnahmen=0 only_kk_V1=. Monat_Valuta=. Monat_Betreff_a=. Monat_Betreff_b=. Jahr_Betreff_a=. Jahr_Betreff_b=.
+Nbr_Betreff=. Betrag_betreff=. pert=1 _ERROR_=1 _N_=18
+ID=B3A780FD08959A488E1989B29A31F814 DOSSIERID=C832BCE394371948AB049D38B10D2B61 V01_LIEFERUNG_MONAT=202101 V100_FKEYSLT=13084
+V101_FKEYDOSSIER=49333 V102_FKEYPERS=202192 V107_PKEYBUCHUNG=17651954 V30_DBL_BETRAG=132
+V31_1_TXTBUCHUNGSCODE_BEZ=KK-RE Behandlung gem. KVG V31_FKEYBUCHUNGSCODE=751 V32_1_DAT_BETREFFMONAT=26JAN2021:00:00:00.0000000
+V32_2_DAT_BETREFFMONAT_BIS=26JAN2021:00:00:00.0000000 V33_DAT_BUCHUNGSDATUM=25JAN2021:00:00:00.0000000
+CREATED_AT=26.07.21 14:19:29.2579489 +00:00 MODIFIED_AT=  bez_code_bfs=Medizinische Grundversorgung DKEY=49333 code_bfs=50
+ausgaben=1 einnahmen=0 only_kk_V1=. Monat_Valuta=. Monat_Betreff_a=. Monat_Betreff_b=. Jahr_Betreff_a=. Jahr_Betreff_b=.
+Nbr_Betreff=. Betrag_betreff=. pert=1 _ERROR_=1 _N_=19
+WARNING: Limit set by ERRORS= option reached.  Further errors of this type will not be printed.
+ID=943B92D4BF11CE4FB6C14964B11CC769 DOSSIERID=C832BCE394371948AB049D38B10D2B61 V01_LIEFERUNG_MONAT=202101 V100_FKEYSLT=13084
+V101_FKEYDOSSIER=49333 V102_FKEYPERS=202192 V107_PKEYBUCHUNG=17646286 V30_DBL_BETRAG=260
+V31_1_TXTBUCHUNGSCODE_BEZ=KK-RE Behandlung gem. KVG V31_FKEYBUCHUNGSCODE=751 V32_1_DAT_BETREFFMONAT=25JAN2021:00:00:00.0000000
+V32_2_DAT_BETREFFMONAT_BIS=25JAN2021:00:00:00.0000000 V33_DAT_BUCHUNGSDATUM=22JAN2021:00:00:00.0000000
+CREATED_AT=26.07.21 14:19:29.2579179 +00:00 MODIFIED_AT=  bez_code_bfs=Medizinische Grundversorgung DKEY=49333 code_bfs=50
+ausgaben=1 einnahmen=0 only_kk_V1=. Monat_Valuta=. Monat_Betreff_a=. Monat_Betreff_b=. Jahr_Betreff_a=. Jahr_Betreff_b=.
+Nbr_Betreff=. Betrag_betreff=. pert=1 _ERROR_=1 _N_=20
+NOTE: Missing values were generated as a result of performing an operation on missing values.
+      Each place is given by: (Number of times) at (Line):(Column).
+      132 at 1072:20      132 at 1072:121     132 at 1072:215     108866 at 1072:30   108866 at 1072:66   
+NOTE: Mathematical operations could not be performed at the following places. The results of the operations have been set to 
+      missing values.
+      Each place is given by: (Number of times) at (Line):(Column).
+      108866 at 1072:217   108734 at 1072:20    108866 at 1072:69    108734 at 1072:121   108866 at 1072:168   108734 at 1072:215
+NOTE: There were 108866 observations read from the data set WORK.BUCHUNG_0.
+NOTE: The data set WORK.BUCHUNG_2 has 108866 observations and 29 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.51 seconds
+      cpu time            0.52 seconds
+      
+
+
+NOTE: There were 108866 observations read from the data set WORK.BUCHUNG_2.
+NOTE: The data set WORK.BUCHUNG_2 has 108866 observations and 29 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.92 seconds
+      cpu time            0.92 seconds
+      
+
+
+NOTE: There were 99284 observations read from the data set WORK.BUCHUNG_2.
+      WHERE (only_kk_V1=.) and (pert=1);
+NOTE: The data set WORK.BUCHUNG_V1_1 has 9081 observations and 31 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.13 seconds
+      cpu time            0.14 seconds
+      
+
+
+NOTE: There were 99285 observations read from the data set WORK.BUCHUNG_2.
+27                                                         The SAS System                             15:48 Friday, October 29, 2021
+
+      WHERE pert=1;
+NOTE: The PROCEDURE TABULATE printed pages 2-4.
+NOTE: PROCEDURE TABULATE used (Total process time):
+      real time           0.11 seconds
+      cpu time            0.12 seconds
+      
+
+
+NOTE: There were 99285 observations read from the data set WORK.BUCHUNG_2.
+      WHERE pert=1;
+NOTE: The PROCEDURE TABULATE printed pages 5-11.
+NOTE: PROCEDURE TABULATE used (Total process time):
+      real time           0.14 seconds
+      cpu time            0.25 seconds
+      
+
+
+NOTE: Input data set is already sorted, no sorting done.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+NOTE: There were 68998 observations read from the data set WORK.BUCHUNG_2.
+      WHERE (only_kk_V1=.) and (pert=1) and (V30_dbl_Betrag<0);
+NOTE: The data set WORK.BUCHUNG_V1_A has 8813 observations and 30 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.14 seconds
+      cpu time            0.14 seconds
+      
+
+
+NOTE: Input data set is already sorted, no sorting done.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+NOTE: There were 99284 observations read from the data set WORK.BUCHUNG_2.
+      WHERE (only_kk_V1=.) and ((einnahmen=1) or (ausgaben=1));
+NOTE: The data set WORK.BUCHUNG_V1_B has 9081 observations and 33 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.14 seconds
+      cpu time            0.15 seconds
+      
+
+
+NOTE: There were 9081 observations read from the data set WORK.BUCHUNG_V1_B.
+NOTE: The data set WORK.BUCHUNG_V1_B1 has 9081 observations and 34 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.04 seconds
+      
+
+
+NOTE: There were 9081 observations read from the data set WORK.BUCHUNG_V1_B1.
+28                                                         The SAS System                             15:48 Friday, October 29, 2021
+
+NOTE: The data set WORK.BUCHUNG_V1_B2 has 9081 observations and 3 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+
+NOTE: There were 8813 observations read from the data set WORK.BUCHUNG_V1_A.
+NOTE: The data set WORK.BUCHUNG_V1_A1 has 8813 observations and 2 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+
+NOTE: Input data set is already sorted, no sorting done.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+NOTE: There were 9081 observations read from the data set WORK.BUCHUNG_V1_B2.
+NOTE: The data set WORK.BUCHUNG_V1_B2 has 9081 observations and 3 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+NOTE: There were 8813 observations read from the data set WORK.BUCHUNG_V1_A1.
+NOTE: The data set WORK.BUCHUNG_V1_A1 has 8813 observations and 2 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+
+NOTE: There were 108866 observations read from the data set WORK.BUCHUNG_2.
+NOTE: There were 9081 observations read from the data set WORK.BUCHUNG_V1_B2.
+NOTE: There were 8813 observations read from the data set WORK.BUCHUNG_V1_A1.
+NOTE: The data set WORK.BUCHUNG3 has 108866 observations and 32 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.51 seconds
+      cpu time            0.51 seconds
+      
+
+
+NOTE: There were 108866 observations read from the data set WORK.BUCHUNG3.
+NOTE: The data set WORK.BUCHUNG3 has 108866 observations and 32 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.91 seconds
+      cpu time            0.92 seconds
+      
+
+
+NOTE: There were 108866 observations read from the data set WORK.BUCHUNG3.
+NOTE: The data set WORK.BUCHUNG3_DOSS has 9277 observations and 32 variables.
+29                                                         The SAS System                             15:48 Friday, October 29, 2021
+
+NOTE: DATA statement used (Total process time):
+      real time           0.13 seconds
+      cpu time            0.13 seconds
+      
+
+
+NOTE: There were 9277 observations read from the data set WORK.BUCHUNG3_DOSS.
+NOTE: The data set WORK.VARIANTE1_RESUME_JAN has 1 observations and 4 variables.
+NOTE: PROCEDURE MEANS used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.02 seconds
+      
+
+
+NOTE: There were 108866 observations read from the data set WORK.BUCHUNG3.
+NOTE: The data set WORK.BUCHUNG_MIT_LSTBZG_202101 has 108866 observations and 32 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.51 seconds
+      cpu time            0.50 seconds
+      
+
+
+NOTE: Deleting W_IDP1R2.TBLBUCHUNG (memtype=DATA).
+NOTE: PROCEDURE DELETE used (Total process time):
+      real time           0.10 seconds
+      cpu time            0.00 seconds
+      
+
+
+NOTE: SAS variable labels, formats, and lengths are not written to DBMS tables.
+NOTE: There were 108866 observations read from the data set WORK.BUCHUNG3.
+NOTE: The data set W_IDP1R2.TBLBUCHUNG has 108866 observations and 21 variables.
+NOTE: DATA statement used (Total process time):
+      real time           10.87 seconds
+      cpu time            2.27 seconds
+      
+
+1073       
+1074       /*
+1075       %valutamonat (DEC,202012);
+1076       ...
+1077       %valutamonat (FEB ,202102);
+1078       %valutamonat (MARS,202103);
+1079       %valutamonat (APR ,202104);
+1080       */
+
+NOTE: SAS Institute Inc., SAS Campus Drive, Cary, NC USA 27513-2414
+NOTE: The SAS System used:
+      real time           1:22.92
+      cpu time            1:11.05
+      

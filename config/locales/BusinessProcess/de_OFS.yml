@@ -1,0 +1,61 @@
+# Code for language as declared in i18n configuration
+de_OFS:
+  # Considered object from a global view
+  BusinessProcesses:                            "Scheduled flows"
+  BusinessProcess:                              "Scheduled flow"
+  ManagingBusinessProcesses:                    "Scheduled flow verwalten"
+  NewBusinessProcess:                           "Neuer Scheduled flow"
+  BusinessProcessRejected:                      "Scheduled flow wurde abgelehnt"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessProcess )
+  business_processes:
+    index:
+      # Columns titles
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      Owner:                                  "Eigentümer"
+      UpdatedBy:                              "Aktualisiert von"
+      UpdatedAt:                              "Aktualisiert am"
+    index_short:
+      # Columns titles
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      Owner:                                  "Eigentümer"
+      UpdatedBy:                              "Aktualisiert von"
+      UpdatedAt:                              "Aktualisiert am"
+    show:
+      Manage:                                 "Scheduled flow verwalten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      Steps:                                  "Teilprozesse"
+      NewActivity:                            "Neuer Teilprozess"
+      NewBusinessObject:                      "Neue Struktur"
+      NewBusinessRules:                       "Neue Regel"
+    new:
+      New:                                    "Neuer Scheduled flow"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    edit:
+      Edit:                                   "Scheduled flow bearbeiten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    create:
+      Success:                             	  "erfolgreich erstellt Scheduled flow"
+      Failure:                                "Scheduled flow konnte nicht erstellt werden"
+    update:
+      Success:                             	  "erfolgreich aktualisierter Scheduled flow"
+      Failure:                                "Scheduled flow konnte nicht aktualisierter werden"
+    activate:
+      Success:                             	  "Scheduled flow erfolgreich wiederhergestellt"
+      Failure:                                "Scheduled flow konnte nicht abgerufen werden"
+    destroy:
+      Success:                             	  "Scheduled flow erfolgreich gelöscht"
+      Failure:                                "Scheduled flow konnte nicht gelöscht werden"

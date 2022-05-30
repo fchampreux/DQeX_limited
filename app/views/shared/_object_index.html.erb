@@ -1,0 +1,42 @@
+<%# For objects supporting versions, add the version and status icons %>
+<%# An array can be passed as parameter for additional columns %>
+<% isTechnical ||= false %>
+<% showType ||= false %>
+<% this_path ||= request.fullpath %>
+<table class="table table-hover table-clickable" id="indexTable">
+
+</table>
+
+<script>
+  $(document).ready( function () {
+    // Choose statuses icons from views_helper
+    var status_icons = ["fa fa-archive status-inactive",
+                        "fa fa-clipboard-check status-active",
+                        "fa fa-glasses status-pending"];
+    $('#indexTable').DataTable({
+      ajax:{
+        url: '<%= this_path %>',
+        dataSrc: ''
+      },
+      pageLength: 25,
+      createdRow: function( row, data, dataIndex ) {
+        $(row).attr("data-href", "<%= this_path %>/" + data.id)
+      },
+      columns: [
+        { title: '<%= t('CalculatedStatus') %>',
+          data: 'calculated_status',
+          render: function(calculated_status) {return '<span class="status-icon ' + status_icons[calculated_status] + '"> </span>'} },
+        { title: '<%= isTechnical ? t('TechCode') : t('Code') %>', data: 'code' },
+        <% if showType %>
+        { title: '<%= t('Type') %>', data: 'object_type' },
+        <% end %>
+        { title: '<%= t('Name') %>', data: 'translated_name' },
+        { title: '<%= t('Description') %>', data: 'translated_description' },
+        { title: '<%= t('Owner') %>', data: 'owner_name' },
+        { title: '<%= t('UpdatedAt') %>', render: function( data, type, row ) {
+          return (row['updated_at']).substring(0,10)}
+        }
+      ]
+    });
+  } );
+</script>

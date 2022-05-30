@@ -1,0 +1,104 @@
+<fieldset disabled name="objectOwnership">
+  <%# Display ownership and parent relation %>
+  <div class="row mat-form-row">
+    <div class="mat-form-field col-md-2">
+      <label for="ownership-id" class="mat-form-field-label">
+        <%= t('UniqueId') %>
+      </label>
+      <input id="ownership-id" class="mat-input-element" readonly
+        value="<%= this_object.id %>" />
+    </div>
+    <div class="mat-form-field col-md-4">
+      <% if namespace != 'administration' %>
+        <span title="<%= t(this_object.parent.class.name) %>">
+          <label for="ownership-parent" class="mat-form-field-label">
+            <%= t('Parent') %>
+          </label>
+          <%= link_to(this_object.parent.code, [namespace, this_object.parent], class: "mat-stroked-button mat-button-base mat-primary") if this_object.parent.present? %>
+        </span>
+      <% end %>
+    </div>
+    <div class="mat-form-field col-md-6">
+      <label for="ownership-owner" class="mat-form-field-label">
+        <%= t('Owner') %>
+      </label>
+      <input id="ownership-owner" class="mat-input-element" readonly
+        value="<%= this_object.owner.name %>" />
+    </div>
+  </div>
+  <%# Display last update information %>
+  <div class="row mat-form-row">
+    <div class="mat-form-field col-md-6">
+      <label for="ownership-created-by" class="mat-form-field-label">
+        <%= t('CreatedBy') %>
+      </label>
+      <input id="ownership-created-by" class="mat-input-element" readonly
+        value="<%= get_user_name_from_login(this_object.created_by) %>" />
+    </div>
+    <div class="mat-form-field col-md-6">
+      <label for="ownership-created-at" class="mat-form-field-label">
+        <%= t('CreatedAt') %>
+      </label>
+      <input id="ownership-created-at" class="mat-input-element" readonly
+        value="<%= format_datetime(this_object.created_at) %>" />
+    </div>
+  </div>
+  <div class="row mat-form-row">
+    <div class="mat-form-field col-md-6">
+      <label for="ownership-updated-by" class="mat-form-field-label">
+        <%= t('UpdatedBy') %>
+      </label>
+      <input id="ownership-updated-by" class="mat-input-element" readonly
+        value="<%= get_user_name_from_login(this_object.updated_by) %>" />
+    </div>
+    <div class="mat-form-field col-md-6">
+      <label for="ownership-updated-at" class="mat-form-field-label">
+        <%= t('UpdatedAt') %>
+      </label>
+      <input id="ownership-updated-at" class="mat-input-element" readonly
+        value="<%= format_datetime(this_object.updated_at) %>" />
+    </div>
+  </div>
+  <%# Display classification reference if any %>
+  <div class="row mat-form-row">
+    <% if this_object.has_attribute? :hierarchy # displays the hierarchy only for objects belonging to a hierarchy %>
+      <div class="mat-form-field col-md-6">
+          <label for="ownership-hierarchy" class="mat-form-field-label">
+            <%= t('Hierarchy') %>
+          </label>
+          <input id="ownership-hierarchy" class="mat-input-element" readonly
+            value="<%= this_object.hierarchy %>" />
+      </div>
+    <% end %>
+    <% if this_object.has_attribute? :uuid %>
+      <div class="mat-form-field col-md-6">
+        <label for="global_identifier" class="mat-form-field-label">
+          <%= t('UUID') %>
+        </label>
+        <input id="global_identifier" class="mat-input-element" readonly
+          value="<%= this_object.uuid %>" />
+      </div>
+    <% end %>
+  </div>
+  <%# Display processes classification framework reference if any %>
+  <div class="row mat-form-row">
+    <% if this_object.has_attribute? :pcf_index # displays the pcf_index only for objects belonging to the PCF %>
+      <div class="mat-form-field col-md-6">
+          <label for="ownership-PCFindex" class="mat-form-field-label">
+            <%= t('PCFindex') %>
+          </label>
+          <input id="ownership-PCFindex" class="mat-input-element" readonly
+            value="<%= this_object.pcf_index %>" />
+      </div>
+    <% end %>
+    <% if this_object.has_attribute? :pcf_reference %>
+      <div class="mat-form-field col-md-6">
+        <label for="ownership-PCFreference" class="mat-form-field-label">
+          <%= t('PCFreference') %>
+        </label>
+        <input id="ownership-PCFreference" class="mat-input-element" readonly
+          value="<%= this_object.pcf_reference %>" />
+      </div>
+    <% end %>
+  </div>
+</fieldset>

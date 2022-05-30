@@ -1,0 +1,56 @@
+  <div class="row mat-form-row">
+    <% if @completion_status[0] %>
+      <div class="mat-form-field col-md-2" title="<%= t('Translations_hint') %>" >
+        <label for="translation-completion" class="mat-form-field-label">
+          <%= t('Translations') %>
+        </label>
+        <input id="translation-completion" class="mat-input-element" readonly
+          value="<%= number_to_percentage(@completion_status[0], precision: 0) %>" />
+      </div>
+    <% end %>
+    <% if @completion_status[1] %>
+      <div class="mat-form-field col-md-2" title="<%= t('ValuesList_hint') %>" >
+        <label for="values_list-reference" class="mat-form-field-label">
+          <%= t('ValuesList') %>
+        </label>
+        <input id="values_list-reference" class="mat-input-element" readonly
+          value="<%= number_to_percentage(@completion_status[1], precision: 0) %>" />
+      </div>
+    <% end %>
+    <% if @completion_status[2] %>
+      <div class="mat-form-field col-md-2" title="<%= t('LinkedVariable_hint') %>" >
+        <label for="linked-variables" class="mat-form-field-label">
+          <%= t('LinkedVariable') %>
+        </label>
+        <input id="linked-variables" class="mat-input-element" readonly
+          value="<%= number_to_percentage(@completion_status[2], precision: 0) %>" />
+      </div>
+    <% end %>
+    <% if @completion_status[3] %>
+      <div class="mat-form-field col-md-2" title="<%= t('Responsibilities_hint') %>" >
+        <label for="responsibilities" class="mat-form-field-label">
+          <%= t('Responsibilities') %>
+        </label>
+        <input id="responsibilities" class="mat-input-element" readonly
+          value="<%= number_to_percentage(@completion_status[3], precision: 0) %>" />
+      </div>
+    <% end %>
+    <% if @completion_status[4] %>
+      <div class="mat-form-field col-md-2" title="<%= t('DataTypes_hint') %>" >
+        <label for="data-types" class="mat-form-field-label">
+          <%= t('DataTypes') %>
+        </label>
+        <input id="data-types" class="mat-input-element" readonly
+          value="<%= number_to_percentage(@completion_status[4], precision: 0) %>" />
+      </div>
+    <% end %>
+    <% if @completion_status[5] %>
+      <div class="mat-form-field col-md-2" title="<%= t('PrimaryKey_hint') %>" >
+        <label for="primary-key" class="mat-form-field-label">
+          <%= t('PrimaryKey') %>
+        </label>
+        <input id="primary-key" class="mat-input-element" readonly
+          value="<%= number_to_percentage(@completion_status[5], precision: 0) %>" />
+      </div>
+    <% end %>
+  </div>

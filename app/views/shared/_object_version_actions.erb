@@ -1,0 +1,73 @@
+<% if can? :update, this_object %>
+
+  <% if this_object.is_active %>
+    <%# Display skills include buttons %>
+    <div class="mat-button-group">
+      <% if this_object.class == DeployedObject %>
+        <%# Display cart activation buttons %>
+        <% if not this_object.is_template %> <!-- Should be only available to used data structures -->
+          <% if (not session[:cart_id].nil?) and session[:cart_id] == this_object.id %>
+            <%= link_to [:close_cart, this_object], method: :post, class: "mat-flat-button mat-button-base mat-primary" do %>
+              <span class="fa fa-check-square"></span>
+              <%= t('CloseSkillsSelection') %>
+            <% end %>
+          <% else %>
+            <%= link_to [:open_cart, this_object], method: :post, class: "mat-flat-button mat-button-base mat-primary" do %>
+              <span class="fa fa-shopping-cart"></span>
+              <%= t('OpenSkillsSelection') %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if version_management %>
+    <%# Display version management buttons %>
+    <div class="mat-button-group">
+      <% if not this_object.is_current %>
+        <%= link_to [ :make_current, this_object], method: :post, class: "mat-stroked-button mat-button-base" do %>
+          <span class="fa fa-map-pin" %></span>
+          <%= t('MakeCurrent') %>
+        <% end %>
+      <% end %>
+
+      <% if not this_object.is_finalised %>
+        <%= link_to [ :finalise, this_object], method: :post, class: "mat-stroked-button mat-button-base" do %>
+          <span class="fa fa-check-circle" %></span>
+          <%= t('Finalise') %>
+        <% end %>
+      <% end %>
+
+      <%= link_to [ :new_version, this_object], method: :post, class: "mat-flat-button mat-button-base mat-primary" do %>
+        <span class="fa fa-file-alt" %></span>
+        <%= t('NewVersion') %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="mat-button-group">
+    <%# Display object edit buttons %>
+    <% if not this_object.is_active %>
+      <%= link_to [ :activate, this_object], method: :post, class: "mat-stroked-button mat-button-base" do %>
+        <span class="fa fa-trash-restore"></span>
+        <%= t('Recall') %>
+      <% end %>
+
+    <% else %>
+
+      <% if not this_object.is_finalised %>
+        <%= link_to [ :edit, this_object], method: :get, class: "mat-flat-button mat-button-base mat-primary" do %>
+          <span class="fa fa-edit"></span>
+          <%= t('Edit') %>
+        <% end %>
+
+        <%= link_to this_object, data: { confirm: t('Sure') }, method: :delete, class: "mat-flat-button mat-button-base mat-warn" do %>
+          <span class="fa fa-trash"></span>
+          <%= t('Destroy') %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+
+<% end %>

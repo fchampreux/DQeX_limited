@@ -1,0 +1,34 @@
+<% provide(:title, (t('ManagingGroups'))) %>
+
+<% provide :page_heading do %>
+  <%= render partial: "shared/heading", locals: {this_object: @group} %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  <ol id="breadcrumbs" class="breadcrumbs">
+    <li>
+      <a href="/" title="<%= t("Display") %>" class="fa fa-home"></a>
+    </li>
+    <li>
+      <%= link_to translation_for(@group.name_translations) %>
+    </li>
+  </ol>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/edit_view_navigation" %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_edit_actions", locals: {this_object: @group } %>
+<% end %>
+
+<% provide :information do %>
+  <%= render partial: 'form' %>
+<% end %>
+
+<%= render layout: "layouts/collapsible_details",
+    locals: {tabs_content: [ :information ],
+    title: t('Group')}  do %>
+
+<% end %>

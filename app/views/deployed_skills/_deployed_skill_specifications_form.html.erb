@@ -1,0 +1,170 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="row mat-form-row">
+      <div class="mat-form-field col-md-3">
+        <%= f.label :values_list, t('ValuesList'), class: "mat-form-field-label" %>
+        <%= f.collection_select :values_list_id, list_of_values_lists, :id, :code, {include_blank: true}, { class: "mat-input-element select2-candidate", id: "values_list_select", disabled: true } %>
+      </div>
+      <div class="mat-form-field col-md-3">
+        <%= f.label :classification, t('classification'), class: "mat-form-field-label" %>
+        <%= f.collection_select :classification_id, list_of_classifications(@skill.values_list_id), :id, :code, {include_blank: true}, { class: "mat-input-element select2-candidate", id: "classification_select", disabled: true } %>
+      </div>
+      <div class="mat-form-field col-md-3">
+        <%= f.label :skill_type_id, t('SkillType'), class: "mat-form-field-label" %>
+        <%= f.collection_select :skill_type_id, options_for('data_types') , :id, :name, {}, { class: "mat-input-element select2-candidate", disabled: true } %>
+      </div>
+    </div>
+
+    <div class="row mat-form-row">
+      <div class="mat-form-field col-md-12">
+        <label for="skill-code-list-filter" class="mat-form-field-label">
+          <%= t('Filter') %>
+        </label>
+        <%= f.text_field :filter, class: "mat-input-element" %>
+      </div>
+    </div>
+
+    <div class="row mat-form-row">
+      <div class="mat-form-field col-md-3">
+        <%= f.label :skill_role_id, t('SkillRole'), class: "mat-form-field-label" %>
+        <%= f.collection_select :skill_role_id, options_for('skill_roles') , :id, :name, {}, { class: "mat-input-element select2-candidate" } %>
+      </div>
+      <div class="mat-form-field col-md-3">
+        <%= f.label :aggregation, t('AggregationMethod'), class: "mat-form-field-label" %>
+        <%= f.collection_select :skill_aggregation_id, options_for('aggregation_methods') , :id, :name, {}, { class: "mat-input-element select2-candidate" } %>
+      </div>
+      <div class="mat-form-field col-md-3">
+        <%= f.label :sensitivity_id, t('DataSensitivity'), class: "mat-form-field-label" %>
+        <%= f.collection_select :sensitivity_id, options_for('sensitivity_grades') , :id, :name, {}, { class: "mat-input-element select2-candidate" } %>
+      </div>
+      <div class="mat-form-field col-md-3">
+        <%= f.label :source_type, t('Source'), class: "mat-form-field-label" %>
+        <%= f.collection_select :source_type_id, options_for('data_sources'), :id, :name, {}, { class: "mat-input-element select2-candidate" } %>
+      </div>
+    </div>
+
+    <% if not (Classification.exists?(id: @skill.classification_id) or ValuesList.exists?(id: @skill.values_list_id)) %>
+      <fieldset disabled>
+        <div class="row mat-form-row">
+          <div class="mat-form-field col-md-3">
+            <%= f.label :skill_type_id, t('SkillType'), class: "mat-form-field-label" %>
+            <%= f.collection_select :skill_type_id, options_for('data_types') , :id, :name, {}, { class: "mat-input-element select2-candidate" } %>
+          </div>
+          <div class="mat-form-field col-md-2">
+            <%= f.label :skill_size, t('SkillSize'), class: "mat-form-field-label" %>
+            <%= f.text_field :skill_size, class: "mat-input-element" %>
+          </div>
+          <div class="mat-form-field col-md-2">
+            <%= f.label :skill_precision, t('SkillPrecision'), class: "mat-form-field-label" %>
+            <%= f.text_field :skill_precision, class: "mat-input-element" %>
+          </div>
+        </div>
+      </fieldset>
+      <br/>
+        <div class="row mat-form-row">
+          <div class="mat-form-field col-md-4">
+            <%= f.label :min_value, t('MinValue'), class: "mat-form-field-label" %>
+            <%= f.text_field :min_value, class: "mat-input-element" %>
+          </div>
+          <div class="mat-form-field col-md-4">
+            <%= f.label :max_value, t('MaxValue'), class: "mat-form-field-label" %>
+            <%= f.text_field :max_value, class: "mat-input-element" %>
+          </div>
+          <div class="mat-form-field col-md-4">
+            <%= f.label :skill_unit_id, t('SkillUnit'), class: "mat-form-field-label" %>
+            <%= f.collection_select :skill_unit_id, options_for('data_units'), :id, :name, {include_blank: true}, { class: "mat-input-element select2-candidate" } %>
+          </div>
+        </div>
+    <% end %>
+    <div class="row mat-form-row">
+      <div class="mat-form-field col-md-4">
+        <%= f.label :is_pairing_key, class: "mat-form-field-label mat-checkbox-label" do %>
+          <%= t('IsPairingKey') %>
+          <%= f.check_box :is_pairing_key, class: "mat-checkbox-input" %>
+        <% end %>
+      </div>
+      <% ignore do "Not used yet" %>
+        <div class="mat-form-field col-md-4">
+          <%= f.label :is_pk, class: "mat-form-field-label mat-checkbox-label" do %>
+            <%= t('IsPk') %>
+            <%= f.check_box :is_pk, class: "mat-checkbox-input" %>
+          <% end %>
+        </div>
+      <div class="mat-form-field col-md-4">
+        <%= f.label :is_ak, class: "mat-form-field-label mat-checkbox-label" do %>
+          <%= t('IsAk') %>
+          <%= f.check_box :is_ak, class: "mat-checkbox-input" %>
+        <% end %>
+      </div>
+      <% ignore end %>
+      <div class="mat-form-field col-md-4">
+        <%= f.label :is_mandatory, class: "mat-form-field-label mat-checkbox-label" do %>
+          <%= t('IsMandatory') %>
+          <%= f.check_box :is_mandatory, class: "mat-checkbox-input" %>
+        <% end %>
+      </div>
+    </div>
+    <% ignore do 'Advanced feature not implemented yet'%>
+      <div class="row mat-form-row">
+        <div class="col-md-3">
+          <%= f.label :is_array, t('IsArray'), class: "mat-form-field-label" %>
+          <%= f.check_box :is_array %>
+        </div>
+      </div>
+      <div class="row mat-form-row">
+        <div class="col-md-3">
+          <%= f.label :is_published, t('IsPublished'), class: "mat-form-field-label" %>
+          <%= f.check_box :is_published %>
+        </div>
+        <div class="col-md-3">
+          <%= f.label :regex_pattern, t('RegexPattern'), class: "mat-form-field-label" %>
+          <%= f.number_field :regex_pattern %>
+        </div>
+      </div>
+    <% ignore end %>
+  </div>
+  <div class="col-md-6">
+    <section class="tabbable">
+
+      <div class="tabbable">
+
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="active"><a href="#quality-attributes" data-toggle="tab"><%= t('.QualityAttributes') %></a></li>
+        </ul>
+
+        <div class="tab-content">
+
+          <div class="tab-pane active" id="quality-attributes">
+
+            <div class="mat-button-group">
+              <%= f.add_nested_fields_link :skills_values_lists, class: "mat-flat-button mat-button-base mat-primary" do %>
+                <span class="fa fa-plus" %></span>
+                <%= t('New') %>
+              <% end %>
+            </div>
+
+            <table class="table table-striped table-condensed" id="values-lists-links">
+              <tr>
+                <th> <%= t('Code') %> </th>
+                <th> <%= t('Filter') %> </th>
+                <th> <%= t('Description') %> </th>
+                <th> </th>
+              </tr>
+              <%=  f.nested_fields_for :skills_values_lists, wrapper_tag: 'tr' do |link| %>
+                <td> <%= link.collection_select :values_list_id, list_of_values_lists, :id, :code,  class: "mat-input-element select2-candidate" %> </td>
+                <td> <%= link.text_field :filter, class: "mat-input-element" %> </td>
+                <td> <%= link.text_field :description, class: "mat-input-element" %>
+                <%= link.hidden_field :playground_id, value: @skill.playground_id %> </td>
+                <td class="cell-with-button">
+                  <%= link.remove_nested_fields_link :skills_values_lists, title: t('Delete'), class: "mat-icon-button mat-button-base mat-warn" do %>
+                    <span class="fa fa-minus-square" %></span>
+                  <% end %>
+                </td>
+              <% end %>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

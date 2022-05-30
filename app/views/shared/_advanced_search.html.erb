@@ -1,0 +1,33 @@
+    <h4> <%= t('SearchBox') %></h4>
+      <%= form_tag(this_path, :method => 'get') do %>
+        <p>
+          <!-- critères de recherche :
+Business area (/business_flow / business_process via Ajax)
+Code
+Name
+Text : code
+Full-text : name, description, business_value
+Flags : is-current, is_active, is_finalised, is_public
+Hierarchy : BA, BF, BP, hierarchy
+Type of Rule : rule_type_id, rule_category_id, status_id
+IT language : check_language_id, correction_language_id
+Owner : owner_id
+          -->
+          <%= label_tag :name, t('NameOrDescription' %>
+          <%= text_field_tag :name, params[:name] %>
+
+          <%= label_tag :code, t('Code' %>
+          <%= text_field_tag :code, params[:code] %>
+
+          <%= label_tag :name, t('Hierarchy') %>
+          <%= text_field_tag :hierarchy, params[:hierarchy] %>
+
+
+          <%= label_tag :statuses, t('Statuses') %>
+          <%= label_tag :statuses, t('IsCurrent') %><%= check_box_tag(:IsCurrent) %>
+          <%= label_tag :statuses, t('IsActive') %><%= check_box_tag(:IsActive) %>
+          <%= label_tag :statuses, t('IsFinalised') %><%= check_box_tag(:IsFinalised) %>
+
+          <%= submit_tag t('SearchButton'), :name => nil %>
+        </p>
+      <% end %>

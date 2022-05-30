@@ -1,0 +1,14 @@
+<%= form_for [@playground, @landscape], html: {id: "edit_form"} do |f| %>
+
+  <%= render partial: "shared/error_list", locals: { errors: @landscape.errors } %>
+
+    <div class="row mat-form-row">
+      <div class="col-md-6">
+        <%= render partial: "shared/object_definition_form", locals: { this_object: @landscape, f: f } %>
+      </div>
+
+      <div class="col-md-6">
+        <%= render partial: "shared/object_responsibilities_form", locals: { this_object: @landscape, f: f } %>
+      </div>
+    </div>
+<% end %>

@@ -1,0 +1,57 @@
+<% if this_object.has_attribute?(:workflow_state) %>
+  <% submittable = local_variables.include?(:finalised_dependency) ? finalised_dependency : true %>
+  <div class="row mat-form-row">
+    <div class="mat-form-field col-md-3" id="workflow-button-group">
+      <fieldset>
+        <legend> <%= t('ValidationWorkflow') %> </legend>
+        <label for="object-status" class="mat-form-field-label">
+          <%= t('Status') %>
+        </label>
+        <input id="object-status" class="mat-input-element col-md-6" readonly
+          value="<%= translation_for(this_object.status.name_translations) %>" />
+        <div class="mat-button-group" id="workflow-buttons">
+          <% case this_object.status.code %>
+          <% when 'NEW', 'REJECTED' %>
+              <% if can? :propose, this_object %>
+                <%= link_to t('Propose') , submittable ? [this_object, :action => :propose] : '#', method: :post, disabled: !submittable, class: "mat-flat-button mat-button-base mat-primary", remote: true %>
+              <% end %>
+          <% when 'SUBMITTED' %>
+            <% if can? :accept, this_object %>
+              <%= link_to t('Accept'), [this_object, :action => :accept], method: :post, class: "mat-flat-button mat-button-base mat-primary", remote: true  %>
+              <%= link_to t('Reject'), new_governance_notification_path(
+                                          playground_id: current_playground,
+                                          description: t("#{this_object.class.name}#{'Rejected'}"),
+                                          severity_id: options_for('rules_severity').find { |x| x["code"] == "CORRECTION" }.id || 0,
+                                          status_id: statuses.find { |x| x["code"] == "NEW" }.id || 0,
+                                          expected_at: Time.now + 1.day,
+                                          responsible_id: this_object.owner_id,
+                                          owner_id: current_user.id,
+                                          created_by: current_login,
+                                          updated_by: current_login,
+                                          topic_type: this_object.class.name,
+                                          topic_id: this_object.id,
+                                          deputy_id: this_object.parent.responsible_id,
+                                          organisation_id: this_object.organisation_id,
+                                          code: this_object.code,
+                                          name: t("#{this_object.class.name}#{'Rejected'}")
+                                          ),
+                                          title: t('Reject'), data: { toggle: "modal", target: "#editNotificationModal" }, class: "mat-stroked-button mat-button-base mat-primary" %>
+            <% end %>
+          <% when 'ACCEPTED' %>
+            <% if can? :accept, this_object %>
+              <%= link_to t('Reopen'), [this_object, :action => :reopen], method: :post, class: "mat-flat-button mat-button-base mat-primary", remote: true  %>
+            <% end %>
+          <% end %>
+        </div>
+      </fieldset>
+    </div>
+    <% if can? :see_details, current_user %>
+      <div class="mat-form-field col-md-9">
+        <fieldset>
+          <legend> <%= t('MetadataCompletion') %> </legend>
+          <%= render partial: "shared/completion_status" %>
+        </fieldset>
+      </div>
+    <% end %>
+  </div>
+<% end %>

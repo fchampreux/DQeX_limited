@@ -1,0 +1,60 @@
+@import "../mixins/toggle";
+@import "~@oblique/oblique/styles/scss/fontawesome/variables";
+
+.toggle {
+	&:not(.toggle-after) {
+		@include toggle-before();
+	}
+
+	&.toggle-after {
+		@include toggle-after();
+	}
+
+	&.toggle-down-up {
+		@include add-toggle($fa-var-angle-down, $fa-var-angle-up);
+	}
+
+	&.toggle-down-right {
+		@include add-toggle($fa-var-angle-down, $fa-var-angle-right);
+	}
+
+	&.toggle-down-left {
+		@include add-toggle($fa-var-angle-down, $fa-var-angle-left);
+	}
+
+	&.toggle-up-down {
+		@include add-toggle($fa-var-angle-up, $fa-var-angle-down);
+	}
+
+	&.toggle-up-right {
+		@include add-toggle($fa-var-angle-up, $fa-var-angle-right);
+	}
+
+	&.toggle-up-left {
+		@include add-toggle($fa-var-angle-up, $fa-var-angle-left);
+	}
+
+	&.toggle-right-left {
+		@include add-toggle($fa-var-angle-right, $fa-var-angle-left);
+	}
+
+	&.toggle-right-down {
+		@include add-toggle($fa-var-angle-right, $fa-var-angle-down);
+	}
+
+	&.toggle-right-up {
+		@include add-toggle($fa-var-angle-right, $fa-var-angle-up);
+	}
+
+	&.toggle-left-right {
+		@include add-toggle($fa-var-angle-left, $fa-var-angle-right);
+	}
+
+	&.toggle-left-down {
+		@include add-toggle($fa-var-angle-left, $fa-var-angle-down);
+	}
+
+	&.toggle-left-up {
+		@include add-toggle($fa-var-angle-left, $fa-var-angle-up);
+	}
+}

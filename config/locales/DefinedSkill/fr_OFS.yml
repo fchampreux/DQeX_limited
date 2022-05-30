@@ -1,0 +1,32 @@
+# Translations related to Skill object
+fr_OFS:
+  defined_skills:
+    create:
+      Success:                        "La variable a été créée"
+      Failure:                        "La variable ne peut être créée"
+    update:
+      Success:                        "La variable a été modifiée"
+      Failure:                        "La variable ne peut être modifiée"
+    destroy:
+      Success:                        "La variable a été supprimée"
+      Failure:                        "La variable ne peut être supprimée"
+    activate:
+      Success:                        "La variable a été recupérée"
+      Failure:                        "La variable ne peut être recupérée"
+    edit:
+      Failure:                        "La variable finalisée ne peut pas être modifiée"
+    propose:
+      Success:                        "La variable a été proposée"
+      Failure:                        "La variable ne peut être proposée"
+    accept:
+      Success:                        "La variable a été validée"
+      Failure:                        "La variable ne peut être validée"
+    add_to_cart:
+      Success:                        "La variable a été ajoutée à la structure"
+      Failure:                        "La variable ne peut être ajoutée à la structure, elle existe probablement déjà avec le même nom"
+    create_values_list:
+      Success:                        "La variable peut maintenant recevoir des valeurs de référence"
+      Failure:                        "La variable ne peut pas recevoir de valeur"
+    upload_values_list:
+      Success:                        "La variable a reçu des valeurs de référence"
+      Failure:                        "La variable ne peut pas recevoir de valeur"

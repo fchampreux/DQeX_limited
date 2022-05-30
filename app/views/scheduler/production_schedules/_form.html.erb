@@ -1,0 +1,144 @@
+
+<%= form_with model: [namespace, @production_job, @production_schedule], html: {id: "edit_form"} do |f| %>
+
+  <div class="modal-header">
+    <h5 class="modal-title" id="editScheduleModalLabel">
+      <%= t('scheduler.production_schedules.edit.Edit') %>
+    </h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <%= render partial: "shared/error_list", locals: { errors: @production_schedule.errors } %>
+
+    <section class="tabbable" id="schedule_information">
+
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="active"><a href="#Info" data-toggle="tab"> <%= t('Information') %> </a></li>
+        <li><a href="#Params" data-toggle="tab"> <%= t('Parameters') %> </a></li>
+      </ul>
+
+      <div class="tab-content">
+
+        <div class="tab-pane active" id="Info">
+          <div class="row mat-form-row">
+            <div class="mat-form-field mat-form-field mat-form-field-required col-md-4">
+              <%= f.label :code, t('.Code'), class: "mat-form-field-label" %>
+              <%= f.text_field :code, class: "mat-input-element" %>
+            </div>
+            <div class="mat-form-field mat-form-field-required col-md-4 ">
+              <%= f.label :mode, t('.Mode'), class: "mat-form-field-label" %>
+              <%= f.collection_select :mode_id, options_for('schedule_modes'), :id, :name, { },
+                    { multiple: false,
+                      class: "mat-input-element select2-candidate",
+                      id: "mode-select"} %>
+            </div>
+            <div class="mat-form-field mat-form-field mat-form-field-required col-md-4">
+              <%= f.label :active_from, t('.ActiveFrom'), class: "mat-form-field-label" %>
+              <%= f.date_field :active_from, class: "mat-input-element" %>
+            </div>
+          </div>
+          <div class="row mat-form-row">
+            <div class="mat-form-field mat-form-field-required col-md-4">
+              <%= f.label :environment, t('.Environment'), class: "mat-form-field-label" %>
+              <%= f.collection_select :environment_id, values_options_for('Environments', 1), :id, :code, { }, { multiple: false, class: "mat-input-element select2-candidate" } %>
+            </div>
+            <div class="mat-form-field mat-form-field-required col-md-4">
+            </div>
+            <div class="mat-form-field mat-form-field mat-form-field-required col-md-4">
+              <%= f.label :active_to, t('.ActiveTo'), class: "mat-form-field-label" %>
+              <%= f.date_field :active_to, class: "mat-input-element" %>
+            </div>
+          </div>
+
+          <section class="tabbable" id="schedule_mode_list">
+
+            <ul class="nav nav-tabs" role="tablist">
+              <li><a href="#TEST" data-toggle="tab" class="TEST"> <%= t('Test') %> </a></li>
+              <li><a href="#MESSAGE" data-toggle="tab" class="MESSAGE"> <%= t('Message') %> </a></li>
+              <li><a href="#INTERVAL" data-toggle="tab" class="INTERVAL"> <%= t('Interval') %> </a></li>
+              <li><a href="#ON_DATE" data-toggle="tab" class="ON_DATE"> <%= t('OnDate') %> </a></li>
+            </ul>
+
+            <div class="tab-content">
+
+              <div class="tab-pane schedule_mode_code" id="TEST">
+                <%= render partial: "test_form", locals: { f: f } %>
+              </div>
+
+              <div class="tab-pane active schedule_mode_code" id="MESSAGE">
+                <%= render partial: "message_form", locals: { f: f } %>
+              </div>
+
+              <div class="tab-pane schedule_mode_code" id="INTERVAL">
+                <%= render partial: "interval_form", locals: { f: f } %>
+              </div>
+
+              <div class="tab-pane schedule_mode_code" id="ON_DATE">
+                <%= render partial: "ondate_form", locals: { f: f } %>
+              </div>
+
+            </div>
+          </section>
+        </div>
+        <div class="tab-pane" id="Params">
+          <p class="warning"> <%= t('Parameters overrinding is applied to current schedule only') %> </p>
+          <%= render partial: "shared/json_parameters_form",
+                      locals: { this_object: @production_schedule,
+                                columns: [
+                                            {"fieldName": "name", "layout": "INPUT"},
+                                            {"fieldName": "dataType", "layout": "CODELIST", "dataValues": options_for('data_types').map {|dt| dt.code} },
+                                            {"fieldName": "value", "layout": "INPUT"},
+                                            {"fieldName": "isMandatory", "layout": "CHECKBOX"},
+                                          ] } %>
+          <%# render partial: "shared/json_parameters",
+                      locals: { this_object: @production_schedule } %>
+        </div>
+      </div>
+    </section>
+
+
+  <div class="modal-footer">
+    <button type="button" class="mat-stroked-button mat-button-base" data-dismiss="modal">
+      <%= t('Cancel') %>
+    </button>
+    <button class="mat-flat-button mat-button-base mat-primary">
+      <%= t('Submit') %>
+    </button>
+  </div>
+
+<% end %>
+
+<script>
+  $(document).ready(function(){
+
+    // initialise
+    var modes = <%= raw options_for('schedule_modes').map { |option| [option.id, option.code] }.to_h.to_json %>;
+    var selectedOption = document.getElementById('mode-select').value;
+    var code = modes[selectedOption];
+    console.log(modes);
+    console.log(selectedOption);
+    console.log(code);
+    $('.'+code).trigger('click');
+
+    // activate tabs based on drop-down value
+    $('#mode-select').change(function() {
+      var selectedOption = document.getElementById('mode-select').value;
+      var code = modes[selectedOption];
+      $('.'+code).trigger('click');
+    });
+
+    // select drop-down option based on activated tab
+    $('#schedule_mode_list a').on("click", function() {
+      var tab = $(this).attr("class");
+      var tabIndex = Object.values(modes).indexOf(tab);
+      var tabId = Object.keys(modes)[tabIndex];
+      console.log(tab);
+      console.log(tabIndex);
+      console.log(tabId);
+      $('#mode-select').val(tabId)
+    });
+
+  });
+</script>

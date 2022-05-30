@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Production Events</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @production_events.each do |production_event| %>
+      <tr>
+        <td><%= link_to 'Show', production_event %></td>
+        <td><%= link_to 'Edit', edit_production_event_path(production_event) %></td>
+        <td><%= link_to 'Destroy', production_event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Production Event', new_production_event_path %>

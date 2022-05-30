@@ -1,0 +1,55 @@
+# Code for language as declared in i18n configuration
+fr:
+  # Considered object from a global view
+  DataPolicies:                              "Data policies"
+  DataPolicy:                                "Data policy"
+  ManagingDataPolicies:                      "Gérer les Data policies"
+  NewDataPolicy:                             "Nouvelle Data policy"
+  DataPolicyRejected:                        "La Data policy a été rejetée"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageDataPolicy )
+  data_policies:
+    policies_index:
+      # Columns titles
+      CalculatedStatus:                       "Statut"
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+      Owner:                                  "Responsable"
+      UpdatedBy:                              "Mis à jour par"
+      UpdatedAt:                              "Mis à jour le"
+      Territory:                              "Territoire"
+      Organisation:                           "Organisation"
+      ValidFrom:                              "Valide depuis"
+      ValidTo:                                "jusqu'à"
+      Owner:                                  "Responsable"
+    show:
+      Manage:                                 "Gérer les Data policies"
+      # Field names
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+    new:
+      New:                                    "Nouvelle Data policy"
+      # Field names
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+    edit:
+      Edit:                                   "Modifier la Data policy"
+      # Field names
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+    create:
+      Success:                             	  "Data policy créée avec succès"
+      Failure:                             	  "La Data policy ne peut pas être créée"
+    update:
+      Success:                             	  "Data policy mise à jour avec succès"
+      Failure:                             	  "La Data policy ne peut pas être modifiée"
+    activate:
+      Success:                             	  "Data policy récupérée"
+      Failure:                             	  "La Data policy ne peut pas être récupérée"
+    destroy:
+      Success:                             	  "Data policy supprimée"
+      Failure:                             	  "La Data policy ne peut pas être supprimée"

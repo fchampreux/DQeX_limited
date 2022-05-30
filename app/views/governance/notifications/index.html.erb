@@ -1,0 +1,60 @@
+<% provide(:title, (t('ManagingNotifications'))) %>
+
+<% provide(:page_heading, t('Notifications')) %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/index_view_navigation", locals: {this_object: Notification} %>
+<% end %>
+
+<%# render partial: "notifications_index", locals: {this_index: @notification} %>
+
+<%# ignore do %>
+<table class="table table-hover table-clickable">
+
+<%= will_paginate %>
+
+<table  class="table table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th><%= t('Notification') %></th>
+      <th><%= t('UpdatedAt') %></th>
+      <th><%= t('Responsible') %></th>
+      <th><%= t('Class') %></th>
+      <th><%= t('Code') %></th>
+      <th><%= t('Validation') %></th>
+      <th><%= t('Parent') %></th>
+      <th><%= t('OpenedAt') %></th>
+      <th><%= t('DueAt') %></th>
+      <th><%= t('ClosedAt') %></th>
+      <th><%= t('Severity') %></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @notifications.each do |notification| %>
+      <tr>
+        <td class="col_narrow">
+          <span class="status-icon <%= notification.owner_id == current_user.id ? 'fa fa-arrow-circle-up' : 'fa fa-arrow-circle-down' %>"</span>
+        </td>
+        <td class="col_narrow"><%= link_to notification.translated_status, [namespace, notification], { title: translation_for(notification.name_translations) } %></td>
+        <td class="col_narrow"><%= format_date(notification.updated_at) %></td>
+        <td class="col_narrow"><%= notification.responsible.name %></td>
+        <% if notification.topic %>
+          <td class="col_narrow"><%= notification.translated_class %></td>
+          <td class="col_narrow"><%= link_to notification.topic.code, notification.topic, { title: translation_for(notification.topic.name_translations) } %></td>
+          <td class="col_narrow"><%= translation_for(notification.topic.status.name_translations) %></td>
+          <td class="col_narrow"><%= link_to notification.topic.parent.code, notification.topic.parent, { title: translation_for(notification.topic.parent.name_translations) } %></td>
+        <% end %>
+        <td class="col_narrow"><%= format_date(notification.created_at) %></td>
+        <td class="col_narrow"><%= format_date(notification.expected_at) %></td>
+        <td class="col_narrow"><%= format_date(notification.closed_at) %></td>
+        <td class="col_narrow"><%= notification.translated_impact %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= will_paginate %>
+
+<%# ignore end %>

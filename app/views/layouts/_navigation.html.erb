@@ -1,0 +1,35 @@
+<div id="left-navigation" class="sticky" role="search">
+  <header class="sticky-header">
+    <%= render partial: "shared/simple_search", locals: { path: translations_path, id: 'nav-criteria', noValue: true } %>
+  </header>
+
+  <div id="left-navigation-content" class="sticky-main default-layout pt-1">
+    <ul class="nav-tree nav-indent nav-toggle expanded nav-bordered nav-hover">
+      <li role="presentation">
+        <h3 class="nav-link"><%= t('Playgrounds') %></h3>
+      </li>
+      <% list_of_playgrounds.each do |playground| %>
+        <li role="presentation" id="ui-nav-playground-<%= playground.id %>">
+
+          <span class="nav-link-container">
+            <%# link to playground %>
+            <%= link_to playground, class: "nav-link nav-item", role: "treeitem", "data-nav-level": 0 do %>
+              <%= image_tag(playground.logo) if playground.logo.attached? %>
+              <strong><%= playground.code %></strong>
+              <%= playground.translation || t('MissingTranslation') %>
+            <% end %>
+            <% if !playground.business_areas.empty? %>
+              <%# children toggle control %>
+              <a class="nav-link nav-link-toggler has-child collapsed" data-toggle="collapse" aria-controls="<%= 'ui-nav-playground-%d-children' % playground.id %>" href="#<%= 'ui-nav-playground-%d-children' % playground.id %>"></a>
+              <%# children load control %>
+              <%= link_to '', get_children_playground_path(playground), class: 'nav-link-loader', method: 'get', remote: true, format: "js" %>
+            <% end %>
+          </span>
+
+          <div id="ui-nav-playground-<%= playground.id %>-children" class="collapse show"></div>
+        </li>
+      <% end %>
+
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<% provide(:title, t('ManagingUsers')) %>
+
+<% provide :page_heading do %>
+  <%= @user.user_name %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  <ul class="breadcrumbs sr-only">
+    <li><%= @user.user_name %></li>
+  </ul>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/edit_view_navigation" %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_edit_actions", locals: {this_object: @user } %>
+<% end %>
+
+<%= render 'pass_form', user: @user %>

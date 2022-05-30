@@ -1,0 +1,17 @@
+# Translations related to Skill object
+de:
+  deployed_skills:
+    create:
+      Success:                        "Variabel wurde erstellt"
+      Failure:                        "Variabel wurde nicht erstellt"
+    update:
+      Success:                        "Variabel wurde aktualisiert"
+      Failure:                        "Variabel wurde nicht aktualisiert"
+    destroy:
+      Success:                        "Variabel wurde gelöscht"
+      Failure:                        "Variabel wurde nicht gelöscht"
+    show:
+      Hierarchy:                      "Hierarchie"
+      Values:                         "Werte"
+      Filter:                         "Filter für Referenzwerte"
+      IsPairingKey:                   "Paarungsschlüssel"

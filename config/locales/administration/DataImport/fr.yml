@@ -1,0 +1,9 @@
+# Code for language as declared in i18n configuration
+fr:
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  administration:
+    data_imports:
+      create:
+        FileNameCannotBeEmpty:          "Veuillez sélectionner un fichier"
+        ImportedObjects:                "Objets importés"

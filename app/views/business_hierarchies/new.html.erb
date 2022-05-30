@@ -1,0 +1,34 @@
+<% provide(:title, (t('ExportBHs'))) %>
+
+<% provide :page_heading do %>
+    <%= t('ExportBHs') %>
+<% end %>
+
+<%= form_tag(unload_business_hierarchies_path) do %>
+
+  <div class="row">
+    <div class="col-md-1 text-right"> <%= t('Description') %>:
+    </div>
+    <div class="col-md-6">
+      <pre>
+        <p> Export Business Hierarchies for current playground and current user's language.</p>
+        <p> Produces a structured .xlsx file compatible with Process Classification Framework (APQC) </p>
+      </pre>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <div class="field">
+        <%= t('Playground') %>
+        <%= select_tag(:playground_id, options_for_select(list_of_playgrounds.map {|pg| [pg.name, pg.id]})) %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <div class="buttons"><%= submit_tag 'Export'%></div>
+    </div>
+  </div>
+
+<% end %>

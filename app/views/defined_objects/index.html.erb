@@ -1,0 +1,9 @@
+<% provide(:title, t('ManagingDefinedObjects')) %>
+
+<% provide(:page_heading, t('DefinedObjects')) %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/index_view_navigation", locals: {this_object: DefinedObject} %>
+<% end %>
+
+<%= render partial: "shared/object_index", locals: {this_index: @business_objects} %>

@@ -1,0 +1,82 @@
+<% provide(:page_class, 'page-view-details') %>
+
+<%= form_for [@business_area, @classification], html: {id: "edit_form"} do |f| %>
+
+  <%= render partial: "shared/error_list", locals: { errors: @classification.errors } %>
+
+  <div class="row">
+    <div class="col-md-6">
+      <%= render partial: "shared/object_definition_form", locals: {this_object: @classification, f: f, show_status: false} %>
+    </div>
+
+    <div class="col-md-6">
+      <%= render partial: "shared/object_responsibilities_form", locals: {this_object: @classification, f: f} %>
+
+      <div class="row mat-form-row">
+        <div class="mat-form-field col-md-6">
+          <%= f.label :active_from, t('ActiveFrom'), class: "mat-form-field-label" %>
+          <%= f.date_field :active_from, class: "mat-input-element" %>
+        </div>
+        <div class="mat-form-field col-md-6">
+          <%= f.label :active_to, t('ActiveTo'), class: "mat-form-field-label" %>
+          <%= f.date_field :active_to, class: "mat-input-element" %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<section class="tabbable">
+
+  <div class="tabbable">
+
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="active"><a href="#values_lists" data-toggle="tab"><%= t('.ValuesLists') %></a></li>
+      <li ><a href="#annotations" data-toggle="tab"><%= t('.Annotations') %></a></li>
+    </ul>
+
+    <div class="tab-content">
+
+      <div class="tab-pane active" id="values_lists">
+        <%# Link values_lists to classifications and manage filters %>
+        <div class="mat-button-group">
+          <%= f.add_nested_fields_link :values_lists_classifications, class: "mat-flat-button mat-button-base mat-primary" do %>
+            <span class="fa fa-plus" %></span>
+            <%= t('New') %>
+          <% end %>
+        </div>
+
+        <table class="table table-striped table-condensed" id="classifications-links">
+          <tr>
+            <th> <%= t('Level') %> </th>
+            <th> <%= t('Code') %> </th>
+            <th> <%= t('Filter') %> </th>
+            <th> <%= t('Description') %> </th>
+            <th> </th>
+          </tr>
+          <%=  f.nested_fields_for :values_lists_classifications, @values_lists_classifications&.order(:level), wrapper_tag: 'tr' do |link| %>
+            <td> <%= link.number_field :level, class: "mat-input-element" %> </td>
+            <td> <%= link.collection_select :values_list_id, list_of_values_lists, :id, :code,  class: "mat-input-element select2-candidate" %> </td>
+            <td> <%= link.text_field :filter, class: "mat-input-element" %> </td>
+            <td> <%= link.text_field :description, class: "mat-input-element" %>
+            <%= link.hidden_field :playground_id, value: @classification.playground_id %> </td>
+            <td class="cell-with-button">
+              <%= link.remove_nested_fields_link :values_lists_classifications, title: t('Delete'), class: "mat-icon-button mat-button-base mat-warn" do %>
+                <span class="fa fa-minus-square" %></span>
+              <% end %>
+            </td>
+          <% end %>
+        </table>
+      </div>
+
+      <div class="tab-pane" id="annotations">
+        <%= render partial: "shared/annotations_form", locals: { annotations: @classification.annotations, f: f} %>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<% end %>

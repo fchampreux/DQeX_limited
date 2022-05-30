@@ -1,0 +1,57 @@
+# Code for language as declared in i18n configuration
+fr:
+  # Considered object from a global view
+  BusinessFlows:                              "Business flows"
+  BusinessFlow:                               "Business flow"
+  ManagingBusinessFlows:                      "Gérer les Business flows"
+  NewBusinessFlow:                            "Nouveau Business flow"
+  BusinessFlowRejected:                       "Le Business flow a été rejeté"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessFlow )
+  business_flows:
+    index:
+      # Columns titles
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+      Owner:                                  "Responsable"
+      UpdatedBy:                              "Mis à jour par"
+      UpdatedAt:                              "Mis à jour le"
+    index_short:
+      # Columns titles
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+      Owner:                                  "Responsable"
+      UpdatedBy:                              "Mis à jour par"
+      UpdatedAt:                              "Mis à jour le"
+    show:
+      Manage:                                 "Gérer les Business flows"
+      # Field names
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+    new:
+      New:                                    "Nouveau Business flow"
+      # Field names
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+    edit:
+      Edit:                                   "Modifier l Business flow"
+      # Field names
+      Code:                                   "Identifiant"
+      Name:                                   "Nom"
+      Description:                            "Description"
+    create:
+      Success:                             	  "Business flow créé avec succès"
+      Failure:                             	  "Le Business flow ne peut pas être créé"
+    update:
+      Success:                             	  "Business flow mis à jour avec succès"
+      Failure:                             	  "Le Business flow ne peut pas être modifié"
+    activate:
+      Success:                             	  "Business flow récupéré"
+      Failure:                             	  "Le Business flow ne peut pas être récupéré"
+    destroy:
+      Success:                             	  "Business flow supprimé"
+      Failure:                             	  "Le Business flow ne peut pas être supprimé"

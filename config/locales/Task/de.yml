@@ -1,0 +1,84 @@
+# Code for language as declared in i18n configuration
+de:
+  # Considered object from a global view
+  Tasks:                              "Aufgaben"
+  Task:                               "Aufgabe"
+  Managingtasks:                      "Aufgaben verwalten"
+  Newtask:                            "Neuer Aufgabe"
+  TaskRejected:                       "Aufgabe wurde abgelehnt"
+  GitHashUpdated:                     "Git Hash aktualisiert"
+  GitHashError:                       "Git Hash hat einen Fehler ausgelöst"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of Managetask )
+  tasks:
+    index:
+      # Columns titles
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      Owner:                                  "Eigentümer"
+      UpdatedBy:                              "Aktualisiert von"
+      UpdatedAt:                              "Aktualisiert am"
+    index_short:
+      # Columns titles
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      Owner:                                  "Eigentümer"
+      UpdatedBy:                              "Aktualisiert von"
+      UpdatedAt:                              "Aktualisiert am"
+    show:
+      Manage:                                 "Aufgaben verwalten"
+      ShowTask:                               "Aufgabe"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+      IsSynchronus:                           "Synchronisation"
+      IsTemplate:                             "Ist eine Vorlage"
+      Template:                               "Zur Verwendung als Vorlage"
+      NoTemplate:                             "Keine Vorlage"
+      TemplateOn:                             "Ausgewählte Vorlage"
+      TemplateDefinition:                     "Eine Verarbeitungsvorlage kann auf verschiedene Strukturen angewendet werden, um die gleiche Verarbeitung durchzuführen."
+      OrderingSequence:                       "Sequence"
+      Synchronus:                             "Synchronous"
+      Asynchronus:                            "Asynchronous"
+      SynchronicityOn:                        "Wartet auf den Beginn der übergeordneten Aufgabeen"
+      SynchronicityOff:                       "Startet, sobald sie durch eine übergeordnete Aufgabe aktiviert wird"
+      NextSuccess:                            "Weiter, wenn erfolgreich"
+      NextFailure:                            "Weiter, wenn gescheitert"
+      Parameters:                             "Einstellungen"
+      Technology:                             "Technologie"
+      TargetObject:                           "Verarbeitete Struktur"
+      NodeType:                               "Knoten Typ"
+      New:                                    "Neue Aufgabe"
+      Script:                                 "Skript"
+      ScriptPath:                             "Pfad zum Skript"
+      ScriptLanguage:                         "Technologie"
+      GitHash:                                "Git Hash"
+    new:
+      New:                                    "Neuer Aufgabe"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    edit:
+      Edit:                                   "Aufgabe bearbeiten"
+      # Field names
+      Code:                                   "Kennung"
+      Name:                                   "Name"
+      Description:                            "Beschreibung"
+    create:
+      Success:                             	  "erfolgreich erstellt Aufgabe"
+      Failure:                                "Aufgabe konnte nicht erstellt werden"
+    update:
+      Success:                             	  "erfolgreich aktualisierter Aufgabe"
+      Failure:                                "Aufgabe konnte nicht aktualisierter werden"
+    activate:
+      Success:                             	  "Aufgabe erfolgreich wiederhergestellt"
+      Failure:                                "Aufgabe konnte nicht abgerufen werden"
+    destroy:
+      Success:                             	  "Aufgabe erfolgreich gelöscht"
+      Failure:                                "Aufgabe konnte nicht gelöscht werden"
+    form:
+      ShowTask:                               "Aufgabe"      

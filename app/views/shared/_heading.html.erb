@@ -1,0 +1,6 @@
+
+<%= image_tag this_object.logo if defined? this_object.logo and this_object.logo.attached? %>
+
+<span><%= translation_for(this_object.name_translations) %></span>
+
+<%= render "shared/status-icon", this_object: this_object %>

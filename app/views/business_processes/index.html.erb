@@ -1,0 +1,9 @@
+<% provide(:title, t('ManagingBusinessProcesses')) %>
+
+<% provide( :page_heading, t('BusinessProcesses')) %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/index_view_navigation", locals: {this_object: BusinessProcess} %>
+<% end %>
+
+<%= render partial: "shared/object_index", locals: {this_index: @business_processes} %>

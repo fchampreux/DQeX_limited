@@ -1,0 +1,27 @@
+<% provide(:title, (t('ManagingBRs'))) %>
+
+<% provide :page_heading do %>
+  <%= render partial: "shared/heading", locals: {this_object: @business_rule} %>
+<% end %>
+
+<% provide :breadcrumbs do %>
+  <%= render partial: "shared/breadcrumbs" %>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/edit_view_navigation" %>
+<% end %>
+
+<% provide :actions do %>
+  <%= render partial: "shared/object_edit_actions",
+              locals: {this_object: @business_rule } %>
+<% end %>
+
+<% provide :technical_details do %>
+  <%= render partial: "shared/object_ownership",
+              locals: {this_object: @business_rule} %>
+<% end %>
+
+<%= render layout: "layouts/collapsible_details_form",
+            locals: {this_form: 'form'} do %>
+<% end %>

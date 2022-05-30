@@ -1,0 +1,100 @@
+$(function () {
+  var itemId = '<%= @production_group.id %>',
+      ctId = 'ui-nav-group-' + itemId + '-children',
+      tbId = 'tb-group-' + itemId + '-children',
+      children = [
+        <% @production_events.each do |child| %>
+          {
+            id: '<%= child.id %>',
+            code: '<%= child.task.code %>',
+            status: '<%= child.status.code %>',
+            sequence: '<%= child.execution_sequence %>',
+            //technology: '<%= child.technology&.code %>', // information at group level
+            //targetObject: '<%= child.target_object&.code %>', // information at group level
+            returnValue: '<%= child.return_value %>',
+            successNext: '<%= child.success_next&.task&.code %>',
+            failureNext: '<%= child.failure_next&.task&.code %>',
+            startedAt: '<%= format_datetime(child.started_at) %>',
+            endedAt: '<%= format_datetime(child.ended_at) %>',
+            sourceRows: '<%= child.source_records_count %>',
+            processedRows: '<%= child.processed_count %>',
+            errorMessage: '<%= child.error_message || child.completion_message %>',
+            childUrl: '<%= url_for([namespace, child]) %>',
+            attachementUrl: '<%= rails_blob_path(child.log_file, disposition: "attachment") if child.log_file.attached? %>'
+          },
+        <% end %>
+      ];
+
+  // Choose statuses icons from executions_helper
+  var status_icons = {"READY": { "icon": "fa fa-clipboard-check status-pending" },
+                      "RUNNING": { "icon": "fa fa-fast-forward" },
+                      "FINISHED": { "icon": "fa fa-thumbs-up success" },
+                      "WARNING": { "icon": "fa fa-exclamation warning" },
+                      "STALL": { "icon": "fa fa-ban failed" },
+                      "NEW": { "icon": "fa fa-glasses status-pending" }
+                    };
+
+  var action_icons = {"VIEW": { "icon": "fa fa-eye" },
+                      "EDIT": { "icon": "fa fa-edit" },
+                      "EXECUTE": { "icon": "fa fa-bolt" },
+                      "DOWNLOAD": { "icon": "fa fa-download" },
+                      "DELETE": { "icon": "fa fa-trash" },
+                      "ACTIVATE": { "icon": "fa fa-play-circle" }
+                    };
+
+  var link_template = '<a data-toggle="modal" data-target="#childModal" class="mat-icon-button mat-button-base mat-secondary"',
+      file_template = '<a class="mat-icon-button mat-button-base mat-secondary"';
+
+  console.log(itemId, ctId, tbId, children);
+
+  // create the data table
+  $('#' + tbId).DataTable({
+      data: children,
+      order: [[1, "asc"]],
+      pageLength: 25,
+      columns: [
+        { title: '<%= t('CalculatedStatus') %>', data: 'status',
+          render: function(status) { return '<span class="status-icon ' +
+                                            status_icons[status]['icon'] +
+                                            '"> </span>' }
+        },
+        { title: '<%= t('Sequence') %>', data: 'sequence', visible: false },
+        { title: '<%= t('Code') %>', data: 'code' },
+        { title: '<%= t('SuccessNext') %>', data: 'successNext' },
+        { title: '<%= t('FailureNext') %>', data: 'failureNext' },
+        { title: '<%= t('StartedAt') %>', data: 'startedAt' },
+        { title: '<%= t('EndedAt') %>', data: 'endedAt' },
+        { title: '<%= t('SourceRows') %>', data: 'sourceRows' },
+        { title: '<%= t('ProcessedRows') %>', data: 'processedRows' },
+        { title: '<%= t('ReturnValue') %>', data: 'returnValue' },
+        { title: '<%= t('ErrorMessage') %>', data: 'errorMessage' },
+        { title: '<%= t('Action') %>', render: function(data, type, row) {
+          return ( link_template  + 'href=' + row['childUrl'] + '>'
+                                  + '<span class="status-icon '
+                                  + action_icons['VIEW']['icon']
+                                  +'"> </span> </a> ' +
+                   ((row['attachementUrl'] == '') ? '' : file_template
+                                  + 'href=' + row['attachementUrl'] + '>'
+                                  + '<span class="status-icon '
+                                  + action_icons['DOWNLOAD']['icon']
+                                  +'"> </span> </a>')
+                  )}
+        }
+      ]
+  });
+
+  // Manage navigation behaviour
+  var parent = $('#' + ctId).closest('li'),
+      parentLoader = parent.find('.nav-link-loader'),
+      parentToggler = parent.find('nav-link-toggler');
+  // 0 - add control class to the parent
+  parent.addClass('sis-nav-loaded');
+
+  // 1 - remove loader link
+  parentLoader.remove();
+
+  // 2 - modify DIV collapse parameter
+  parentToggler.removeClass('collapsed');
+  $('#' + ctId).collapse('show');
+
+}(jQuery));

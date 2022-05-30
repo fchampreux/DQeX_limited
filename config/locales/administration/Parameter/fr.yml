@@ -1,0 +1,35 @@
+# Code for language as declared in i18n configuration
+fr:
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  administration:
+    parameters:
+      show:
+        ShowParameter:                           "Détails du paramètre"
+        # Field names
+        Code:                                    "Identifiant"
+        Name:                                    "Nom"
+        Description:                             "Description"
+        Property:                                "Propriété"
+        TaskScope:                               "Applicabilité"
+        ValidFrom:                               "Valable de"
+        ValidTo:                                 "à"
+      form:
+        EditParameter:                           "Détails du paramètre"
+        # Field names
+        Code:                                    "Identifiant"
+        Name:                                    "Nom"
+        Description:                             "Description"
+        Property:                                "Propriété"
+        TaskScope:                               "Applicabilité"
+        ValidFrom:                               "Valable de"
+        ValidTo:                                 "à"
+      create:
+        Success:                             	   "Nouveau paramètre créé"
+        Failure:                                 "Le paramètre ne peut pas être créé"
+      update:
+        Success:                             	   "Paramètre modifié"
+        Failure:                                 "Le paramètre ne peut pas être modifiée"
+      destroy:
+        Success:                              	 "Paramètre supprimé"
+        Failure:                                 "Le paramètre ne peut pas être supprimée"

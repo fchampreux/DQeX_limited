@@ -1,0 +1,3 @@
+document.getElementById("ui-nav-execution-<%= @production_execution.id %>-children").
+          innerHTML = ("<%= j (render partial: "production_groups",
+          locals: {this_object: @production_groups }) %>")

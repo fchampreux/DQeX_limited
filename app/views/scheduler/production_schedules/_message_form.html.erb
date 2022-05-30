@@ -1,0 +1,28 @@
+    <div class="row mat-form-row">
+      <div class="mat-form-field mat-form-field col-md-4">
+        <%= f.label :queue_exchange, t('.QueueExchange'), class: "mat-form-field-label" %>
+        <%= f.text_field :queue_exchange,
+              value: (f.object.queue_exchange || Rails.application.credentials.integration[:exchange]),
+              class: "mat-input-element" %>
+      </div>
+    </div>
+    <div class="row mat-form-row">
+      <div class="mat-form-field mat-form-field col-md-4">
+        <%= f.label :queue_name, t('.QueueName'), class: "mat-form-field-label" %>
+        <%= f.text_field :queue_name,
+              value: (f.object.queue_name || Rails.application.credentials.integration[:queueKey]),
+              class: "mat-input-element" %>
+      </div>
+      <div class="mat-form-field mat-form-field col-md-4">
+        <%= f.label :queue_key, t('.QueueKey'), class: "mat-form-field-label" %>
+        <%= f.text_field :queue_key,
+              value: (f.object.queue_key || Rails.application.credentials.integration[:queueKey]),
+              class: "mat-input-element" %>
+      </div>
+      <div class="mat-form-field mat-form-field col-md-4">
+        <%= f.label :message_identifier, t('.MessageIdentifier'), class: "mat-form-field-label" %>
+        <%= f.text_field :message_identifier,
+              value: (f.object.message_identifier || Rails.application.credentials.integration[:messageIdentifier]),
+              class: "mat-input-element" %>
+      </div>
+    </div>

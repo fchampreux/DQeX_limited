@@ -1,0 +1,100 @@
+
+<div class="modal-header">
+  <h5 class="modal-title" id="childModalLabel">
+    <%= t('.ShowGroup') %>
+  </h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <%= render partial: "shared/error_list", locals: { errors: @production_group.errors } %>
+
+  <fieldset disabled>
+    <div class="row mat-form-row">
+      <div class="mat-form-field col-md-4">
+        <label for="production_group-code" class="mat-form-field-label">
+          <%= t('production_groups.show.Code') %>
+        </label>
+        <input id="production_group-code" class="mat-input-element" readonly
+          value="<%= @production_group.activity.code %>" />
+      </div>
+    </div>
+    <div class="row mat-form-row">
+      <div class="mat-form-field mat-form-field col-md-4">
+        <label for="event-node-type" class="mat-form-field-label">
+          <%= t('scheduler.production_events.show.NodeType') %>
+        </label>
+        <input id="event-node-type" class="mat-input-element" readonly
+          value="<%= @production_group.node_type.code %>" />
+      </div>
+      <div class="mat-form-field col-md-4">
+        <label for="production_group-ordering-sequence" class="mat-form-field-label">
+          <%= t('production_groups.show.OrderingSequence') %>
+        </label>
+        <input id="production_group-ordering-sequence" class="mat-input-element" readonly
+          value="<%= @production_group.execution_sequence %>" />
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="tabbable">
+
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#implementation" data-toggle="tab"><%= t('Implementation') %></a></li>
+    </ul>
+
+    <div class="tab-content">
+
+      <div class="tab-pane active" id="implementation">
+        <div class="row mat-form-row">
+          <div class="mat-form-field col-md-4">
+            <%# Next activity in case of failure or success %>
+            <label for="production_group-next-success" class="mat-form-field-label">
+              <%= t('production_groups.show.NextSuccess') %>
+            </label>
+            <input id="production_group-next-success" class="mat-input-element" readonly
+              value="<%= @production_group.success_next&.activity&.code %>" />
+          </div>
+          <div class="mat-form-field col-md-4">
+            <label for="production_group-next-failure" class="mat-form-field-label">
+              <%= t('production_groups.show.NextFailure') %>
+            </label>
+            <input id="production_group-next-failure" class="mat-input-element" readonly
+              value="<%= @production_group.failure_next&.activity&.code %>" />
+          </div>
+        </div>
+
+        <hr/>
+        <%= form_with model: @production_group, url: :trigger_scheduler_production_group, method: :post, html: {id: "trigger_form"}, remote: true do |f| %>
+          <div class="row mat-form-row">
+            <div class="mat-form-field col-md-12">
+              <%= f.label :statement, t('production_groups.show.Statement'), class: "mat-form-field-label" %>
+              <%= f.text_area :statement, spellcheck: false, class: "mat-input-element mat-textarea-md" %>
+            </div>
+          </div>
+          <div class="row mat-form-row">
+            <div class="mat-form-field col-md-6">
+              <%= f.label :technology_id, t('production_groups.show.Technology'), class: "mat-form-field-label" %>
+              <%= f.grouped_collection_select :technology_id,
+                  values_options_for('Technologies', 1), # group
+                  :subs,                                 # descendants
+                  :code,                                 # group label
+                  :id, :code,                            # option key & label
+                  {:include_blank => false},
+                  { class: "mat-input-element select2-candidate" } %>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button class="mat-flat-button mat-button-base mat-primary">
+              <%= t('Execute') %>
+            </button>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+
+  </div>
+</div>

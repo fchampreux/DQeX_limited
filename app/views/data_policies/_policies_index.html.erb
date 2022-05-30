@@ -1,0 +1,40 @@
+<%# For data-policies %>
+
+<table class="table table-hover table-clickable" id="indexTable">
+
+</table>
+
+<script>
+  $(document).ready( function () {
+    // Choose statuses icons from views_helper
+    var status_icons = ["fa fa-archive status-inactive",
+                        "fa fa-clipboard-check status-active",
+                        "fa fa-glasses status-pending"];
+    $('#indexTable').DataTable({
+      ajax:{
+        url: '<%= request.fullpath %>',
+        dataSrc: ''
+      },
+      pageLength: 25,
+      createdRow: function( row, data, dataIndex ) {
+        $(row).attr("data-href", "<%= request.path %>/" + data.id)
+      },
+      columns: [
+        { title: '<%= t('.CalculatedStatus') %>',
+          data: 'calculated_status',
+          render: function(calculated_status) {return '<span class="status-icon ' + status_icons[calculated_status] + '"> </span>'} },
+        { title: '<%= t('.Code') %>', data: 'code' },
+        { title: '<%= t('.Name') %>', data: 'translated_name' },
+        { title: '<%= t('.Territory') %>', data: 'translated_territory' },
+        { title: '<%= t('.Organisation') %>', data: 'translated_organisation' },
+        { title: '<%= t('.ValidFrom') %>', render: function( data, type, row ) {
+          return (row['active_from']).substring(0,10)}
+        },
+        { title: '<%= t('.Owner') %>', data: 'owner_name' },
+        { title: '<%= t('.UpdatedAt') %>', render: function( data, type, row ) {
+          return (row['updated_at']).substring(0,10)}
+        }
+      ]
+    });
+  } );
+</script>

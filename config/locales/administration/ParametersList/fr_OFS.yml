@@ -1,0 +1,77 @@
+# Code for language as declared in i18n configuration
+fr_OFS:
+  ParametersLists:                                "Listes de paramètres"
+  ParametersList:                                 "Liste de paramètres"
+  ManagingParametersLists:                        "Gérer les listes de paramètres"
+  NewParametersList:                              "Nouvelle liste de paramètres"
+  ParametersListRejected:                         "La liste de paramètres a été rejetée"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageBusinessArea )
+  administration:
+    parameters_lists:
+      index:
+        # Columns titles
+        Code:                                    "Identifiant"
+        Name:                                    "Nom"
+        Description:                             "Description"
+        Parent:                                  "Business area"
+        Owner:                                   "Responsable"
+        UpdatedBy:                               "Mis à jour par"
+        UpdatedAt:                               "Mis à jour le"
+      index_short:
+        # Columns titles
+        Code:                                    "Identifiant"
+        Name:                                    "Nom"
+        Description:                             "Description"
+        Parent:                                  "Business area"
+        Owner:                                   "Responsable"
+        UpdatedBy:                               "Mis à jour par"
+        UpdatedAt:                               "Mis à jour le"
+      show:
+        ParametersList:                          "Liste de paramètres"
+        Parameters:                              "Paramètres"
+        ImportParameters:                        "Importer"
+        # Field names
+        Code:                                    "Identifiant"
+        Name:                                    "Nom"
+        Description:                             "Description"
+        Property:                                "Propriété"
+        TaskScope:                               "Applicabilité"
+        ValidFrom:                               "Valable de"
+        ValidTo:                                 "à"
+        Sure:                                    "Vous confirmez ?"
+      new:
+        ParametersList:                          "Liste de paramètres"
+        Parameters:                              "Paramètres"
+        ImportParameters:                        "Importer"
+        New:                                     "Nouvelle liste de paramètres"
+        # Field names
+        Code:                                    "Identifiant"
+        Name:                                    "Nom"
+        Description:                             "Description"
+        Property:                                "Propriété"
+        TaskScope:                               "Applicabilité"
+        ValidFrom:                               "Valable de"
+        ValidTo:                                 "à"
+      edit:
+        ParametersList:                          "Liste de paramètres"
+        Parameters:                              "Paramètres"
+        ImportParameters:                        "Importer"
+        Edit:                                    "Modifier la liste de paramètres"
+        # Field names
+        Code:                                    "Identifiant"
+        Name:                                    "Nom"
+        Description:                             "Description"
+        Property:                                "Propriété"
+        TaskScope:                               "Applicabilité"
+        ValidFrom:                               "Valable de"
+        ValidTo:                                 "à"
+      create:
+        Success:                             	   "Nouvelle liste de paramètres créée"
+        Failure:                                 "La nouvelle liste de paramètres ne peut pas être créée"
+      update:
+        Success:                             	   "Liste de paramètres modifiée"
+        Failure:                                 "La liste de paramètres ne peut pas être modifiée"
+      destroy:
+        Success:                              	 "Liste de paramètres supprimée"
+        Failure:                                 "La liste de paramètres ne peut pas être supprimée"

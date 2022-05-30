@@ -1,0 +1,9 @@
+<% provide( :title, t('ManagingActivities')) %>
+
+<% provide( :page_heading, t('Activities')) %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/index_view_navigation", locals: {this_object: Activity} %>
+<% end %>
+
+<%= render partial: "shared/object_index", locals: {this_index: @activities} %>

@@ -1,0 +1,73 @@
+
+<div class="modal-header">
+  <h5 class="modal-title" id="showChildLabel">
+    <%= "#{t('.ShowTask')}: #{@task.code}" %>
+  </h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <%= render partial: "shared/error_list", locals: { errors: @task.errors } %>
+
+<% provide :task_technical_details do %>
+  <%= render partial: "shared/object_ownership",
+      locals: {this_object: @task} %>
+<% end %>
+
+<% provide :task_information do %>
+  <section id="activity-information">
+    <% provide :extra_attribute do %>
+      <label for="definition-gsbpm-id" class="mat-form-field-label">
+        <%= t('activity.show.GSBPM') %>
+      </label>
+      <input id="definition-gsbpm-id" class="mat-input-element" readonly
+        value="<%= @task.gsbpm&.alternate_code %>" />
+    <% end %>
+
+    <div class="row">
+      <div class="col-md-12">
+        <%= render partial: "shared/object_definition", locals: {
+            this_object: @task,
+            smallTextarea: true,
+            isTechnical: true} %>
+      </div>
+    </div>
+  </section>
+<% end %>
+
+<% provide :task_specifications do %>
+  <%= render partial: "task_specifications" %>
+<% end %>
+
+<% provide :task_parameters do %>
+  <%= render partial: "shared/json_parameters",
+              locals: { this_object: @task } %>
+<% end %>
+
+<% tabs_content = [ :task_specifications,
+                    :task_parameters,
+                    :task_information,
+                    :task_technical_details ] %>
+
+<section class="tabbable">
+
+  <ul class="nav nav-tabs" role="tablist">
+    <% tabs_content.each_with_index do |tab, index| %>
+      <li class="<%= index == 0 ? 'active' : nil %>">
+        <a href="#<%= tab.to_s %>" data-toggle="tab">
+          <%= t(tab) %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+    <% tabs_content.each_with_index do |tab, index| %>
+      <div class="tab-pane <%= index == 0 ? 'active' : nil %>" id="<%= tab %>">
+        <%= yield tabs_content[index] %>
+      </div>
+    <% end %>
+  </div>
+
+</section>

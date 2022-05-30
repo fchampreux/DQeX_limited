@@ -1,0 +1,24 @@
+<% provide(:title, (t('MngBreaches'))) %>
+
+<table>
+  <thead>
+    <tr>
+      <th><%= t('Name') %></th>
+      <th><%= t('Description') %></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @breaches.each do |breach| %>
+      <tr>
+        <td><%= breach.name %> </td>
+        <td><%= breach.description %> </td>
+        <td><%= link_to t('Show'), breach %> </td>
+        <td><%= link_to t('Edit'), edit_breach_path(breach) %> </td>
+        <td><%= link_to t('Destroy'), breach, method: :delete, data: { confirm: 'Are you sure?' } %> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

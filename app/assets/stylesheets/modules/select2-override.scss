@@ -1,0 +1,51 @@
+.select2-candidate {
+  &.mat-input-element {
+    max-height: 40px;
+    padding-top: 0.6em;
+  }
+  option {
+    padding: 0;
+  }
+}
+
+.mat-form-field {
+  .select2-container {
+    .select2-selection {
+      min-height: 40px;
+      color: #666;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 5px;
+      transition: all 250ms linear;
+
+      &:focus-within {
+        color: #212121;
+        border-color: #069;
+        box-shadow: 0 0 0 1px #069 inset;
+      }
+
+      &.select2-selection--multiple {}
+    }
+
+    &.select2-container--disabled {
+      .select2-selection {
+        background-color: #e9ecef;
+      }
+    }
+
+    .select2-selection__rendered {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      min-height: 38px;
+      padding: 0 5px;
+
+      li {
+        float: none;
+        margin: 5px;
+        padding: 5px;
+        line-height: 1;
+        color: inherit;
+      }
+    }
+  }
+}

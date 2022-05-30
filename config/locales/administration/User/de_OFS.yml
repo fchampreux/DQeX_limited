@@ -1,0 +1,57 @@
+# Code for language as declared in i18n configuration
+de_OFS:
+  # Considered object from a global view
+  Groups:                                     "Gruppen"
+  Group:                                      "Gruppe"
+  ManagingGroups:                             "Gruppen verwalten"
+  NewGroup:                                   "Neuer Gruppe"
+  GroupRejected:                              "Gruppe wurde abgelehnt"
+  # Considered object from controller's methods. In the controller, the relative path for the term is marked by the point (.)
+  # Use generic terms, excluding objec name (ie Manage instead of ManageGroup )
+  administration:
+    groups:
+      groups_index:
+        # Columns titles
+        CalculatedStatus:                       "Status"
+        Code:                                   "Kennung"
+        Name:                                   "Name"
+        Description:                            "Beschreibung"
+        Owner:                                  "Eigentümer"
+        UpdatedBy:                              "Aktualisiert von"
+        UpdatedAt:                              "Aktualisiert am"
+        Territory:                              "Territorium"
+        Organisation:                           "Organisation"
+      show:
+        Manage:                                 "Gruppe verwalten"
+        # Field names
+        Code:                                   "Kennung"
+        Name:                                   "Name"
+        Description:                            "Beschreibung"
+      new:
+        New:                                    "Neuer Gruppe"
+        # Field names
+        Code:                                   "Kennung"
+        Name:                                   "Name"
+        Description:                            "Beschreibung"
+      edit:
+        Edit:                                   "Gruppe bearbeiten"
+        # Field names
+        Code:                                   "Kennung"
+        Name:                                   "Name"
+        Description:                            "Beschreibung"
+      create:
+        Success:                             	  "erfolgreich erstellt Gruppe"
+        Failure:                                "Gruppe konnte nicht erstellt werden"
+      update:
+        Success:                             	  "erfolgreich aktualisierter Gruppe"
+        Failure:                                "Gruppe konnte nicht aktualisierter werden"
+      activate:
+        Success:                             	  "Gruppe erfolgreich wiederhergestellt"
+        Failure:                                "Gruppe konnte nicht abgerufen werden"
+      destroy:
+        Success:                             	  "Gruppe erfolgreich gelöscht"
+        Failure:                                "Gruppe konnte nicht gelöscht werden"
+    activerecord:
+      errors:
+        messages:
+          EveryoneMembershipMissing:            "Die Gruppe Everyone ist obligatorisch"

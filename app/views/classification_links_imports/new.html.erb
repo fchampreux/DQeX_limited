@@ -1,0 +1,7 @@
+<% provide(:title, (t('DataImport'))) %>
+
+<% provide :page_heading do %>
+    <%= t('DataImport') %>
+<% end %>
+
+<%= render partial: "shared/child_object_import", locals: {this_import: @classification_links_import, parent_object: @classification, scan_flag: true} %>

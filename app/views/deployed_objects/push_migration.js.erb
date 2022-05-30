@@ -1,0 +1,4 @@
+$("#business-object-workflow").html(
+  "<%= j (render partial: "shared/workflow_buttons", locals: {this_object: @business_object}) %>"
+);
+$(document).trigger('proto.notification', { type: "<%= j (@alert_type) %>", message: "<%= j (@alert_notice) %>" });

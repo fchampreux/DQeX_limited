@@ -1,0 +1,39 @@
+
+.page-playgrounds {
+  .column-main {
+    // @extend %striped-gradient;
+    background-color: #f5f5f5;
+
+    .sticky-header {
+      background: white;
+    }
+
+    .sticky-main {
+      display: flex;
+      align-content: flex-start;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+
+      .mat-card {
+        width: calc(25% - 15px);
+        margin: 0 7.5px 15px;
+      }
+      .mat-card-title {
+        font-size: 1.2em;
+        line-height: 1;
+
+        a {
+          display: flex;
+          align-items: center;
+          > * + * {
+            margin-left: 10px;
+          }
+        }
+      }
+      .mat-card-content {
+        max-height: 150px;
+        overflow-y: auto;
+      }
+    }
+  }
+}

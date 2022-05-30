@@ -1,0 +1,21 @@
+<section class="tabbable">
+
+  <ul class="nav nav-tabs" role="tablist">
+    <% tabs_content.each_with_index do |tab, index| %>
+      <li class="<%= index == 0 ? 'active' : nil %>">
+        <a href="#<%= tab.to_s %>" data-toggle="tab">
+          <%= t(tab.capitalize) %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+    <% tabs_content.each_with_index do |tab, index| %>
+      <div class="tab-pane <%= index == 0 ? 'active' : nil %>" id="<%= tab %>">
+      <%= yield tabs_content[index] %>
+      </div>
+    <% end %>
+  </div>
+
+</section>

@@ -1,0 +1,33 @@
+@import "core/variables";
+@import "core/mixins/layout";
+@import "core/mixins/nav";
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/utilities";
+@import "~bootstrap/scss/grid";
+
+.text-ellipsis {
+	width: 100%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.d-layout-collapsed {
+	@include layout-collapse-up() {
+		display: none;
+	}
+}
+
+.d-layout-expanded {
+	@include layout-collapse-down() {
+		display: none;
+	}
+}
+
+.hover-effect {
+	> * {
+		@include nav-hover();
+	}
+}

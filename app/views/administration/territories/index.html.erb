@@ -1,0 +1,15 @@
+<% provide(:title, t('ManagingTers')) %>
+
+<% provide :page_heading do %>
+  <%= t('Territories') %>
+<% end %>
+
+<% provide :navigation do %>
+  <%= render partial: "shared/index_view_navigation", locals: {this_object: Territory} %>
+<% end %>
+
+<% provide :navigation do %>
+  <!-- no action is available at this level for this object -->
+<% end %>
+
+<%= render partial: "shared/object_index", locals: {this_index: @territories} %>
